@@ -66,13 +66,14 @@ export default {
   },
   methods: {
     handleLogin() {
-      //post中的第一个参数及为url地址
-      this.axios
-        .post("http://api.komavideo.com/news/list", {
-          username: this.username,
-          password: this.pwd
-        })
-        .then(response => {
+      let param = new URLSearchParams();
+      param.append("MU_NO", "admin");
+      param.append("MU_PASSWORD", "admin");
+      this.axios({
+        method: "post",
+        url: "http://localhost:8088/buxiangqumingzile/loginApi",
+        data: param
+      }).then(response => {
           //这里写成功的逻辑语句
           console.log(response.data);
         })
@@ -80,6 +81,20 @@ export default {
           //这里写失败的逻辑语句
           console.log(error);
         });
+      //post中的第一个参数及为url地址
+      // this.axios
+      //   .post("http://api.komavideo.com/news/list", {
+      //     username: this.username,
+      //     password: this.pwd
+      //   })
+      //   .then(response => {
+      //     //这里写成功的逻辑语句
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     //这里写失败的逻辑语句
+      //     console.log(error);
+      //   });
     }
   }
 };
