@@ -7,10 +7,12 @@ import router from './router'
 import ElementUI from 'element-ui'
 import axios from 'axios'
 import vueAxios from 'vue-axios'
+import animate from 'animate.css'
 
 Vue.use(vueAxios,axios)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.use(animate)
 
 /* eslint-disable no-new */
 new Vue({

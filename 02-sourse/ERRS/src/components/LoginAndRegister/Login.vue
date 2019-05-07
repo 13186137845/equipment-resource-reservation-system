@@ -6,7 +6,7 @@
       :rules="rules"
       label-position="left"
       label-width="0px"
-      class="demo-ruleForm login-container"
+      class="demo-ruleForm login-container animated bounceInDown"
     >
       <h3 class="title">系统登录</h3>
       <el-form-item prop="username">
@@ -68,14 +68,18 @@ export default {
     handleLogin() {
       //post中的第一个参数及为url地址
       this.axios
-        .post("http://api.komavideo.com/news/list", { username:this.username,password:this.pwd})
+        .post("http://api.komavideo.com/news/list", {
+          username: this.username,
+          password: this.pwd
+        })
         .then(response => {
           //这里写成功的逻辑语句
           console.log(response.data);
-        }).catch(error=>{
+        })
+        .catch(error => {
           //这里写失败的逻辑语句
           console.log(error);
-        })
+        });
     }
   }
 };
