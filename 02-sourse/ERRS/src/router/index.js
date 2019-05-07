@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Register from '@/components/LoginAndRegister/Register'
-import Login from '@/components/LoginAndRegister/Login'
+
+// 懒加载方式，当路由被访问的时候才加载对应组件
+const Login = resolve => require(['@/components/LoginAndRegister/Login'], resolve)
 
 Vue.use(Router)
 
@@ -12,12 +13,9 @@ export default new Router({
         name: 'HelloWorld',
         component: HelloWorld
     }, {
-        path: '/register',
-        name: 'Register',
-        component: Register
-    }, {
         path: '/login',
         name: 'Login',
         component: Login
     }]
 })
+
