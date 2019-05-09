@@ -1,21 +1,5 @@
-# errs
+[![Build Status](https://www.travis-ci.org/d2-projects/d2-admin-start-kit.svg?branch=master)](https://www.travis-ci.org/d2-projects/d2-admin-start-kit)
 
-> A Vue.js project
+[D2Admin](https://github.com/d2-projects/d2-admin) simplified version of the start template, delete all the sample code in the full version, retain all core functions.
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+[Gitee](https://gitee.com/fairyever/d2-admin-start-kit)
