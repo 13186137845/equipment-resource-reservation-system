@@ -32,14 +32,6 @@ export default [
     title:'个人中心',
     icon:'calendar-minus-o',
     children:[
-      {path:'#',title:'发起申诉'},
-      {path:'#',title:'申诉记录'}
-    ]
-  },
-  {
-    title:'反馈中心',
-    icon:'calendar-minus-o',
-    children:[
       {path:'#',title:'个人信息'},
       {path:'#',title:'借还记录'},
       {path:'#',title:'我的日志'},
