@@ -1,7 +1,7 @@
 <template>
   <d2-container :filename="filename">
     <template slot="header">Page 4 header</template>
-    Hello World
+    lalala
   </d2-container>
 </template>
 
