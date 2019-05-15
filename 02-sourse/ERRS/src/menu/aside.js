@@ -1,4 +1,6 @@
 // 菜单 侧边栏
+import menulist from '@/menu/test'
+
 export default [
   { path: '/index', title: '首页', icon: 'home' },
   {
@@ -44,6 +46,13 @@ export default [
     icon:'calendar-minus-o',
     children:[
       {path:'#',title:'反馈信息'}
+    ]
+  },
+  {
+    title:'权限管理',
+    icon:'calendar-minus-o',
+    children:[
+      {path:'/admin/users',title:'用户管理'}
     ]
   }
 ]

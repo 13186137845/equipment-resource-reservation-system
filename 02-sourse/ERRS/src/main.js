@@ -13,7 +13,6 @@ import router from "./router";
 import menuHeader from "@/menu/header";
 import menuAside from "@/menu/aside";
 import { frameInRoutes } from "@/router/routes";
-import test from "@/menu/test" 
 
 // 核心插件
 Vue.use(d2Admin);
@@ -24,7 +23,6 @@ new Vue({
     i18n,
     render: h => h(App),
     created() {
-        
         // 处理路由 得到每一级的路由设置
         this.$store.commit("d2admin/page/init", frameInRoutes);
         // 设置顶栏菜单

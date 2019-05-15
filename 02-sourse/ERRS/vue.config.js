@@ -15,16 +15,7 @@ module.exports = {
   publicPath, // 根据你的实际情况更改这里
   lintOnSave: true,
   devServer: {
-    proxy: {
-      '/': {
-        target: 'http://192.168.0.188:8088/buxiangqumingzile/',
-        ws: false,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
-    }
+    publicPath
   },
   css: {
     loaderOptions: {
