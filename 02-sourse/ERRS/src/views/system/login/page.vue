@@ -29,12 +29,12 @@
             <el-card shadow="never">
               <el-form ref="loginForm" label-position="top" :rules="rules" :model="formLogin" size="default">
                 <el-form-item prop="username">
-                  <el-input type="text" v-model="formLogin.username" placeholder="用户名">
+                  <el-input type="text" v-model="formLogin.MU_NO" placeholder="用户名">
                     <i slot="prepend" class="fa fa-user-circle-o"></i>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                  <el-input type="password" v-model="formLogin.password" placeholder="密码">
+                  <el-input type="password" v-model="formLogin.MU_PASSWORD" placeholder="密码">
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
@@ -81,7 +81,7 @@
         <el-col v-for="(user, index) in users" :key="index" :span="8">
           <div class="page-login--quick-user" @click="handleUserBtnClick(user)">
             <d2-icon name="user-circle-o"/>
-            <span>{{user.name}}</span>
+            <span>{{user.MU_NO}}</span>
           </div>
         </el-col>
       </el-row>
@@ -92,6 +92,7 @@
 <script>
 import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
+import {sysAccountService} from '@/common/api'
 export default {
   data () {
     return {
@@ -102,32 +103,32 @@ export default {
       users: [
         {
           name: '管理员',
-          username: 'admin',
-          password: 'admin'
+          MU_NO: 'admin',
+          MU_PASSWORD: 'admin'
         },
         {
           name: '编辑',
-          username: 'editor',
-          password: 'editor'
+          MU_NO: 'editor',
+          MU_PASSWORD: 'editor'
         },
         {
           name: '用户1',
-          username: 'user1',
-          password: 'user1'
+          MU_NO: '95927',
+          MU_PASSWORD: '123456'
         }
       ],
       // 表单
       formLogin: {
-        username: 'admin',
-        password: 'admin',
+        MU_NO: '95927',
+        MU_PASSWORD: '123456',
         code: 'v9am'
       },
       // 校验
       rules: {
-        username: [
+        MU_NO: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
-        password: [
+        MU_PASSWORD: [
           { required: true, message: '请输入密码', trigger: 'blur' }
         ],
         code: [
@@ -156,8 +157,8 @@ export default {
      * @param {Object} user 用户信息
      */
     handleUserBtnClick (user) {
-      this.formLogin.username = user.username
-      this.formLogin.password = user.password
+      this.formLogin.MU_NO = user.MU_NO
+      this.formLogin.MU_PASSWORD = user.MU_PASSWORD
       this.submit()
     },
     /**
@@ -165,23 +166,20 @@ export default {
      */
     // 提交登录信息
     submit () {
+      let param = new URLSearchParams();
+      param.append("MU_NO", this.formLogin.MU_NO);
+      param.append("MU_PASSWORD", this.formLogin.MU_PASSWORD);
       this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          // 登录
-          // 注意 这里的演示没有传验证码
-          // 具体需要传递的数据请自行修改代码
-          this.login({
-            username: this.formLogin.username,
-            password: this.formLogin.password
+        if(!valid) return
+        sysAccountService.login(param)
+          .then(async res=>{
+            await this.login(res)
+            console.log(res)
+            this.$router.replace(this.$route.query.redirect || '/')
           })
-            .then(() => {
-              // 重定向对象不存在则返回顶层路径
-              this.$router.replace(this.$route.query.redirect || '/')
-            })
-        } else {
-          // 登录表单校验失败
-          this.$message.error('表单校验失败')
-        }
+          .catch(err=>{
+            console.log(err)
+          })
       })
     }
   }

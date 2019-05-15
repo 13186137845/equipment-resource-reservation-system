@@ -1,4 +1,4 @@
-// Vue
+﻿// Vue
 import Vue from "vue";
 import App from "./App";
 // 核心插件
@@ -13,7 +13,7 @@ import router from "./router";
 import menuHeader from "@/menu/header";
 import menuAside from "@/menu/aside";
 import { frameInRoutes } from "@/router/routes";
-
+<Merge Conflict>
 //动画
 import animate from 'animate.css'
 
@@ -33,7 +33,7 @@ new Vue({
     i18n,
     render: h => h(App),
     created() {
-        
+
         // 处理路由 得到每一级的路由设置
         this.$store.commit("d2admin/page/init", frameInRoutes);
         // 设置顶栏菜单
