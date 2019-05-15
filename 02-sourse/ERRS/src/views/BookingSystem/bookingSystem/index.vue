@@ -1,17 +1,22 @@
 <template>
   <d2-container :filename="filename">
-    <template slot="header">Page 1 header</template>
-    Hello World
+    <template slot="header">设备预约</template>
+    <Bookings></Bookings>
   </d2-container>
 </template>
 
 <script>
+import Bookings from './booking'
+
 export default {
-  name: 'page1',
+  name: 'bookingSystem',
   data () {
     return {
       filename: __filename
     }
+  },
+  components: {
+    "Bookings": Bookings
   }
 }
 </script>
