@@ -29,7 +29,7 @@ const frameIn = [
                     title: "设备预约",
                     auth: true
                 },
-                component: _import("BookingSystem/bookingSystem")
+                component: _import("BookingSystem/bookingSystem"),
             },
             {
                 path: "bookingInfo",

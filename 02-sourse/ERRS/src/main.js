@@ -13,7 +13,9 @@ import router from "./router";
 import menuHeader from "@/menu/header";
 import menuAside from "@/menu/aside";
 import { frameInRoutes } from "@/router/routes";
-import test from "@/menu/test" 
+
+//动画
+import animate from 'animate.css'
 
 //组件
 import D2Crud from '@d2-projects/d2-crud'
@@ -23,6 +25,7 @@ Vue.use(d2Admin);
 
 //组件注册
 Vue.use(D2Crud)
+Vue.use(animate)
 
 new Vue({
     router,

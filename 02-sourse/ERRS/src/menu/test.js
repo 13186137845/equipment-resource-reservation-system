@@ -1,12 +1,20 @@
 import { GetMenuList } from "@/api/news/list";
-var data = [];
+
+
+
+
+
+
+
+
+// var data = [];
 console.log("success1")
 GetMenuList({}).then(res=>{
     console.log(res);
-    data.push(res.MU_POWER)
+    // data.push(res.MU_POWER)
 })
-console.log(data);
-export default data
+// console.log(data);
+// export default data
 // export default {
 //     mounted() {
 //         GetMenuList({
