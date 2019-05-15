@@ -215,7 +215,7 @@ export default {
         message: "取消预约",
         type: "warning"
       });
-      
+      this.$router.go(-1);
     },
     //点击取消end
     //

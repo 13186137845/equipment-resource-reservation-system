@@ -13,7 +13,7 @@ import router from "./router";
 import menuHeader from "@/menu/header";
 import menuAside from "@/menu/aside";
 import { frameInRoutes } from "@/router/routes";
-<Merge Conflict>
+
 //动画
 import animate from 'animate.css'
 

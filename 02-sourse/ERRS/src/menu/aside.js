@@ -1,5 +1,3 @@
-// 菜单 侧边栏
-import menulist from '@/menu/test'
 
 export default [
   { path: '/index', title: '首页', icon: 'home' },
