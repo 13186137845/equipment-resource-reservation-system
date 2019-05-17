@@ -1,47 +1,6 @@
 import request from '@/plugin/axios'
 
 /**
- * @description [ user ] 用户相关操作
- */
-
-//
-export const userBookingService = {
-
-  //获取预约信息
-  system(data){
-    return request({
-      url:'/adminApi/v/equipmentList',
-      method: 'post',
-      data
-    })
-  },
-  //获取项目列表
-  addMpr(data){
-    return request({
-      url:'',
-      method: 'post',
-      data
-    })
-  },
- //获取设备列表
-  addMe(){
-    return request({
-      url: '',
-      method: 'post',
-      data
-    })
-  },
-  //添加预约信息的
-  addsystem(data){
-    return request({
-      url:'adminApi/i/insAppointment',
-      method: 'put',
-      data
-    })
-  }
-}
-
-/**
  * @description [ sys ] 登陆注销相关
  */
 export const sysAccountService = {
