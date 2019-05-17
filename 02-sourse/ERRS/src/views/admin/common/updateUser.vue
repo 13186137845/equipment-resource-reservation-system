@@ -163,7 +163,8 @@ export default {
               .then(res => {
                 //添加成功 刷新列表
                 this.addUserVisible = false;
-                this.$router.go(0);
+                // this.$router.go(0);
+                window.location.reload()
                 this.$message({
                   message: "恭喜你，修改成功",
                   type: "success"
