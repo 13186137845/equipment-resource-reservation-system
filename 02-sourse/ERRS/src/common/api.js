@@ -137,3 +137,41 @@ export const adminUserService = {
     })
   }
 }
+/**
+ * @description [ Equipment ] 设备管理相关
+ */
+export const EquipmentService = {
+
+  //获取系统设备列表信息
+  getEquipmentInfo() {
+      return request({
+          url: '/adminApi/v/equipmentList',
+          method: 'post'
+      })
+  },
+  //添加设备信息
+  addEquipment(data) {
+      return request({
+          url: '/adminApi/i/insEquipment',
+          method: 'put',
+          data
+      })
+  },
+  //获取添加用户信息下拉列表框信息
+  getEquipment() {
+      return request({
+          url: '/adminApi/v/equipmentView',
+          method: 'get'
+      })
+  },
+  // //修改设备信息
+  // upEquipment(data){
+  //   return request({
+  //     url:'adminApi/u/updUser',
+  //     method:'post',
+  //     data
+  //   })
+  // }
+
+
+}
