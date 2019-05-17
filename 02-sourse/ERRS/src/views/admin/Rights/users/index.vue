@@ -1,13 +1,8 @@
 <template>
   <d2-container>
-    <el-form
-      :inline="true"
-      size="mini"
-      :model="dataForm"
-      @keyup.enter.native="getDataList()"
-    >
+    <el-form :inline="true" size="mini" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.username" placeholder="用户名" clearable />
+        <el-input v-model="dataForm.username" placeholder="用户名" clearable/>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">确定</el-button>
@@ -30,12 +25,7 @@
       @sort-change="dataListSortChangeHandle"
       style="width: 100%;"
     >
-      <el-table-column
-        type="selection"
-        header-align="center"
-        align="center"
-        width="50"
-      />
+      <el-table-column type="selection" header-align="center" align="center" width="50"/>
       <el-table-column
         prop="MI_NAME"
         :label="tableHead.MI_NAME"
@@ -49,12 +39,7 @@
         header-align="center"
         align="center"
       />
-      <el-table-column
-        prop="MU_NO"
-        :label="tableHead.MU_NO"
-        header-align="center"
-        align="center"
-      />
+      <el-table-column prop="MU_NO" :label="tableHead.MU_NO" header-align="center" align="center"/>
       <el-table-column
         prop="MI_PHONE"
         :label="tableHead.MI_PHONE"
@@ -82,21 +67,9 @@
         width="149"
       >
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="mini"
-            @click="addOrUpdateHandle(scope.row.id)"
-            >编辑</el-button
-          >
-          <el-button type="text" size="mini" @click="deleteHandle(scope.row.id)"
-            >删除</el-button
-          >
-          <el-button
-            type="text"
-            size="mini"
-            @click="updatePassword(scope.row.id)"
-            >修改密码</el-button
-          >
+          <el-button type="text" size="mini" @click="addOrUpdateHandle(scope.row.id)">编辑</el-button>
+          <el-button type="text" size="mini" @click="deleteHandle(scope.row.id)">删除</el-button>
+          <el-button type="text" size="mini" @click="updatePassword(scope.row.id)">修改密码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -106,7 +79,7 @@
 <script>
 // import mixinViewModule from '@/mixins/view-module'
 // import AddOrUpdate from '../../common/user-add-or-update'
-import { sysAccountService } from "@/common/api";
+import { adminAccountService } from "@/common/api";
 
 export default {
   name: "users",
@@ -130,13 +103,13 @@ export default {
   },
   mounted() {
     //用户表格初始化
-       sysAccountService
-        .init()
-        .then(res => {
-         console.log(res);
-          this.dataList = res.list;
-        })
-        .catch(err => {
+    adminAccountService
+      .init()
+      .then(res => {
+        console.log(res);
+        this.dataList = res.list;
+      })
+      .catch(err => {
         console.log("数据初始化失败：" + err);
       });
   },
