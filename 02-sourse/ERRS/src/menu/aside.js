@@ -6,8 +6,8 @@ export default [
     icon: 'calendar-minus-o',
     children: [
       { path: '/bookingSystem', title: '设备预约' },
-      { path: '/bookingInfo', title: '预约记录' },
-      { path: '/bookingRecord', title: '预约历史' }
+      { path: '/bookingInfo', title: '预约信息' },
+      { path: '/bookingRecord', title: '预约记录' }
     ]
   },
   {
