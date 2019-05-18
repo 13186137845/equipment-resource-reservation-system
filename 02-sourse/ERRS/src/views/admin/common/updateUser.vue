@@ -153,18 +153,16 @@ export default {
             let params = new URLSearchParams();
             params.append("MI_ID", this.form.MI_ID); //个人详情表 MI
             params.append("MD_ID", this.form.MD_ID); //部门ID
-            params.append("MR_ID", this.form.MR_INFORMATION); //权限
+            params.append("MR_ID", this.form.MR_ID); //权限
             params.append("MU_ID", this.form.MU_ID); //根据MU_ID查找要修改密码的用户
             params.append("MI_NAME", this.form.MI_NAME); //姓名
             params.append("MI_PHONE", this.form.MI_PHONE);
             params.append("MU_PASSWORD", this.form.MU_PASSWORD); //密码
             adminUserService
               .updateUser(params)
-              .then(res => {
-                //添加成功 刷新列表
-                this.addUserVisible = false;
-                // this.$router.go(0);
-                window.location.reload()
+              .then(async res => {
+                //修改成功 刷新列表
+                this.updateUserVisible = false;
                 this.$message({
                   message: "恭喜你，修改成功",
                   type: "success"

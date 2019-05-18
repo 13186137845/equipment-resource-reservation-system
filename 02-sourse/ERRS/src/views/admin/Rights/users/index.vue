@@ -1,20 +1,20 @@
-<template>
+ <template>
   <d2-container>
-    <el-form :inline="true" size="mini" :model="dataForm" @keyup.enter.native="getDataList()">
+    <el-form :inline="true" size="mini" :model="dataForm">
       <el-form-item>
-        <el-input v-model="dataForm.username" placeholder="用户名" clearable/>
+        <el-input v-model="dataForm.username" placeholder="用户名" clearable />
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">确定</el-button>
+        <el-button>确定</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="addOrUpdateHandle()">添加</el-button>
+        <el-button type="primary" @click="adduser">添加</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="danger" @click="deleteHandle()">删除</el-button>
+        <el-button type="danger">删除</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="info" @click="exportHandle()">导出</el-button>
+        <el-button type="info">导出</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -25,11 +25,21 @@
       @sort-change="dataListSortChangeHandle"
       style="width: 100%;"
     >
-      <el-table-column type="selection" header-align="center" align="center" width="50"/>
+      <el-table-column
+        type="selection"
+        header-align="center"
+        align="center"
+        width="50"
+      />
       <el-table-column
         prop="MI_NAME"
         :label="tableHead.MI_NAME"
-        sortable="custom"
+        header-align="center"
+        align="center"
+      />
+      <el-table-column
+        prop="MU_NO"
+        :label="tableHead.MU_NO"
         header-align="center"
         align="center"
       />
@@ -39,16 +49,20 @@
         header-align="center"
         align="center"
       />
-      <el-table-column prop="MU_NO" :label="tableHead.MU_NO" header-align="center" align="center"/>
       <el-table-column
         prop="MI_PHONE"
         :label="tableHead.MI_PHONE"
-        sortable="custom"
         header-align="center"
         align="center"
       />
       <el-table-column
-        prop="project"
+        prop="MR_INFORMATION"
+        :label="tableHead.MR_INFORMATION"
+        header-align="center"
+        align="center"
+      />
+      <el-table-column
+        prop="Project"
         :label="tableHead.project"
         header-align="center"
         align="center"
@@ -59,27 +73,42 @@
         header-align="center"
         align="center"
       />
-      <el-table-column
-        :label="tableHead.handle"
-        fixed="right"
-        header-align="center"
-        align="center"
-        width="149"
-      >
+      <el-table-column :label="tableHead.handle" fixed="right" width="149">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="addOrUpdateHandle(scope.row.id)">编辑</el-button>
-          <el-button type="text" size="mini" @click="deleteHandle(scope.row.id)">删除</el-button>
-          <el-button type="text" size="mini" @click="updatePassword(scope.row.id)">修改密码</el-button>
+          <el-button
+            type="text"
+            size="mini"
+            @click="updateUser(scope.$index, scope.row.id)"
+            >编辑</el-button
+          >
+          <el-button type="text" size="mini" @click="deleuser(scope.$index,scope.row.id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
+    <!-- 弹窗, 新增 / 修改 -->
+    <add-user ref="adduser" />
+    <update-user ref="updateuser" />
+    <!-- 分页 -->
+    <el-pagination
+      slot="footer"
+      :page-sizes="[10, 20, 50, 100]"
+      layout="total, sizes, prev, pager, next, jumper"
+    >
+    </el-pagination>
   </d2-container>
 </template>
-
-<script>
+ 
+ <script>
+//暂时不用混合方法
 // import mixinViewModule from '@/mixins/view-module'
-// import AddOrUpdate from '../../common/user-add-or-update'
-import { adminAccountService } from "@/common/api";
+//导入添加用户模块
+import addUser from "../../common/addUser";
+//导入修改用户模块
+import updateUser from "../../common/updateUser";
+//导入获取用户信息的方法
+import { adminUserService } from "@/common/api";
 
 export default {
   name: "users",
@@ -88,41 +117,85 @@ export default {
       dataForm: {
         username: ""
       },
-      tableHead: {
-        MI_NAME: "姓名",
-        MD_NAME: "部门",
-        MU_NO: "工号",
-        MI_PHONE: "手机号",
-        project: "参与项目",
-        projectDuty: "项目职责",
-        handle: "操作"
-        //获取的数据中有一个MU_ID，即用户id并没有在表格中展示
+      tableHead: {//表头参数
+          MI_NAME: "姓名",
+          MD_NAME: "部门",
+          MU_NO: "工号",
+          MI_PHONE: "手机号",
+          MR_INFORMATION: "权限",
+          project: "参与项目",
+          projectDuty: "项目职责",
+          handle: "操作"
+          //获取的数据中有一个MU_ID，即用户id并没有在表格中展示
       },
-      dataList: []
+      dataList: [],
+      title:"标题"
     };
   },
   mounted() {
-    //用户表格初始化
-    adminAccountService
-      .init()
-      .then(res => {
-        console.log(res);
-        this.dataList = res.list;
-      })
-      .catch(err => {
-        console.log("数据初始化失败：" + err);
-      });
+    this.getDataList();
   },
   methods: {
+    getDataList() {
+      adminUserService
+        .getInfo()
+        .then(res => {
+          console.log(res);
+          this.dataList = res.list;
+        })
+        .catch(err => {
+          console.log("获取用户信息失败：" + err);
+        });
+    },
+    adduser() {
+      this.$refs.adduser.addUserVisible = true;
+    },
+    //修改用户数据
+    updateUser(index, row) {
+      this.$refs.updateuser.updateUserVisible = true;
+      this.$refs.updateuser.form = this.dataList[index];
+    },
+    //删除用户数据
+    deleuser(index, row) {
+      console.log(this.dataList)
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '删除提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = new URLSearchParams();
+          params.append("MI_ID",this.dataList[index].MI_ID);
+          params.append("MU_ID",this.dataList[index].MU_ID);
+          adminUserService.deleteUser(params)
+            .then(res=>{
+               this.$message({
+                  message: "删除成功！",
+                  type: "success"
+                });
+                this.dataList.splice(index, 1);
+            }).catch(err=>{
+              this.$message({
+                message:"系统异常，删除失败",
+                type:"error"
+              });
+            }) 
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+    },
     dataListSelectionChangeHandle() {
       console.log("数据操作");
     },
     dataListSortChangeHandle() {
       console.log("数据排序");
     }
+  },
+  components: {
+    addUser,
+    updateUser
   }
 };
 </script>
-
-<style scoped>
-</style>

@@ -128,11 +128,11 @@ export const adminUserService = {
       data
     })
   },
-  //修改用户密码
-  updatePassword (data) {
+  //删除用户数据
+  deleteUser(data){
     return request({
-      url: '',
-      method: '',
+      url:"adminApi/d/delUser",
+      method:'post',
       data
     })
   }

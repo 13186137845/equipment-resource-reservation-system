@@ -153,8 +153,8 @@ export default {
           { type: "number", message: "工号必须为数字值" }
         ],
         MI_PHONE: [
-          { required: true, message: "电话号码不能为空", trigger: "blur" },
-          { validator: validateMobile, trigger: "blur" }
+          // { required: true, message: "电话号码不能为空", trigger: "blur" },
+          // { validator: validateMobile, trigger: "blur" }
         ],
         MR_INFORMATION: [
           { required: true, message: "权限不能为空", trigger: "blur" }
@@ -168,10 +168,18 @@ export default {
   },
   mounted() {
     //页面初始化获取下拉菜单
-    adminUserService.getAddUserMenu().then(res => {
-      this.departmentList = res.Department;
-      this.role = res.Role;
-    });
+    adminUserService
+      .getAddUserMenu()
+      .then(res => {
+        this.departmentList = res.Department;
+        this.role = res.Role;
+      })
+      .catch(err => {
+        this.$message({
+          message: "系统初始化失败！",
+          type: "error"
+        });
+      });
   },
   methods: {
     submit: debounce(
@@ -194,7 +202,6 @@ export default {
               .then(res => {
                 //添加成功 刷新列表
                 this.addUserVisible = false;
-                this.$router.go(0);
                 this.$message({
                   message: "恭喜你，添加成功",
                   type: "success"
