@@ -13,19 +13,19 @@
           </el-col>
         </el-form-item>
         <el-form-item label="预约设备地址：" :label-width="formLabelWidth">
-          <el-col :span="5">
+          <el-col :span="16">
             <el-input :placeholder="form.dname" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="选择您的项目：" :label-width="formLabelWidth">
-          <el-col :span="8">
+          <el-col :span="13">
             <!-- <el-input v-model="form.xname" clearable placeholder="请输入内容"></el-input> -->
             <el-select v-model="form.xname" placeholder="请选择">
               <el-option
                 v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.MPR_ID"
+                :label="item.MPR_NAME"
+                :value="item.MPR_ID"
                 :disabled="item.disabled"
               ></el-option>
             </el-select>
@@ -51,13 +51,15 @@
       </el-form>
       <div slot="footer" class="dialog-footer" style="margin-top:-60px">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false; submit">确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false; submit()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
 import { type } from "os";
+import { userBookingService } from "@/common/api";
+
 export default {
   data() {
     return {
@@ -73,44 +75,45 @@ export default {
       },
       formLabelWidth: "120px",
       //项目名称列表
-      options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }]
+      options: []
     };
   },
+  mounted(){
+    userBookingService
+    .addMpr()
+    .then(res=>{
+      console.log(res);
+      this.options = res.Project;
+    }).catch(err=>{
+      console.log("数据初始化失败：" + err);
+    })
+  },
   methods:{
-    // submit(){
-    //   let params = new URLSearchParams();
-    //   params.append("form.id",this.form.MA_ID);
-    //   // params.append("form.xname",this.form.MPR_ID);
-    //   params.append("form.day[0]",this.form.MA_START_DATE);
-    //   params.append("form.day[1]",this.form.MA_END_DATE);
-    //   params.append("form.delivery",this.form.MA_STATE);
-    //   adminAccountService
-    //   .addsystem(params)
-    //   .then((result) => {
-    //     this.$message({
-    //       message: '添加成功',
-    //       type: 'success'
-    //     });
-    //   }).catch((err) => {
-    //     this.$message.error('添加失败');
-    //   });
-    // }
+    submit(){
+      console.log("ture")
+      let params = new URLSearchParams();
+      params.append("ME_ID",this.form.id);
+      params.append("MPR_ID",this.form.xname);
+      params.append("MA_START_DATE",this.form.day[0]);
+      params.append("MA_END_DATE",this.form.day[1]);
+      params.append("MA_STATE",this.form.delivery=true?1:0);
+      
+      userBookingService
+      .addsystem(params)
+      .then((result) => {
+        console.log("okkkture")
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        });
+      }).catch((err) => {
+        console.log("false")
+        this.$message.error('添加失败');
+      });
+    }
   }
+
+  
 };
 </script>
 

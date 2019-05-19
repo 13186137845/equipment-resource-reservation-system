@@ -55,9 +55,9 @@ export default {
       dialogTableVisible: false,
       dialogFormVisible: false,
       form: {
-        id: "1001",
-        name: "显微镜",
-        dname: "1楼401",
+        id: "",
+        name: "",
+        dname: "",
         gname: "",
         bname: "",
         xname: "",

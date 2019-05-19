@@ -1,5 +1,4 @@
 import request from '@/plugin/axios'
-
 /**
  * @description [ user ] 用户相关操作
  */
@@ -15,27 +14,35 @@ export const userBookingService = {
       data
     })
   },
-  //获取项目列表
+  //获取项目列表 获取设备列表
   addMpr(data){
     return request({
-      url:'',
+      url:'/adminApi/v/equipmentView',
       method: 'post',
       data
     })
   },
- //获取设备列表
-  addMe(){
-    return request({
-      url: '',
-      method: 'post',
-      data
-    })
-  },
+  
   //添加预约信息的
   addsystem(data){
     return request({
       url:'adminApi/i/insAppointment',
       method: 'put',
+      data
+    })
+  },
+  //发送当前设备，和时间
+  sendsystem(data){
+    return request({
+      url:'/adminApi/v/appointmentList?COMPLETE_FLAG=1',
+      method: 'post',
+      data
+    })
+  },
+  sentsystem(data){
+    return request({
+      url:'/adminApi/v/appointmentList',
+      method: 'post',
       data
     })
   }
