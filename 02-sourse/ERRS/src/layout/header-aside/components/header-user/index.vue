@@ -12,6 +12,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { sysAccountService } from '@/common/api'
 export default {
   computed: {
     ...mapState('d2admin/user', [
@@ -26,9 +27,17 @@ export default {
      * @description 登出
      */
     logOff () {
-      this.logout({
-        confirm: true
-      })
+      sysAccountService.logout()
+        .then(res=>{
+            this.logout({
+            onfirm: true
+          })
+        }).catch(err=>{
+            this.$message({
+              message: "系统异常,登出失败",
+              type: "error"
+            });
+        })
     }
   }
 }

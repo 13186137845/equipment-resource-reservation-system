@@ -1,12 +1,12 @@
 <template>
   <d2-container>
-    
+    总坛
   </d2-container>
 </template>
 
 <script>
 export default {
-  name: 'dataStatistics',//数据分析
+  name: 'dataStatistics',//总览
   data () {
     return {
       
