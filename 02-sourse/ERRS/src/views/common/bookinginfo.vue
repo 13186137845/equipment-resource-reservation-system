@@ -22,11 +22,6 @@
             <el-input v-model="form.gname" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="预约部门：" :label-width="formLabelWidth">
-          <el-col :span="8">
-            <el-input v-model="form.bname" :disabled="true"></el-input>
-          </el-col>
-        </el-form-item>
         <el-form-item label="预约使用日期：" :label-width="formLabelWidth">
           <el-col :span="8">
             <el-date-picker
@@ -42,7 +37,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false;">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -59,11 +54,10 @@ export default {
         name: "",
         dname: "",
         gname: "",
-        bname: "",
         xname: "",
         day: "",
         speak: "",
-        delivery: false,
+        delivery: false
       },
       formLabelWidth: "120px"
     };

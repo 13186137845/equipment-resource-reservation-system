@@ -18,7 +18,7 @@ export const userBookingService = {
   addMpr(data){
     return request({
       url:'/adminApi/v/equipmentView',
-      method: 'post',
+      method: 'get',
       data
     })
   },
@@ -42,6 +42,14 @@ export const userBookingService = {
   sentsystem(data){
     return request({
       url:'/adminApi/v/appointmentList',
+      method: 'post',
+      data
+    })
+  },
+  //取消预约
+  delsystem(data){
+    return request({
+      url:'/adminApi/u/setComplete',
       method: 'post',
       data
     })
