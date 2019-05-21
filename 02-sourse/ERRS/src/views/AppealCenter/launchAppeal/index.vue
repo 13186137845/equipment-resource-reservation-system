@@ -1,6 +1,6 @@
 <template>
   <d2-container :filename="filename">
-    <template slot="header">Page 1 header</template>
+    <template slot="header">发起申诉</template>
     hello world
   </d2-container>
 </template>
@@ -15,7 +15,7 @@ export default {
     }
   },
   methods: {
-
+    
   }
 }
 </script>

@@ -1,4 +1,4 @@
-<template>
+ <template>
   <d2-container>
     <el-form :inline="true" size="mini" :model="dataForm">
       <el-form-item>
@@ -34,13 +34,6 @@
       <el-table-column
         prop="MI_NAME"
         :label="tableHead.MI_NAME"
-        sortable="custom"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="MD_NAME"
-        :label="tableHead.MD_NAME"
         header-align="center"
         align="center"
       />
@@ -51,21 +44,14 @@
         align="center"
       />
       <el-table-column
+        prop="MD_NAME"
+        :label="tableHead.MD_NAME"
+        header-align="center"
+        align="center"
+      />
+      <el-table-column
         prop="MI_PHONE"
         :label="tableHead.MI_PHONE"
-        sortable="custom"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="project"
-        :label="tableHead.project"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="projectDuty"
-        :label="tableHead.projectDuty"
         header-align="center"
         align="center"
       />
@@ -76,12 +62,18 @@
         align="center"
       />
       <el-table-column
-        :label="tableHead.handle"
-        fixed="right"
+        prop="Project"
+        :label="tableHead.project"
         header-align="center"
         align="center"
-        width="149"
-      >
+      />
+      <el-table-column
+        prop="projectDuty"
+        :label="tableHead.projectDuty"
+        header-align="center"
+        align="center"
+      />
+      <el-table-column :label="tableHead.handle" fixed="right" width="149">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -89,7 +81,7 @@
             @click="updateUser(scope.$index, scope.row.id)"
             >编辑</el-button
           >
-          <el-button type="text" size="mini" @click="deleteHandle(scope.row.id)"
+          <el-button type="text" size="mini" @click="deleuser(scope.$index,scope.row.id)"
             >删除</el-button
           >
         </template>
@@ -107,8 +99,8 @@
     </el-pagination>
   </d2-container>
 </template>
-
-<script>
+ 
+ <script>
 //暂时不用混合方法
 // import mixinViewModule from '@/mixins/view-module'
 //导入添加用户模块
@@ -125,18 +117,19 @@ export default {
       dataForm: {
         username: ""
       },
-      tableHead: {
-        MI_NAME: "姓名",
-        MD_NAME: "部门",
-        MU_NO: "工号",
-        MI_PHONE: "手机号",
-        MR_INFORMATION: "权限",
-        project: "参与项目",
-        projectDuty: "项目职责",
-        handle: "操作"
-        //获取的数据中有一个MU_ID，即用户id并没有在表格中展示 用于修改密码
+      tableHead: {//表头参数
+          MI_NAME: "姓名",
+          MD_NAME: "部门",
+          MU_NO: "工号",
+          MI_PHONE: "手机号",
+          MR_INFORMATION: "权限",
+          project: "参与项目",
+          projectDuty: "项目职责",
+          handle: "操作"
+          //获取的数据中有一个MU_ID，即用户id并没有在表格中展示
       },
-      dataList: []
+      dataList: [],
+      title:"标题"
     };
   },
   mounted() {
@@ -162,6 +155,37 @@ export default {
       this.$refs.updateuser.updateUserVisible = true;
       this.$refs.updateuser.form = this.dataList[index];
     },
+    //删除用户数据
+    deleuser(index, row) {
+      console.log(this.dataList)
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '删除提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = new URLSearchParams();
+          params.append("MI_ID",this.dataList[index].MI_ID);
+          params.append("MU_ID",this.dataList[index].MU_ID);
+          adminUserService.deleteUser(params)
+            .then(res=>{
+               this.$message({
+                  message: "删除成功！",
+                  type: "success"
+                });
+                this.dataList.splice(index, 1);
+            }).catch(err=>{
+              this.$message({
+                message:"系统异常，删除失败",
+                type:"error"
+              });
+            }) 
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+    },
     dataListSelectionChangeHandle() {
       console.log("数据操作");
     },
@@ -175,6 +199,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-</style>
