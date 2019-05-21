@@ -60,14 +60,19 @@ export const userBookingService = {
  * @description [ sys ] 登陆注销相关
  */
 export const sysAccountService = {
-  /**
-   * 登录
-   */
+  //登录
   login (data) {
     return request({
       url: '/login',
       method: 'post',
       data
+    })
+  },
+  //注销
+  logout(){
+    return request({
+      url:'/logout',
+      method:'get'
     })
   }
 }

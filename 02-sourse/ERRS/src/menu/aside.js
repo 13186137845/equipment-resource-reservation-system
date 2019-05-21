@@ -52,5 +52,12 @@ export default [
     children:[
       {path:'/admin/users',title:'用户管理'}
     ]
+  },
+  {
+    title:'统计分析',
+    icon:'calendar-minus-o',
+    children:[
+      {path:'/overview',title:'总览'}
+    ]
   }
 ]

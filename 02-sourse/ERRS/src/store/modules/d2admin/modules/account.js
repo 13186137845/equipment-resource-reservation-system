@@ -16,8 +16,11 @@ export default {
      */
     login ({ dispatch }, userInfo) {
       return new Promise(async resolve => {
-        util.cookies.set('uuid',resolve.uuid)//保存UUID
+        // util.cookies.set('uuid',resolve.uuid)//保存UUID
         util.cookies.set('token',userInfo.Authorization)//用户的登录状态，默认保存一天
+        await dispatch('d2admin/user/set', {//设置vuex状态信息
+            name:userInfo.MU_NAME.MI_NAME
+        },{root:true})
         // 用户登录后从持久化数据加载一系列的设置
         await dispatch('load')
         // 结束

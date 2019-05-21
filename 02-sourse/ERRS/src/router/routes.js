@@ -108,24 +108,35 @@ const frameIn = [
                 component: _import("AppealCenter/appealRecord")
             },
             // 申诉中心end
+            // 统计分析start
+            {
+                path: "overview",
+                name: "overview",
+                meta: {
+                    title: "总览",
+                    auth: true
+                },
+                component: _import("Statistics/Statistics-Overview")
+            },
+            // 统计分析end
             //管理后台的路由start
             {
-                path:"admin",
-                name:"admin",
-                meta:{
-                    title:"首页",
-                    auth:true
+                path: "admin",
+                name: "admin",
+                meta: {
+                    title: "首页",
+                    auth: true
                 },
-                component:_import("admin/index")
+                component: _import("admin/index")
             },
             {
-                path:"admin/users",
-                name:"users",
-                meta:{
-                    title:"用户管理",
-                    auth:true
+                path: "admin/users",
+                name: "users",
+                meta: {
+                    title: "用户管理",
+                    auth: true
                 },
-                component:_import("admin/Rights/users")
+                component: _import("admin/Rights/users")
             },
             //管理后台的路由end
             // 系统 前端日志

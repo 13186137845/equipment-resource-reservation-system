@@ -18,7 +18,7 @@
       label="设备名称"
       >
     </el-table-column>
-     <el-table-column
+    <el-table-column
       prop="name"
       label="设备地址"
       >

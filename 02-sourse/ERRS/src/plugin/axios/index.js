@@ -70,7 +70,7 @@ service.interceptors.response.use(
       // 有 code 代表这是一个后端接口 可以进行进一步的判断
       switch (code) {
         case 0:
-          break;
+          return dataAxios.data
         case 10000:
         case 10001:
         case 10002:
@@ -83,13 +83,12 @@ service.interceptors.response.use(
         case 50002:
         case 82000:
         case 82002:
-          errorCreate(`${dataAxios.msg}`)
-          break;   
+          return  errorCreate(`${dataAxios.msg}`)
         case 10006:  
         case 10005:
           util.cookies.remove('token')
           errorCreate(`${dataAxios.msg}`)    
-          break;        
+          break        
         default:
           util.cookies.remove('token')
           errorCreate(`${dataAxios.msg}`)
