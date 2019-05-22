@@ -4,32 +4,43 @@
     <!-- 绑定数据表格 -->
     <el-table
       size="mini"
-      :data="tableData"
+      :data="tableData&&tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       border
       style="width: 100%"
     >
-      <el-table-column label="设备编号" prop="ME_ID"></el-table-column>
-      <el-table-column label="设备名称" prop="EN_NAME"></el-table-column>
-      <el-table-column label="设备地址" prop="ME_POSITION" width="350"></el-table-column>
-      <el-table-column label="设备状态" prop="ME_STATE"></el-table-column>
-      <el-table-column label="预约人数" prop="MA_SIZE"></el-table-column>
-      <el-table-column align="center" label="操作">
-        <!-- 按钮start -->
+      <el-table-column align="center" label="设备编号" prop="ME_ID"></el-table-column>
+      <el-table-column align="center" label="设备名称" prop="EN_NAME"></el-table-column>
+      <el-table-column align="center" label="设备地址" prop="ME_POSITION" width="320"></el-table-column>
+      <el-table-column align="center" label="设备状态" prop="ME_STATE">
         <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-          <p>当前使用工号: {{ hovr.userid }}</p>
-          <p>当前使用姓名: {{ hovr.name }}</p>
-          <p>当前使用部门: {{ hovr.username }}</p>
-          <p>当前使用项目: {{ hovr.project }}</p>
-          <p>当前使用借用时间: {{ hovr.ontime }}</p>
-          <p>当前使用规划时间: {{ hovr.endtime }}</p>
-            <el-button size="mini" type="primary" slot="reference" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
-          </el-popover>         
-            <el-button size="mini" slot="reference" @click="handleDel(scope.$index, scope.row)">取消</el-button>
+          <span v-if="scope.row.ME_STATE==0">正常</span>
+          <span v-if="scope.row.ME_STATE==1">维修</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="拟预约时间" prop="MA_START_DATE"></el-table-column>
+      <el-table-column align="center" label="拟归还时间" prop="MA_END_DATE"></el-table-column>
+      <el-table-column align="center" label="操作">
+        <template slot-scope="scope">
+          <el-button size="mini" slot="reference" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            slot="reference"
+            @click="handledelite(scope.$index, scope.row)"
+          >取消</el-button>
         </template>
       </el-table-column>
       <!-- 按钮end -->
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[5, 10, 20, 40]"
+      :page-size="pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="tableData.length"
+    ></el-pagination>
     <bookinginfo ref="bookinginfo"/>
   </d2-container>
 </template>
@@ -41,60 +52,73 @@ export default {
   name: "page2",
   data() {
     return {
-      hovr: {
-        userid: "1001",
-        name: "车志伟", //预约按钮hover弹出的使用者
-        username: "研发组",
-        project: "智能预约系统", //预约按钮hover弹出的项目
-        ontime: "2019-5-7 03:20:22",
-        endtime: "2019-5-7 12:20:22" //预约按钮hover弹出的使用者借用时间
-      },
+      userList: [],
       filename: __filename,
       dialogFormVisible: false,
       currentPage: 1, //初始页
-      pagesize: 5, //一页最多5条数据
-      // tableData: [],
-      //模拟数据start
-      tableData: [],
-      search: ""
+      pagesize: 10, //一页最多5条数据
+      tableData: [], //存放模拟数据
+      search: "",
+      COMPLETE: [], //存放设备状态
+      baseUrl: "u/setComplete?COMPLETE_FLAG=" //存放后端地址
     };
   },
   components: {
     bookinginfo
   },
   mounted() {
+    //页面初始化数据
     userBookingService
       .sentsystem()
       .then(res => {
-        console.log(res);
         this.tableData = res.list;
-        console.log(this.tableData);
       })
-      .catch(err => {
-        console.log("数据初始化失败：" + err);
-      });
+      .catch(err => {});
   },
   methods: {
-    //点击预约start
-    handleEdit(index, row) {
-      this.$refs.bookinginfo.dialogFormVisible = true;
-      console.log(index, row);
+    // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange: function(size) {
+      //每页下拉显示数据
     },
-    handleDel(index, row) {
+    handleCurrentChange: function(currentPage) {
+      //点击第几页
+    },
+    //点击取消按钮
+    handledelite(index, row) {
+      //弹出提示框
       this.$confirm("此操作将取消您预约, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
         //取消预约操作
-        this.$message({
-          type: "success",
-          message: "取消预约成功!"
-        });
+        let params = new URLSearchParams();
+        params.append("COMPLETE_FLAG", 3);
+        params.append("MA_ID", this.tableData[index].MA_ID);
+        userBookingService
+          .delsystem(params)
+          .then(res => {
+            this.$message({
+              message: "取消预约成功",
+              type: "success"
+            });
+            this.tableData = res.list;
+          })
+          .catch(err => {
+            this.$message.error("取消预约失败");
+          });
       });
-      console.log(index, row);
     },
-    //点击预约end
+    //点击查看
+    handleEdit(index, row) {
+      this.$refs.bookinginfo.dialogFormVisible = true;
+      this.$refs.bookinginfo.form.id = this.tableData[index].ME_ID; //设备id
+      this.$refs.bookinginfo.form.name = this.tableData[index].EN_NAME; //设备名字
+      this.$refs.bookinginfo.form.dname = this.tableData[index].ME_POSITION; //设备地址
+      this.$refs.bookinginfo.form.gname = this.tableData[index].MU_NO; //预约工号
+      this.$refs.bookinginfo.form.onday = this.tableData[index].MA_START_DATE; //预约时间
+      this.$refs.bookinginfo.form.endday = this.tableData[index].MA_END_DATE; //归还时间
+    }
   }
 };
 </script>
