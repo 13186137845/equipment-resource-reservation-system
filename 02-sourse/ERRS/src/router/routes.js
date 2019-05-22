@@ -6,166 +6,173 @@ const _import = require("@/common/import." + process.env.NODE_ENV);
 /**
  * 在主框架内显示
  */
-const frameIn = [
-    {
-        path: "/",
-        redirect: { name: "index" },
-        component: layoutHeaderAside,
-        children: [
-            // 首页
-            {
-                path: "index",
-                name: "index",
-                meta: {
-                    auth: true
-                },
-                component: _import("system/index")
+const frameIn = [{
+    path: "/",
+    redirect: { name: "index" },
+    component: layoutHeaderAside,
+    children: [
+        // 首页
+        {
+            path: "index",
+            name: "index",
+            meta: {
+                auth: true
             },
-            // 设备预约start
-            {
-                path: "bookingSystem",
-                name: "bookingSystem",
-                meta: {
-                    title: "设备预约",
-                    auth: true
-                },
-                component: _import("BookingSystem/bookingSystem"),
+            component: _import("system/index")
+        },
+        // 设备预约start
+        {
+            path: "bookingSystem",
+            name: "bookingSystem",
+            meta: {
+                title: "设备预约",
+                auth: true
             },
-            {
-                path: "bookingInfo",
-                name: "bookingInfo",
-                meta: {
-                    title: "预约信息",
-                    auth: true
-                },
-                component: _import("BookingSystem/bookingInfo")
+            component: _import("BookingSystem/bookingSystem"),
+        },
+        {
+            path: "bookingInfo",
+            name: "bookingInfo",
+            meta: {
+                title: "预约信息",
+                auth: true
             },
-            {
-                path: "bookingRecord",
-                name: "bookingRecord",
-                meta: {
-                    title: "预约记录",
-                    auth: true
-                },
-                component: _import("BookingSystem/bookingRecord")
+            component: _import("BookingSystem/bookingInfo")
+        },
+        {
+            path: "bookingRecord",
+            name: "bookingRecord",
+            meta: {
+                title: "预约记录",
+                auth: true
             },
-            // 设备预约end
-            // 设备信息start
-            {
-                path: "equipmentInfo",
-                name: "equipmentInfo",
-                meta: {
-                    title: "设备信息",
-                    auth: true
-                },
-                component: _import("EquipmentInfo/equipmentInfo")
+            component: _import("BookingSystem/bookingRecord")
+        },
+        // 设备预约end
+        // 设备信息start
+        {
+            path: "equipmentInfo",
+            name: "equipmentInfo",
+            meta: {
+                title: "设备信息",
+                auth: true
             },
-            {
-                path: "useRecord",
-                name: "useRecord",
-                meta: {
-                    title: "使用记录",
-                    auth: true
-                },
-                component: _import("EquipmentInfo/useRecord")
+            component: _import("EquipmentInfo/equipmentInfo")
+        },
+        {
+            path: "useRecord",
+            name: "useRecord",
+            meta: {
+                title: "使用记录",
+                auth: true
             },
-            {
-                path: "equipmentRepaire",
-                name: "equipmentRepaire",
-                meta: {
-                    title: "设备报修",
-                    auth: true
-                },
-                component: _import("EquipmentInfo/equipmentRepaire")
+            component: _import("EquipmentInfo/useRecord")
+        },
+        {
+            path: "equipmentRepaire",
+            name: "equipmentRepaire",
+            meta: {
+                title: "设备报修",
+                auth: true
             },
-            {
-                path: "dataStatistics",
-                name: "dataStatistics",
-                meta: {
-                    title: "数据统计",
-                    auth: true
-                },
-                component: _import("EquipmentInfo/dataStatistics")
+            component: _import("EquipmentInfo/equipmentRepaire")
+        },
+        {
+            path: "dataStatistics",
+            name: "dataStatistics",
+            meta: {
+                title: "数据统计",
+                auth: true
             },
-            // 设备信息end
-            // 申诉中心start
-            {
-                path: "launchAppeal",
-                name: "launchAppeal",
-                meta: {
-                    title: "发起申诉",
-                    auth: true
-                },
-                component: _import("AppealCenter/launchAppeal")
+            component: _import("EquipmentInfo/dataStatistics")
+        },
+        // 设备信息end
+        // 申诉中心start
+        {
+            path: "launchAppeal",
+            name: "launchAppeal",
+            meta: {
+                title: "发起申诉",
+                auth: true
             },
-            {
-                path: "appealRecord",
-                name: "appealRecord",
-                meta: {
-                    title: "申诉记录",
-                    auth: true
-                },
-                component: _import("AppealCenter/appealRecord")
+            component: _import("AppealCenter/launchAppeal")
+        },
+        {
+            path: "appealRecord",
+            name: "appealRecord",
+            meta: {
+                title: "申诉记录",
+                auth: true
             },
-            // 申诉中心end
-            // 统计分析start
-            {
-                path: "overview",
-                name: "overview",
-                meta: {
-                    title: "总览",
-                    auth: true
-                },
-                component: _import("Statistics/Statistics-Overview")
+            component: _import("AppealCenter/appealRecord")
+        },
+        // 申诉中心end
+        // 统计分析start
+        {
+            path: "overview",
+            name: "overview",
+            meta: {
+                title: "总览",
+                auth: true
             },
-            // 统计分析end
-            //管理后台的路由start
-            {
-                path: "admin",
-                name: "admin",
-                meta: {
-                    title: "首页",
-                    auth: true
-                },
-                component: _import("admin/index")
+            component: _import("Statistics/Statistics-Overview")
+        },
+        // 统计分析end
+        //管理后台的路由start
+        {
+            path: "admin",
+            name: "admin",
+            meta: {
+                title: "首页",
+                auth: true
             },
-            {
-                path: "admin/users",
-                name: "users",
-                meta: {
-                    title: "用户管理",
-                    auth: true
-                },
-                component: _import("admin/Rights/users")
+            component: _import("admin/index")
+        },
+        {
+            path: "admin/users",
+            name: "users",
+            meta: {
+                title: "用户管理",
+                auth: true
             },
-            //管理后台的路由end
-            // 系统 前端日志
-            {
-                path: "log",
-                name: "log",
-                meta: {
-                    title: "前端日志",
-                    auth: true
-                },
-                component: _import("system/log")
+            component: _import("admin/Rights/users")
+        },
+        {
+            path: "/admin/equipmentAdmin",
+            name: "equipmentAdmin",
+            meta: {
+                title: "设备管理",
+                auth: true
             },
-            // 刷新页面 必须保留
-            {
-                path: "refresh",
-                name: "refresh",
-                hidden: true,
-                component: _import("system/function/refresh")
+            component: _import("admin/Equipment/equipmentAdmin")
+        },
+        //管理后台的路由end
+        // 系统 前端日志
+        {
+            path: "log",
+            name: "log",
+            meta: {
+                title: "前端日志",
+                auth: true
             },
-            // 页面重定向 必须保留
-            {
-                path: "redirect/:route*",
-                name: "redirect",
-                hidden: true,
-                component: _import("system/function/redirect")
-            }
-        ]
-    }
-];
+            component: _import("system/log")
+        },
+        // 刷新页面 必须保留
+        {
+            path: "refresh",
+            name: "refresh",
+            hidden: true,
+            component: _import("system/function/refresh")
+        },
+        // 页面重定向 必须保留
+        {
+            path: "redirect/:route*",
+            name: "redirect",
+            hidden: true,
+            component: _import("system/function/redirect")
+        }
+    ]
+}];
 
 /**
  * 在主框架之外显示
@@ -182,13 +189,11 @@ const frameOut = [
 /**
  * 错误页面
  */
-const errorPage = [
-    {
-        path: "*",
-        name: "404",
-        component: _import("system/error/404")
-    }
-];
+const errorPage = [{
+    path: "*",
+    name: "404",
+    component: _import("system/error/404")
+}];
 
 // 导出需要显示菜单的
 export const frameInRoutes = frameIn;
