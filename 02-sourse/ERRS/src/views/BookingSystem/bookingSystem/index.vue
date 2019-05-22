@@ -28,17 +28,14 @@
       <el-table-column align="center" label="设备地址" prop="ME_POSITION" width="450"></el-table-column>
       <el-table-column align="center" label="设备状态" prop="ME_STATE">
         <template slot-scope="scope">
-          <span v-if="scope.row.ME_STATE==0">正常</span>
-          <span v-if="scope.row.ME_STATE==1">维修</span>
+          <el-button size="mini" type="success" v-if="scope.row.ME_STATE==0">正常</el-button>
+          <el-button size="mini" type="warning" v-if="scope.row.ME_STATE==1">维修</el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" label="预约人数" prop="MA_SIZE">
         <template slot-scope="scope">
           <span v-if="scope.row.MA_SIZE==0">空闲</span>
-          <el-link
-            v-if="scope.row.MA_SIZE!=0"
-            @click="handleEd(scope.$index, scope.row)"
-          >{{scope.row.MA_SIZE}}</el-link>
+          <el-link v-if="scope.row.MA_SIZE!=0" @click="handleEd(scope.$index, scope.row)">{{scope.row.MA_SIZE}}</el-link>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">

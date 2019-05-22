@@ -10,24 +10,28 @@
     >
       <el-table-column align="center" label="设备编号" prop="ME_ID"></el-table-column>
       <el-table-column align="center" label="设备名称" prop="EN_NAME"></el-table-column>
-      <el-table-column align="center" label="设备地址" prop="ME_POSITION" width="320"></el-table-column>
+      <el-table-column align="center" label="设备地址" prop="ME_POSITION"></el-table-column>
       <el-table-column align="center" label="设备状态" prop="ME_STATE">
         <template slot-scope="scope">
-          <span v-if="scope.row.ME_STATE==0">正常</span>
-          <span v-if="scope.row.ME_STATE==1">维修</span>
+          <el-button size="mini" type="success" v-if="scope.row.ME_STATE==0">正常</el-button>
+          <el-button size="mini" type="warning" v-if="scope.row.ME_STATE==1">维修</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="预约状态" prop="COMPLETE_FLAG">
+        <template slot-scope="scope">
+          <el-button size="mini" type="warning" v-if="scope.row.COMPLETE_FLAG==0">正在审核</el-button>
+          <el-button size="mini" type="success" v-if="scope.row.COMPLETE_FLAG==1">预约成功</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.COMPLETE_FLAG==2">归还成功</el-button>
+          <el-button size="mini" type="danger" v-if="scope.row.COMPLETE_FLAG==4">取消预约</el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" label="拟预约时间" prop="MA_START_DATE"></el-table-column>
       <el-table-column align="center" label="拟归还时间" prop="MA_END_DATE"></el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
           <el-button size="mini" slot="reference" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
-          <el-button
-            size="mini"
-            type="primary"
-            slot="reference"
-            @click="handledelite(scope.$index, scope.row)"
-          >取消</el-button>
+          <el-button size="mini" slot="reference" @click="handledelite(scope.$index, scope.row)">取消</el-button>
+          <el-button size="mini" slot="reference" @click="handleback(scope.$index, scope.row)">归还</el-button>
         </template>
       </el-table-column>
       <!-- 按钮end -->
@@ -83,6 +87,7 @@ export default {
     handleCurrentChange: function(currentPage) {
       //点击第几页
     },
+
     //点击取消按钮
     handledelite(index, row) {
       //弹出提示框
@@ -95,19 +100,56 @@ export default {
         let params = new URLSearchParams();
         params.append("COMPLETE_FLAG", 3);
         params.append("MA_ID", this.tableData[index].MA_ID);
+        params.append("ME_ID", this.tableData[index].ME_ID);
         userBookingService
           .delsystem(params)
           .then(res => {
-            this.$message({
-              message: "取消预约成功",
-              type: "success"
-            });
+            this.$message.error("取消预约失败");
             this.tableData = res.list;
           })
           .catch(err => {
-            this.$message.error("取消预约失败");
+            this.$message({
+              message: "取消预约成功，请刷新页面",
+              type: "success"
+            });
           });
       });
+    },
+
+    //点击归还按钮
+    handleback(index, row) {
+      if (this.tableData[index].COMPLETE_FLAG == 1) {
+        //状态是成功时，操作点击归还按钮
+        this.$confirm("此操作将归还您所借用的设备, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          //点击确定按钮start
+          let params = new URLSearchParams();
+          params.append("COMPLETE_FLAG", 2);
+          params.append("MA_ID", this.tableData[index].MA_ID);
+          params.append("ME_ID", this.tableData[index].ME_ID);
+          userBookingService
+            .delsystem(params)
+            .then(res => {
+              console.log("ss :", res);
+              this.tableData = res.list;
+              this.$message.error("取消预约失败");
+            })
+            .catch(err => {
+              this.$message({
+                message: "取消预约成功，请刷新页面",
+                type: "success"
+              });
+            });
+        });
+      } else {
+        this.$message({
+          message: "您当前未预约成功,不能归还！",
+          type: "success"
+        });
+      }
     },
     //点击查看
     handleEdit(index, row) {

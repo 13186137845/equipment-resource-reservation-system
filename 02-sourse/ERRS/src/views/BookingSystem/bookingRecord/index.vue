@@ -13,8 +13,16 @@
       <el-table-column align="center" label="设备地址" prop="ME_POSITION" width="350"></el-table-column>
       <el-table-column align="center" label="设备状态" prop="ME_STATE">
         <template slot-scope="scope">
-          <span v-if="scope.row.ME_STATE==0">正常</span>
-          <span v-if="scope.row.ME_STATE==1">维修</span>
+          <el-button size="mini" type="success" v-if="scope.row.ME_STATE==0">正常</el-button>
+          <el-button size="mini" type="warning" v-if="scope.row.ME_STATE==1">维修</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="预约状态" prop="COMPLETE_FLAG">
+        <template slot-scope="scope">
+          <el-button size="mini" type="warning" v-if="scope.row.COMPLETE_FLAG==0">正在审核</el-button>
+          <el-button size="mini" type="success" v-if="scope.row.COMPLETE_FLAG==1">预约成功</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.COMPLETE_FLAG==2">归还成功</el-button>
+          <el-button size="mini" type="danger" v-if="scope.row.COMPLETE_FLAG==4">取消预约</el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
