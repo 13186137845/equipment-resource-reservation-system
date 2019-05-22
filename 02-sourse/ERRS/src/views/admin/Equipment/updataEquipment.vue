@@ -63,6 +63,7 @@ export default {
 name: "updataEquipment",
 data() {
     return {
+        // 可视化弹窗
     updataEquipmentVisible: false,
     form: {
 
@@ -73,6 +74,7 @@ data() {
         BUY_DATE: "",
         BUY_NAME: "",
     },
+    // 设备名称
     departmentList: [],
     state:[{
         value:0,
@@ -87,6 +89,7 @@ data() {
     };
 },
 mounted() {
+    // 获取菜单
     EquipmentService
     .getEquipment()
     .then(res => {
@@ -102,6 +105,7 @@ mounted() {
 },
 methods: {
     submit() {
+        // 确定按钮
     let params = new URLSearchParams();
     params.append("ME_ID", this.form.ME_ID);
     params.append("EN_ID", this.form.EN_NAME);
