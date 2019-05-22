@@ -108,17 +108,26 @@ const frameIn = [
                 component: _import("AppealCenter/appealRecord")
             },
             // 申诉中心end
-            // 统计分析start
+            // 个人中心start
             {
-                path: "overview",
-                name: "overview",
-                meta: {
-                    title: "总览",
-                    auth: true
+                path:'pensonalInfo',
+                name:'pensonalInfo',
+                meta:{
+                    title:"个人信息",
+                    auth:true
                 },
-                component: _import("Statistics/Statistics-Overview")
+                component:_import("PersonalCenter/pensonalInfo")
             },
-            // 统计分析end
+            {
+                path:'pensonalRecord',
+                name:'pensonalRecord',
+                meta:{
+                    title:"借还记录",
+                    auth:true
+                },
+                component:_import("PersonalCenter/pensonalRecord")
+            },
+            // 个人中心end
             //管理后台的路由start
             {
                 path: "admin",
@@ -176,7 +185,18 @@ const frameOut = [
         path: "/login",
         name: "login",
         component: _import("system/login")
+    },
+    // 统计分析start
+    {
+        path: "/overview",
+        name: "overview",
+        meta: {
+            title: "总览",
+            auth: true
+        },
+        component: _import("Statistics/Statistics-Overview")
     }
+     // 统计分析end
 ];
 
 /**

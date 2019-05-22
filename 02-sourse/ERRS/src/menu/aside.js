@@ -32,8 +32,8 @@ export default [
     title:'个人中心',
     icon:'calendar-minus-o',
     children:[
-      {path:'#',title:'个人信息'},
-      {path:'#',title:'借还记录'},
+      {path:'pensonalInfo',title:'个人信息'},
+      {path:'pensonalRecord',title:'借还记录'},
       {path:'#',title:'我的日志'},
       {path:'#',title:'我的事件'},
       {path:'#',title:'我的文章'}
@@ -57,7 +57,6 @@ export default [
     title:'统计分析',
     icon:'calendar-minus-o',
     children:[
-      {path:'/overview',title:'总览'}
     ]
   }
 ]
