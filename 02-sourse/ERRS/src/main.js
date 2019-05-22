@@ -9,7 +9,7 @@ import store from '@/store/index'
 import i18n from './i18n'
 import search from 'vue-search'
 import VCharts from 'v-charts'
-
+import VueQArt from 'vue-qart'
 // 菜单和路由设置
 import router from './router'
 import menuHeader from '@/menu/header'
@@ -17,7 +17,9 @@ import menuAside from '@/menu/aside'
 import { frameInRoutes } from '@/router/routes'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import VueQriously from 'vue-qriously'
 
+Vue.use(VueQriously)
 
 // 核心插件
 Vue.use(d2Admin)
@@ -41,7 +43,9 @@ new Vue({
         this.$store.commit('d2admin/search/init', menuHeader)
     },
     components: {
-        search
+        search,
+        VueQArt
+
     },
     mounted() {
         // 展示系统信息

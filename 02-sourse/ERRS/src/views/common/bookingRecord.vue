@@ -3,17 +3,17 @@
     <el-dialog title="设备预约" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="预约设备编号：" :label-width="formLabelWidth">
-          <el-col :span="5">
+          <el-col :span="8">
             <el-input :placeholder="form.id" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="预约设备名称：" :label-width="formLabelWidth">
-          <el-col :span="5">
+          <el-col :span="8">
             <el-input :placeholder="form.name" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="预约设备地址：" :label-width="formLabelWidth">
-          <el-col :span="5">
+          <el-col :span="15">
             <el-input :placeholder="form.dname" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
@@ -22,22 +22,14 @@
             <el-input v-model="form.gname" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="预约部门：" :label-width="formLabelWidth">
+        <el-form-item label="预约日期：" :label-width="formLabelWidth">
           <el-col :span="8">
-            <el-input v-model="form.bname" :disabled="true"></el-input>
+            <el-input v-model="form.onday" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="预约使用日期：" :label-width="formLabelWidth">
+        <el-form-item label="归还日期：" :label-width="formLabelWidth">
           <el-col :span="8">
-            <el-date-picker
-              v-model="form.day"
-              type="datetimerange"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :default-time="['00:00:00', '23:59:59']"
-              value-format="yyyy-MM-dd hh:mm:ss"
-              :disabled="true"
-            ></el-date-picker>
+            <el-input v-model="form.endday" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
       </el-form>
@@ -62,7 +54,8 @@ export default {
         gname: "",
         bname: "",
         xname: "",
-        day: "",
+        onday: "",
+        endday: "",
         speak: "",
         delivery: false,
       },

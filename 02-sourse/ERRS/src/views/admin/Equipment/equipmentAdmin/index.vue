@@ -1,7 +1,8 @@
 
 <template>
     <d2-container>
-    <el-form :inline="true" :lable-position="lableposition" label-width="130px" size="mini" :model="dataForm">
+        <!-- 条件查询搜索 -->
+    <el-form :inline="true" :lable-position="lableposition" size="mini" label-width="130px" :model="dataForm">
         <el-form-item>
         <el-form-item label="设备编号：" :span="2">
             <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
@@ -17,7 +18,7 @@
             ></el-option>
             </el-select>
             </el-form-item>
-              <el-form-item label="预约时间：" :span="2">
+                <el-form-item label="购入时间：" :span="2">
             <el-date-picker
             v-model="form.value7"
             value-format="yyyy-MM-dd hh:mm:ss"
@@ -33,27 +34,42 @@
         <el-form-item label="设备地址：" :span="2">
             <el-input v-model="form.ME_POSITION " autocomplete="off"></el-input>
         </el-form-item>
-
-        <el-button type="info"  @click="handle()">查询</el-button>
-    
+        <el-form-item label="设备状态：" :span="2">
+            <el-select v-model="form.ME_STATE" filterable placeholder="请选择设备状态">
+            <el-option
+                v-for="item in state"
+                :key="item.value"
+                :label="item.states"
+                :value="item.value"
+            ></el-option>
+            </el-select>
         </el-form-item>
-  
-    </el-form>
 
-  
+    
+        <el-form-item label="购入负责人：" :span="2">
+            <el-input v-model="form.BUY_NAME" autocomplete="off"></el-input>
+        </el-form-item>
+
+        
+        </el-form-item>
+        <!-- 添加 导入 -->
+        <el-form-item>
+        <el-button @click="handle()">查看</el-button>
+        <el-button type="primary" @click="addEquipment">添加</el-button>
+        </el-form-item>
+
+    
+    </el-form>
     <!--  
     表格-->
     <el-table
         size="mini"
         :data="dataList&&dataList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         border
-        
+        style="width: 100%;"
     >
-        <el-table-column 
-        prop="ME_ID" 
-        :label="tableHead.ME_ID" 
-        header-align="center" 
-        align="center"/>
+        <el-table-column type="selection" header-align="center" align="center" width="50"/>
+        <el-table-column prop="ME_ID" :label="tableHead.ME_ID" header-align="center" align="center"/>
         <el-table-column
         prop="EN_NAME"
         :label="tableHead.EN_NAME"
@@ -67,46 +83,74 @@
         align="center"
         ></el-table-column>
         <el-table-column
-        prop="MI_NAME"
-        :label="tableHead.MI_NAME"
+        prop="ME_STATE"
+        :label="tableHead.ME_STATE"
         header-align="center"
         align="center"
         >
+        <template slot-scope="scope">
+            <span v-if="scope.row.ME_STATE==0">正常</span>
+            <span v-if="scope.row.ME_STATE==1">维修中</span>
+        </template>
         </el-table-column>
         <el-table-column
-        prop="MU_NO"
-        :label="tableHead.MU_NO"
+        prop="BUY_DATE"
+        :label="tableHead.BUY_DATE"
         header-align="center"
         align="center"
         />
         <el-table-column
-        prop="MD_NAME"
-        :label="tableHead.MD_NAME"
+        prop="BUY_NAME"
+        :label="tableHead.BUY_NAME"
         header-align="center"
         align="center"
         />
         <el-table-column
-        prop="MPR_NAME"
-        :label="tableHead.MPR_NAME"
+        prop="REPAIR_SIZE"
+        :label="tableHead.REPAIR_SIZE"
         header-align="center"
         align="center"
         />
         <el-table-column
-        prop="MA_START_DATE"
-        :label="tableHead.MA_START_DATE"
+        :label="tableHead.handle"
+        fixed="right"
         header-align="center"
         align="center"
+        width="149"
         >
-        </el-table-column>
-        <el-table-column
-        prop="MA_END_DATE"
-        :label="tableHead.MA_END_DATE"
-        header-align="center"
-        align="center"
-        >
+        <!-- 编辑悬浮标签 -->
+        <template slot-scope="scope">
+            <el-popover trigger="hover" placement="top">
+            <p>设备编号: {{ scope.row.ME_ID }}</p>
+            <p>设备名称: {{ scope.row.EN_NAME }}</p>
+            <p>
+                设备状态:
+                <span v-if="scope.row.ME_STATE==0">正常</span>
+                <span v-if="scope.row.ME_STATE==1">维修中</span>
+            </p>
+            <p>设备地址: {{ scope.row. ME_POSITION}}</p>
+            <p>设备购入时间: {{ scope.row. BUY_DATE}}</p>
+            <p>设备购入负责人: {{ scope.row. BUY_NAME}}</p>
+            <p>维修次数: {{ scope.row.REPAIR_SIZE }}</p>
+            <template>
+                <qriously :value="scope.row.ME_ID" :size="138"/>
+            </template>
+            <el-button               
+            size="mini"
+            type="primary"
+            slot="reference"
+            @click="updataEquipment(scope.$index, scope.row.id)"
+            >编辑</el-button
+            >
+            <el-button  type="danger"
+            slot="reference" size="mini" @click="delEquipment(scope.$index,scope.row.id)">删除</el-button>
+        </el-popover>
+        </template>
         </el-table-column>
     </el-table>
-    
+    <!-- 导入弹窗 -->
+    <add-equipment ref="addEquipment" />
+<updata-equipment ref="updataEquipment" />
 <!-- 分页 -->
 <el-pagination
     @size-change="handleSizeChange"
@@ -122,11 +166,13 @@
 
 
 <script>
-
+//导入添加用户模块
+import addEquipment from "../../Equipment/addEquipment";
+//导入修改用户模块
 import request from "@/plugin/axios";
-import { EquipmentService } from "@/common/api";
 
-import { useRecord } from "@/common/api";
+import updataEquipment from "../../Equipment/updataEquipment";
+import { EquipmentService } from "@/common/api";
 export default {
     name: "page2",
     data() {
@@ -164,12 +210,11 @@ export default {
         ME_ID: "设备编号",
         EN_NAME: "设备名称",
         ME_POSITION: "设备地址",
-        MI_NAME: "使用用户",
-        MU_NO: "用户工号",
-        MD_NAME: "用户部门",
-        MPR_NAME: "参与项目",
-        MA_START_DATE: "预约开始时间",
-        MA_END_DATE: "预约结束时间"
+        ME_STATE: "状态",
+        BUY_DATE: "设备购入时间",
+        BUY_NAME: "设备购入负责人",
+        REPAIR_SIZE: "维修次数",
+        handle: "操作"
         },
         dataList: [],
 
@@ -178,13 +223,10 @@ export default {
         EN_NAME: "",
         EN_ID: "",
         ME_POSITION: "",
-        MI_NAME: "",
-        MU_NO: "",
-        MD_NAME: "",
-        MPR_NAME: "",
-        MA_START_DATE: "",
-        MA_END_DATE: "",
-          value7: ""
+        ME_STATE: "",
+        BUY_DATE: "",
+        BUY_NAME: "",
+        value7: ""
         },
       // 日期选择器
         pickerOptions2: {
@@ -223,7 +265,7 @@ export default {
     },
     mounted() {
         //数据初始化
-          this.getDataList();
+    this.getDataList();
     EquipmentService.getEquipment()
         .then(res => {
         this.departmentList = res.Equipment;
@@ -232,37 +274,8 @@ export default {
         .catch(err => {
         console.log("数据初始化失败：" + err);
         });
-        this.getDataList();
-    
     },
     methods: {
-      handle() {
-        console.log(this.form.value7[0], "color:green;");
-        let params = new URLSearchParams();
-        params.append("ME_ID", this.form.ME_ID);
-        params.append("EN_ID", this.form.EN_NAME);
-        params.append("ME_POSITION", this.form.ME_POSITION);
-        params.append("COMPLETE_FLAG", 3);
-        params.append(
-        "MA_START_DATE",
-        this.form.value7[0] == undefined ? "" : this.form.value7[0]
-        );
-        params.append(
-        "MA_END_DATE",
-        this.form.value7[1] == undefined ? "" : this.form.value7[1]
-        );
-    
-        console.log(params, "color:red");
-
-        useRecord.useRecordList(params)
-        .then(res => {
-            console.log(res);
-            this.dataList = res.list;
-        })
-        .catch(err => {
-            console.log("获取用户信息失败：" + err);
-        });
-    },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {
         this.pagesize = size;
@@ -274,11 +287,26 @@ export default {
         console.log(this.currentPage);
       //点击第几页
     },
-    //获取历史记录信息
-    getDataList() {
+    //查询按钮
+    handle() {
+        console.log(this.form.value7[0], "color:green;");
         let params = new URLSearchParams();
-        params.append("COMPLETE_FLAG", 3);
-        useRecord.useRecordList(params)
+        params.append("ME_ID", this.form.ME_ID);
+        params.append("EN_ID", this.form.EN_NAME);
+        params.append("ME_POSITION", this.form.ME_POSITION);
+        params.append("ME_STATE", this.form.ME_STATE);
+        params.append(
+        "BUY_DATE_START",
+        this.form.value7[0] == undefined ? "" : this.form.value7[0]
+        );
+        params.append(
+        "BUY_DATE_END",
+        this.form.value7[1] == undefined ? "" : this.form.value7[1]
+        );
+        params.append("BUY_NAME", this.form.BUY_NAME);
+        console.log(params, "color:red");
+
+        EquipmentService.getEquipmentInfo(params)
         .then(res => {
             console.log(res);
             this.dataList = res.list;
@@ -286,11 +314,65 @@ export default {
         .catch(err => {
             console.log("获取用户信息失败：" + err);
         });
+    },
+    //获取用户信息
+    getDataList() {
+        EquipmentService.getEquipmentInfo()
+        .then(res => {
+            console.log(res);
+            this.dataList = res.list;
+        })
+        .catch(err => {
+            console.log("获取用户信息失败：" + err);
+        });
+    },
+    //增加用户弹框
+    addEquipment() {
+        this.$refs.addEquipment.addEquipmentVisible = true;
+        console.log(this.$refs.addEquipment.addEquipmentVisible);
+    },
+     // 删除弹框
+    delEquipment(index, row) {
+    
+        this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+        })
+        .then(() => {
+            let paramst = new URLSearchParams();
+            paramst.append("ME_ID", this.dataList[index].ME_ID);//获取当前行编号
+            EquipmentService.delEquipment(paramst)
+            .then(res => {
+                console.log(res);
+                this.dataList = res.list;
+            })
+            .catch(err => {
+                console.log("获取用户信息失败：" + err);
+            });
+            this.$message({
+            type: "success",
+            message: "删除成功!"
+            });
+            this.$router.go(0);
+        })
+        .catch(() => {
+            this.$message({
+            type: "info",
+            message: "已取消删除"
+            });
+        });
+    },
+//编辑弹窗
+    updataEquipment(index, row) {
+        this.$refs.updataEquipment.updataEquipmentVisible = true;
+        this.$refs.updataEquipment.form = this.dataList[index];
     }
     },
     components: {
         //弹窗引入
-  
+    addEquipment,
+    updataEquipment
 }
 };
 </script>
