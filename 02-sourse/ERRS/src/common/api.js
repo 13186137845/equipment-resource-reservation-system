@@ -34,7 +34,7 @@ export const userBookingService = {
     //发送当前设备，和时间
     sendsystem(data) {
         return request({
-            url: '/adminApi/v/appointmentList?COMPLETE_FLAG=1',
+            url: '/adminApi/v/appointmentList?COMPLETE_FLAG=3',
             method: 'post',
             data
         })
@@ -65,10 +65,11 @@ export const userBookingService = {
     /**
      * 预约日历图相关
      */
-    Initcalendar(data){
+    //点击设备字段，返回单个设备的详细信息
+    getSingleEqu(data){
         return request({
             url:'adminApi/v/chartsList',
-            method:'get',
+            method:'post',
             data
         })
     },
@@ -257,5 +258,53 @@ export const useRecord = {
         })
     }
 
+
+}
+ /**
+     * @description [ seRecord] 设备管理相关
+     */
+
+    export const useRecordService = {
+
+        //获取使用记录列表信息
+        getRecordList(data) {
+            return request({
+                url: '/adminApi/v/appointmentAllList',
+                method: 'post',
+                data
+            })
+        }
+
+
+    }
+    /**
+     * @description [ seRecord] 权限管理相关
+     */
+export const useAuthorityService = {
+
+        //获取使用记录列表信息
+        getAuthority() {
+            return request({
+                url: '/adminApi/v/powerList',
+                method: 'post',
+
+            })
+        }
+
+
+    }
+    /**
+     * @description [ seRecord] 角色管理相关
+     */
+export const personnelService = {
+
+    //获取使用记录列表信息
+    getPersonnel() {
+        return request({
+            url: '/adminApi/v/roleList',
+            method: 'post',
+
+        })
+    }
 
 }

@@ -53,6 +53,8 @@
      :data="tableData&&tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       border
       style="width: 542px"
+      @row-click="handleBooking"
+      :row-class-name="tableRowClassName"
     >
       <el-table-column align="center" label="设备编号" prop="ME_ID" width="100"></el-table-column>
       <el-table-column align="center" label="设备名称" prop="EN_NAME" width="100"></el-table-column>
@@ -97,7 +99,7 @@
     <!-- 父组件向子组件传值end -->
     <!-- 日期选择预约模块 -->
     <div>
-      <booking-canle style="margin-left:600px; margin-top:80px;width:690px;height:600px;" />
+      <booking-canle ref="bookingcanle" style="margin-left:600px; margin-top:80px;width:690px;height:600px;" />
     </div>
   </d2-container>
 </template>
@@ -186,7 +188,7 @@ export default {
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("数据初始化失败：" + err);
+        this.$message.error("数据初始化失败")
       });  
   },
   methods: {
@@ -223,11 +225,10 @@ export default {
       userBookingService
         .sentsystem(params)
         .then(res => {
-          console.log(res);
           this.tableData = res.list;
         })
         .catch(err => {
-          console.log("获取数据失败：" + err);
+          tihs.$message.error("数据初始化失败！");
         });
     },
     handlrepl() {
@@ -251,6 +252,35 @@ export default {
       this.$refs.bookingchat.FormVisible = true; //弹框状态
       this.$refs.bookingchat.dex = index; //往子组件传索引
       this.$refs.bookingchat.getInfo(); //调用子组件 methods 内 getInfo 方法
+    },
+    tableRowClassName ({row, rowIndex}) {
+    //把每一行的索引放进row
+    row.index = rowIndex;
+    },
+    //点击设备查看详细预约信息
+    handleBooking(row,event,column){
+      //row表格字段数据
+      //event鼠标事件
+      //column表格基础信息
+      let index = row.index;//取索引
+      let params = new URLSearchParams();
+      params.append("ME_ID",row.ME_ID)
+      userBookingService.getSingleEqu(params)
+      .then(res=>{
+        //do something
+        let data = [{title:'',start : '',end : ''}]
+        data[0].title = "已被预约"
+        data[0].start = (res[0].MA_START_DATE.split(" "))[0]
+        data[0].end = (res[0].MA_END_DATE.split(" "))[0]
+        // this.$refs.bookingcanle.monthData.push(data[0])
+        this.$refs.bookingcanle.monthData = data
+        this.$refs.bookingcanle.index = row.index;//索引
+        this.$refs.bookingcanle.ME_ID = row.ME_ID;
+      }).catch(err=>{
+        this.$message.success("该设备暂无人预约")
+        let data = [{title:'',start : '',end : ''}]
+        this.$refs.bookingcanle.monthData = data;
+      })
     }
   }
 };
