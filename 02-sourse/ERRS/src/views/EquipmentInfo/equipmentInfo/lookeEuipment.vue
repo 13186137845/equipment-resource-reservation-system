@@ -54,11 +54,11 @@
 <el-pagination
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
-    :current-page="currentPage4"
-    :page-sizes="[4,8,12,16]"
+    :current-page="currentPage"
+    :page-sizes="[4, 8,12 , 16]"
     :page-size="4"
     layout="total, sizes, prev, pager, next, jumper"
-    :total="">
+    :total="4">
     </el-pagination>
 </el-tab-pane>
         
@@ -107,11 +107,11 @@
 <el-pagination
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
-    :current-page="currentPage4"
-    :page-sizes="[5, 10, 15, 20]"
-    :page-size="5"
+    :current-page="currentPage"
+    :page-sizes="[4, 8, 12, 16]"
+    :page-size="4"
     layout="total, sizes, prev, pager, next, jumper"
-    :total="9">
+    :total="4">
     </el-pagination>
 </template>
 
@@ -130,7 +130,7 @@ data() {
     return {
         // 弹窗可视化
         lookEquipmentVisible: false,
-
+        currentPage:4,
     tableData: [{
     
         xuhao: '1',
@@ -230,16 +230,15 @@ computed: {
     
 },
 methods: {
-    handleSizeChange: function(size) {
-        this.pagesize = size;
-        console.log(this.pagesize);
-      //每页下拉显示数据
+    handleSizeChange(){
+
     },
-    handleCurrentChange: function(currentPage) {
-        this.currentPage = currentPage;
-        console.log(this.currentPage);
-      //点击第几页
+    handleSizeChange(){
+
     },
+    handleCurrentChange(){
+
+    }
 }
 };
 </script>
