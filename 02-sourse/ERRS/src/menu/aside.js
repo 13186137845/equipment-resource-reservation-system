@@ -51,7 +51,8 @@ export default [
         children: [
             { path: '/admin/users', title: '用户管理' },
             { path: '/admin/Authority', title: '权限管理' },
-            { path: '/admin/personnel', title: '角色管理' }
+            { path: '/admin/personnel', title: '角色管理' },
+            { path:'/admin/department',title:'部门管理'}
         ]
     },
     {

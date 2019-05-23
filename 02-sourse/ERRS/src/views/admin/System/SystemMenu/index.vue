@@ -73,7 +73,7 @@
     prop="MP_PATH">
     </el-table-column>
     <el-table-column
-        :label="操作"
+        label="操作"
         fixed="right"
         header-align="center"
         align="center"
@@ -254,6 +254,11 @@ export default {
             ]
             }
             ]
+        }
+    },
+    methods:{
+        delEquipment(index,row){
+            
         }
     }
 }

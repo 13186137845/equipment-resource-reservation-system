@@ -60,14 +60,10 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="tableData.length"
     ></el-pagination>
-    <!-- 父组件向子组件传值start -->
-    <booking ref="booking"/>
-    <!-- 父组件向子组件传值end -->
   </d2-container>
 </template>
 
 <script>
-import { userBookingService } from "@/common/api";
 export default {
   name: "bookingSystem",
   data() {
@@ -80,6 +76,7 @@ export default {
         ME_POSITION: "",
         ME_STATE: ""
       },
+      state:[],
       dialogFormVisible: false,
       currentPage: 1, //初始页
       pagesize: 10, //每页的数据

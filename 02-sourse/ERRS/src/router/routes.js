@@ -194,6 +194,15 @@ const frameIn = [{
             },
             component: _import("admin/System/SystemMenu")
         },
+        {
+            path:'admin/department',
+            name:'department',
+            meta: {
+                title: "部门管理",
+                auth: true
+            },
+            component: _import("admin/Rights/department")
+        },
         //管理后台的路由end
         // 系统 前端日志
         {
