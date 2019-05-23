@@ -9,7 +9,7 @@
         </el-form-item>
 
         <el-form-item label="设备名称：" :span="2">
-            <el-select v-model="form.EN_NAME" filterable placeholder="请选择设备名称">
+            <el-select v-model="form.EN_NAME" clearable filterable placeholder="请选择设备名称">
             <el-option
                 v-for="item in departmentList"
                 :key="item.ME_ID"
@@ -35,7 +35,7 @@
             <el-input v-model="form.ME_POSITION " autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备状态：" :span="2">
-            <el-select v-model="form.ME_STATE" filterable placeholder="请选择设备状态">
+            <el-select v-model="form.ME_STATE" clearable filterable placeholder="请选择设备状态">
             <el-option
                 v-for="item in state"
                 :key="item.value"
@@ -166,7 +166,7 @@ export default {
     return {
         //分页
       currentPage: 1, //初始页
-        pagesize: 10,
+        pagesize: 5,
         //文本规范
         lableposition: "left",
         formLabelAlign: {
@@ -266,12 +266,10 @@ export default {
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {
         this.pagesize = size;
-        console.log(this.pagesize);
       //每页下拉显示数据
     },
     handleCurrentChange: function(currentPage) {
         this.currentPage = currentPage;
-        console.log(this.currentPage);
       //点击第几页
     },
     lookEquipment() {

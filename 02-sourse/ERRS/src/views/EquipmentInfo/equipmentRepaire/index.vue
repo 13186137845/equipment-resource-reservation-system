@@ -59,6 +59,7 @@ export default {
       input: "", //注册
       value1: "", //注册
       textarea2: "", //注册
+      show3:"",
       filename: __filename
     }
   },

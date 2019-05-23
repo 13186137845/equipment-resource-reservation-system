@@ -81,6 +81,8 @@ service.interceptors.response.use(
         case 50000:
         case 50001:
         case 50002:
+        case 80000:
+          return errorCreate(`${dataAxios.msg}`)
         case 82000:
         case 82002:
           return  errorCreate(`${dataAxios.msg}`)

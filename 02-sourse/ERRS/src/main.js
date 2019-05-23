@@ -8,24 +8,29 @@ import store from '@/store/index'
 // 多国语
 import i18n from './i18n'
 import search from 'vue-search'
-import VCharts from 'v-charts'
-import VueQArt from 'vue-qart'
+
 // 菜单和路由设置
 import router from './router'
 import menuHeader from '@/menu/header'
 import menuAside from '@/menu/aside'
 import { frameInRoutes } from '@/router/routes'
+//各类插件
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueQriously from 'vue-qriously'
+import VCharts from 'v-charts'
+import VueQArt from 'vue-qart'
+import FullCalendar from 'vue-fullcalendar'
 
-Vue.use(VueQriously)
+
 
 // 核心插件
 Vue.use(d2Admin)
 Vue.use(ElementUI)
 Vue.use(search)
 Vue.use(VCharts)
+Vue.use(VueQriously)
+Vue.use(FullCalendar)
 
 new Vue({
     router,

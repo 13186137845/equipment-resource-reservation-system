@@ -1,44 +1,75 @@
 <template>
   <d2-container :filename="filename">
-    <div class="block">
-      <el-col :span="6">
-        <span class="demonstration">请选择设备：</span>
-        <el-select size="mini" v-model="equipments" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.EN_ID"
-            :label="item.EN_NAME"
-            :value="item.EN_ID"
-            :disabled="item.disabled"
-          ></el-option>
-        </el-select>
-      </el-col>
-      <el-button size="mini" @click="handle()">查看</el-button>
-      <el-button size="mini" @click="handlrepl()">重置</el-button>
-    </div>
-    <br>
+    <!-- 条件查询 -->
+    <el-form
+      :inline="true"
+      :lable-position="lableposition"
+      label-width="90px"
+      size="mini"
+    >
+      <el-form-item>
+        <el-form-item label="设备编号：" :span="2">
+          <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
+        </el-form-item>
+
+        <el-form-item label="设备名称：" :span="2">
+          <el-select
+            v-model="form.EN_NAME"
+            clearable
+            filterable
+            placeholder="请选择设备名称"
+          >
+            <el-option
+              v-for="item in departmentList"
+              :key="item.ME_ID"
+              :label="item.EN_NAME"
+              :value="item.EN_ID"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="设备地址：" :span="2">
+          <el-input v-model="form.ME_POSITION" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="设备状态：" :span="2">
+          <el-select
+            v-model="form.ME_STATE"
+            clearable
+            filterable
+            placeholder="请选择设备状态"
+          >
+            <el-option
+              v-for="item in state"
+              :key="item.value"
+              :label="item.states"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-button type="info" @click="handle()">查询</el-button>
+      </el-form-item>
+    </el-form>
     <el-table
       size="mini"
-      :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)&&tableData"
+     :data="tableData&&tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       border
-      style="width: 100%"
+      style="width: 542px"
     >
-      <el-table-column align="center" label="设备编号" prop="ME_ID"></el-table-column>
-      <el-table-column align="center" label="设备名称" prop="EN_NAME"></el-table-column>
-      <el-table-column align="center" label="设备地址" prop="ME_POSITION" width="450"></el-table-column>
-      <el-table-column align="center" label="设备状态" prop="ME_STATE">
+      <el-table-column align="center" label="设备编号" prop="ME_ID" width="100"></el-table-column>
+      <el-table-column align="center" label="设备名称" prop="EN_NAME" width="100"></el-table-column>
+      <el-table-column align="center" label="设备地址" prop="ME_POSITION" width="100"></el-table-column>
+      <el-table-column align="center" label="设备状态" prop="ME_STATE" width="100">
         <template slot-scope="scope">
           <el-button size="mini" type="success" v-if="scope.row.ME_STATE==0">正常</el-button>
           <el-button size="mini" type="warning" v-if="scope.row.ME_STATE==1">维修</el-button>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="预约人数" prop="MA_SIZE">
+      <el-table-column align="center" label="预约人数" prop="MA_SIZE" width="60">
         <template slot-scope="scope">
           <span v-if="scope.row.MA_SIZE==0">空闲</span>
           <el-link v-if="scope.row.MA_SIZE!=0" @click="handleEd(scope.$index, scope.row)">{{scope.row.MA_SIZE}}</el-link>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" label="操作" width="80">
         <!-- 按钮start -->
         <template slot-scope="scope">
           <el-button
@@ -64,6 +95,10 @@
     <booking ref="booking"/>
     <bookingchat ref="bookingchat"/>
     <!-- 父组件向子组件传值end -->
+    <!-- 日期选择预约模块 -->
+    <div>
+      <booking-canle style="margin-left:600px; margin-top:80px;width:690px;height:600px;" />
+    </div>
   </d2-container>
 </template>
 
@@ -72,11 +107,25 @@ import booking from "./../../common/booking";
 import bookingchat from "./../../common/bookingchat";
 import { userBookingService } from "@/common/api";
 import request from "@/plugin/axios";
-
+import { EquipmentService } from "@/common/api";
+import bookingCanle from "@/views/common/booking-charts"
 export default {
   name: "bookingSystem",
   data() {
     return {
+      //样式规范
+      lableposition: "left",
+      //查询条件
+      form: {
+        ME_ID: "",
+        EN_NAME: "",
+        EN_ID: "",
+        ME_POSITION: "",
+        ME_STATE: "",
+        BUY_DATE: "",
+        BUY_NAME: "",
+        value7: ""
+      },
       hovr: {
         userid: "1001",
         name: "车志伟", //预约按钮hover弹出的使用者
@@ -93,12 +142,26 @@ export default {
       filename: __filename,
       options: [], //设备列表
       equipments: "", //选择设备,
-      baseUrl: "/adminApi/v/equipmentList?EN_ID=" //固定地址
-    };
+      baseUrl: "/adminApi/v/equipmentList?EN_ID=", //固定地址
+      //设备列表
+      departmentList: [],
+      //设备状态
+      state: [
+        {
+          value: 0,
+          states: "正常"
+        },
+        {
+          value: 1,
+          states: "维修中"
+        }
+      ]
+    }
   },
   components: {
     booking,
-    bookingchat
+    bookingchat,
+    bookingCanle
   },
   mounted() {
     //用户表格初始化
@@ -116,6 +179,15 @@ export default {
         this.options = res.Equipment;
       })
       .catch(err => {});
+    //查询条件--设备列表
+    EquipmentService.getEquipment()
+      .then(res => {
+        this.departmentList = res.Equipment;
+        this.role = res.Role;
+      })
+      .catch(err => {
+        console.log("数据初始化失败：" + err);
+      });  
   },
   methods: {
     // 初始页currentPage、初始每页数据数pagesize和数据data
@@ -128,19 +200,35 @@ export default {
       //点击第几页
     },
     //点击查看（搜索）
+    // handle() {
+    //   let url = this.baseUrl + this.equipments;
+    //   let params = new URLSearchParams();
+    //   params.append("EN_ID", this.equipments);
+    //   request({
+    //     url: url,
+    //     method: "post",
+    //     params
+    //   })
+    //     .then(res => {
+    //       this.tableData = res.list;
+    //     })
+    //     .catch(err => {});
+    // },
     handle() {
-      let url = this.baseUrl + this.equipments;
       let params = new URLSearchParams();
-      params.append("EN_ID", this.equipments);
-      request({
-        url: url,
-        method: "post",
-        params
-      })
+      params.append("ME_ID", this.form.ME_ID);
+      params.append("EN_ID", this.form.EN_NAME);
+      params.append("ME_POSITION", this.form.ME_POSITION);
+      params.append("ME_STATE", this.form.ME_STATE);
+      userBookingService
+        .sentsystem(params)
         .then(res => {
+          console.log(res);
           this.tableData = res.list;
         })
-        .catch(err => {});
+        .catch(err => {
+          console.log("获取数据失败：" + err);
+        });
     },
     handlrepl() {
       userBookingService
@@ -156,6 +244,7 @@ export default {
       this.$refs.booking.form.id = this.tableData[index].ME_ID; //往子组件传设备id
       this.$refs.booking.form.name = this.tableData[index].EN_NAME; //往子组件传设备name
       this.$refs.booking.form.dname = this.tableData[index].ME_POSITION; //往子组件传设备地址
+      // this.$refs.booking.form.delivery = this.tableData[index].MA_ID;
     },
     //点击查看（表格内）
     handleEd(index, row) {

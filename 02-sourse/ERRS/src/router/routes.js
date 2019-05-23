@@ -48,6 +48,15 @@ const frameIn = [{
             },
             component: _import("BookingSystem/bookingRecord")
         },
+        {
+            path:"bookingexamine",
+            name:"bookingexamine",
+            meta:{
+                title:"审核",
+                auth:true
+            },
+            component: _import("BookingSystem/bookingExamine")
+        },
         // 设备预约end
         // 设备信息start
         {
@@ -107,16 +116,27 @@ const frameIn = [{
             component: _import("AppealCenter/appealRecord")
         },
         // 申诉中心end
-        // 统计分析start
+        // 个人中心start
         {
-            path: "overview",
-            name: "overview",
+            path: 'pensonalInfo',
+            name: 'pensonalInfo',
             meta: {
-                title: "总览",
+                title: "个人信息",
                 auth: true
             },
-            component: _import("Statistics/Statistics-Overview")
+            component: _import("PersonalCenter/pensonalInfo")
         },
+        {
+            path: 'pensonalRecord',
+            name: 'pensonalRecord',
+            meta: {
+                title: "借还记录",
+                auth: true
+            },
+            component: _import("PersonalCenter/pensonalRecord")
+        },
+        // 个人中心end
+        // 统计分析start
         // 统计分析end
         //管理后台的路由start
         {
@@ -183,7 +203,18 @@ const frameOut = [
         path: "/login",
         name: "login",
         component: _import("system/login")
+    },
+    // 统计分析start
+    {
+        path: "/overview",
+        name: "overview",
+        meta: {
+            title: "大屏数据",
+            auth: true
+        },
+        component: _import("Statistics/Statistics-Overview")
     }
+    // 统计分析end
 ];
 
 /**

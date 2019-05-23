@@ -1,7 +1,7 @@
 <template>
 <!-- 添加用户的弹出层 -->
 <el-dialog
-    title="添加设备名称"
+    title="添加设备"
     :visible.sync="addEquipmentVisible"
     width="40%"
     style="margin-top:-60px"
@@ -13,6 +13,7 @@
         </el-col>
         </el-form-item>
         <el-form-item label="设备名称：" :label-width="formLabelWidth" :span="2" prop="EN_NAME">
+            <el-button>添加设备类别</el-button>
         <el-select v-model="form.EN_NAME" placeholder="请选择设备名称">
         <el-option
             v-for="item in departmentList"
@@ -28,7 +29,7 @@
         </el-col>
         </el-form-item>
         <!-- 设备负责人，设备购入时间 -->
-        <el-form-item label="设备购入时间：" :label-width="formLabelWidth" :span="2">
+        <el-form-item label="购入时间：" :label-width="formLabelWidth" :span="2">
         <el-col :span="colWinth">
             <el-date-picker
             v-model="form.BUY_DATE"
@@ -38,7 +39,7 @@
             ></el-date-picker>
         </el-col>
         </el-form-item>
-        <el-form-item label="设备购入负责人：" :label-width="formLabelWidth" :span="2">
+        <el-form-item label="购入负责人：" :label-width="formLabelWidth" :span="2">
         <el-col :span="colWinth">
             <el-input v-model="form.BUY_NAME" autocomplete="off"></el-input>
         </el-col>
@@ -60,7 +61,6 @@ data() {
     return {
         // 弹窗可视化
         addEquipmentVisible: false,
-
         form: {
         ME_ID: "",
         EN_NAME: "",
@@ -124,11 +124,10 @@ methods: {
                 //添加成功 刷新列表
 
                 this.$message({
-                    message: "恭喜你，添加成功",
+                    message: "添加成功,请刷新页面",
                     type: "success"
                 });
                 this.addEquipmentVisible = false;
-                this.$router.go(0);
                 this.$refs.addEquipment.getDataList();
                 })
                 .catch(err => {
