@@ -13,7 +13,6 @@
         </el-col>
         </el-form-item>
         <el-form-item label="设备名称：" :label-width="formLabelWidth" :span="2" prop="EN_NAME">
-            <el-button>添加设备类别</el-button>
         <el-select v-model="form.EN_NAME" placeholder="请选择设备名称">
         <el-option
             v-for="item in departmentList"

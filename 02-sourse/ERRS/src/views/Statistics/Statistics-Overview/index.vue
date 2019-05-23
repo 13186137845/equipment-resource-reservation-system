@@ -132,13 +132,13 @@
           <div class="li1-5-top">
             <ul>
               <li class="lia">
-                设备总数：<span id="totalDeviceCount">45</span>
+                设备总数：<span id="totalDeviceCount">{{equCount}}</span>
               </li>
               <li class="lia lic">
                 总价值：<span id="totalDeviceValue">44811341.18</span>
               </li>
               <li class="lib" style="color:#FF70B1;">
-                报废：<span id="scrappedDeviceCount">1</span>
+                报废：<span id="scrappedDeviceCount">{{scarp}}</span>
               </li>
               <li class="lib" style="color:#6FB4F0;">
                 故障：<span id="failureDeviceCount">11</span>
@@ -223,12 +223,13 @@ import equWare from "../common/statistics-equWare"
 import equmoney from "../common/statistics-equmoney"
 import equNear from  "../common/statistics-equNear"
 import equCuring from "../common/statistics-equCuring"
+import {useRecordService} from "@/common/api"
 export default {
   data() {
     return {
-      equCount: 52,
-      equPrise: 52599541.18,
-      scarp: 1,
+      equCount: null,//设备总数
+      equPrise: 52599541.18,//设备价值
+      scarp: 1,//报废
       fault: 2,
       sellof: 0
     };
@@ -253,7 +254,12 @@ export default {
         window.event.preventDefault(); //关闭浏览器快捷键
         _this.KeyUpEsc(); //调用methods中的方法
       }
-    };
+    },
+    useRecordService.getEquCount().then(res=>{
+      console.log(res)
+      this.equCount = res.equipmentSize
+      this.scarp = res.repairSize
+    })
   },
   methods: {
     KeyUpEsc() {

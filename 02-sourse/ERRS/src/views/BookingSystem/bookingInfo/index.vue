@@ -255,9 +255,10 @@ export default {
           })
           .catch(err => {
             this.$message({
-              message: "取消预约成功，请刷新页面",
+              message: "取消预约成功",
               type: "success"
             });
+            this.tableData.splice(index, 1);
           });
       });
     },
@@ -283,9 +284,10 @@ export default {
             })
             .catch(err => {
               this.$message({
-                message: "取消预约成功，请刷新页面",
+                message: "归还成功！",
                 type: "success"
               });
+              this.tableData.splice(index, 1);
             });
         });
       } else {
