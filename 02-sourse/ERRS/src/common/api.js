@@ -119,7 +119,8 @@ export const sysMenuService = {
      */
     getNav() {
         return request({
-            url: '/sys/menu/nav'
+            url: '/adminApi/v/power',
+            method:'get'
         })
     },
     /**
@@ -253,8 +254,14 @@ export const useRecord = {
                 method: 'post',
                 data
             })
+        },
+        //获取设备总数
+        getEquCount(){
+            return request({
+                url:'/adminApi/v/dataCharts',
+                method:'post'
+            })
         }
-
 
     }
     /**

@@ -165,9 +165,10 @@ export default {
           })
           .catch(err => {
             this.$message({
-              message: "审核成功,请刷新页面",
+              message: "审核成功！",
               type: "success"
             });
+            this.tableData.splice(index, 1);
           });
       });
     },

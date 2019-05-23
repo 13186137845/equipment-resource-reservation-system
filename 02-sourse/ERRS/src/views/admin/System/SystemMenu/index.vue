@@ -1,4 +1,5 @@
 <template>
+<d2-container>
 <el-table
     :data="database"
     
@@ -95,6 +96,7 @@
         </template>
         </el-table-column>
 </el-table>
+</d2-container>
 </template>
 
 <style>

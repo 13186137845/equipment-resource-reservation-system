@@ -93,6 +93,7 @@
 import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 import {sysAccountService} from '@/common/api'
+import {sysMenuService} from '@/common/api'
 export default {
   data () {
     return {
@@ -174,7 +175,14 @@ export default {
         sysAccountService.login(param)
           .then(async res=>{
             await this.login(res)
-            console.log(res)
+            await sysMenuService.getNav().then(res=>{
+              console.log(res)
+              let defmenu = {path: '/index', title: '首页', icon: 'home'}
+              res.MU_POWER.unshift(defmenu)
+              this.$store.commit('d2admin/menu/asideSet', res.MU_POWER)
+            }).catch(err=>{
+              this.$message.error("菜单初始化失败");
+            })
             this.$router.replace(this.$route.query.redirect || '/')
           })
           .catch(err=>{
