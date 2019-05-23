@@ -196,19 +196,50 @@ export const EquipmentService = {
 
     }
     /**
-     * @description [ Equipment ] 设备管理相关
+     * @description [ seRecord] 设备管理相关
      */
 
-export const useRecord = {
+export const useRecordService = {
+
+        //获取使用记录列表信息
+        getRecordList(data) {
+            return request({
+                url: '/adminApi/v/powerList/appointmentAllList',
+                method: 'post',
+                data
+            })
+        }
+
+
+    }
+    /**
+     * @description [ seRecord] 权限管理相关
+     */
+export const useAuthorityService = {
+
+        //获取使用记录列表信息
+        getAuthority() {
+            return request({
+                url: '/adminApi/v/powerList',
+                method: 'post',
+
+            })
+        }
+
+
+    }
+    /**
+     * @description [ seRecord] 角色管理相关
+     */
+export const personnelService = {
 
     //获取使用记录列表信息
-    useRecordList(data) {
+    getPersonnel() {
         return request({
-            url: '/adminApi/v/appointmentAllList',
+            url: '/adminApi/v/roleList',
             method: 'post',
-            data
+
         })
     }
-
 
 }

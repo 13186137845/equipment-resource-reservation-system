@@ -17,7 +17,7 @@
             ></el-option>
             </el-select>
             </el-form-item>
-              <el-form-item label="预约时间：" :span="2">
+            <el-form-item label="预约时间：" :span="2">
             <el-date-picker
             v-model="form.value7"
             value-format="yyyy-MM-dd hh:mm:ss"
@@ -37,10 +37,10 @@
         <el-button type="info"  @click="handle()">查询</el-button>
     
         </el-form-item>
-  
+
     </el-form>
 
-  
+
     <!--  
     表格-->
     <el-table
@@ -126,7 +126,7 @@
 import request from "@/plugin/axios";
 import { EquipmentService } from "@/common/api";
 
-import { useRecord } from "@/common/api";
+import { getEquipmentInfo } from "@/common/api";
 export default {
     name: "page2",
     data() {
@@ -184,7 +184,7 @@ export default {
         MPR_NAME: "",
         MA_START_DATE: "",
         MA_END_DATE: "",
-          value7: ""
+        value7: ""
         },
       // 日期选择器
         pickerOptions2: {
@@ -223,7 +223,7 @@ export default {
     },
     mounted() {
         //数据初始化
-          this.getDataList();
+        this.getDataList();
     EquipmentService.getEquipment()
         .then(res => {
         this.departmentList = res.Equipment;
@@ -236,7 +236,7 @@ export default {
     
     },
     methods: {
-      handle() {
+    handle() {
         console.log(this.form.value7[0], "color:green;");
         let params = new URLSearchParams();
         params.append("ME_ID", this.form.ME_ID);
@@ -254,7 +254,7 @@ export default {
     
         console.log(params, "color:red");
 
-        useRecord.useRecordList(params)
+        EquipmentService.getEquipment(params)
         .then(res => {
             console.log(res);
             this.dataList = res.list;
@@ -278,7 +278,7 @@ export default {
     getDataList() {
         let params = new URLSearchParams();
         params.append("COMPLETE_FLAG", 3);
-        useRecord.useRecordList(params)
+        EquipmentService.getEquipmentInfo(params)
         .then(res => {
             console.log(res);
             this.dataList = res.list;
@@ -290,7 +290,8 @@ export default {
     },
     components: {
         //弹窗引入
-  
+        
+
 }
 };
 </script>
