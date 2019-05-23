@@ -21,7 +21,7 @@
         :page-size="pagesize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="gridData.length"
-      >//这是显示总共有多少数据，</el-pagination>
+      ></el-pagination>
     </el-dialog>
   </div>
 </template>
@@ -37,6 +37,7 @@ export default {
       dex: "", //接收父组件传过来的索引
       currentPage: 1, //初始页
       pagesize: 10, //每页的数据
+      ME_ID:""//接收父组件传来的设备编号
     };
   },
   methods: {
@@ -50,7 +51,7 @@ export default {
       //点击第几页
     },
     //获取预约记录（）单个设备
-    getInfo() {
+    getInfo() {//张天
       //初始化预约记录（单个设备）
       userBookingService
         .system()
@@ -58,6 +59,14 @@ export default {
           this.gridData = res.list[this.dex].Appointment;
         })
         .catch(err => {});
+    },
+    getInfoData(){//车志伟
+      let params = new URLSearchParams();
+      params.append("ME_ID",this.ME_ID)
+      userBookingService.getSingleEqu(params)
+      .then(res=>{
+         this.gridData = res
+      })
     }
   }
 };

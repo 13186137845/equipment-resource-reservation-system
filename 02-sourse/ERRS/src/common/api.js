@@ -34,7 +34,7 @@ export const userBookingService = {
     //发送当前设备，和时间
     sendsystem(data) {
         return request({
-            url: '/adminApi/v/appointmentList?COMPLETE_FLAG=1',
+            url: '/adminApi/v/appointmentList?COMPLETE_FLAG=3',
             method: 'post',
             data
         })
@@ -65,10 +65,11 @@ export const userBookingService = {
     /**
      * 预约日历图相关
      */
-    Initcalendar(data){
+    //点击设备字段，返回单个设备的详细信息
+    getSingleEqu(data){
         return request({
             url:'adminApi/v/chartsList',
-            method:'get',
+            method:'post',
             data
         })
     }
