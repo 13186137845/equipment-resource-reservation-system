@@ -240,3 +240,51 @@ export const useRecord = {
 
 
 }
+ /**
+     * @description [ seRecord] 设备管理相关
+     */
+
+    export const useRecordService = {
+
+        //获取使用记录列表信息
+        getRecordList(data) {
+            return request({
+                url: '/adminApi/v/appointmentAllList',
+                method: 'post',
+                data
+            })
+        }
+
+
+    }
+    /**
+     * @description [ seRecord] 权限管理相关
+     */
+export const useAuthorityService = {
+
+        //获取使用记录列表信息
+        getAuthority() {
+            return request({
+                url: '/adminApi/v/powerList',
+                method: 'post',
+
+            })
+        }
+
+
+    }
+    /**
+     * @description [ seRecord] 角色管理相关
+     */
+export const personnelService = {
+
+    //获取使用记录列表信息
+    getPersonnel() {
+        return request({
+            url: '/adminApi/v/roleList',
+            method: 'post',
+
+        })
+    }
+
+}

@@ -49,7 +49,9 @@ export default [
         title: '权限管理',
         icon: 'calendar-minus-o',
         children: [
-            { path: '/admin/users', title: '用户管理' }
+            { path: '/admin/users', title: '用户管理' },
+            { path: '/admin/Authority', title: '权限管理' },
+            { path: '/admin/personnel', title: '角色管理' }
         ]
     },
     {
@@ -57,6 +59,13 @@ export default [
         icon: 'calendar-minus-o',
         children: [
             { path: '/admin/equipmentAdmin', title: '设备管理' }
+        ]
+    },
+    {
+        title: '系统设置',
+        icon: 'calendar-minus-o',
+        children: [
+            { path: '/admin/SystemMenu', title: '菜单管理' }
         ]
     },
     {
