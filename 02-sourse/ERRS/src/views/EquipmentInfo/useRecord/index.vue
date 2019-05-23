@@ -125,8 +125,8 @@
 
 import request from "@/plugin/axios";
 import { EquipmentService } from "@/common/api";
+import { useRecordService } from "@/common/api";
 
-import { getEquipmentInfo } from "@/common/api";
 export default {
     name: "page2",
     data() {
@@ -254,7 +254,7 @@ export default {
     
         console.log(params, "color:red");
 
-        EquipmentService.getEquipment(params)
+        useRecordService.getRecordList(params)
         .then(res => {
             console.log(res);
             this.dataList = res.list;
@@ -278,7 +278,7 @@ export default {
     getDataList() {
         let params = new URLSearchParams();
         params.append("COMPLETE_FLAG", 3);
-        EquipmentService.getEquipmentInfo(params)
+       useRecordService.getRecordList(params)
         .then(res => {
             console.log(res);
             this.dataList = res.list;

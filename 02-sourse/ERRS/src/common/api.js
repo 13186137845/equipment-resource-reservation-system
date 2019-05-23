@@ -47,10 +47,10 @@ export const userBookingService = {
         })
     },
     //取消预约，归还操作
-    delsystem(data){
+    delsystem(data) {
         return request({
-            url:'/adminApi/u/setComplete',
-            method:'post',
+            url: '/adminApi/u/setComplete',
+            method: 'post',
             data
         })
     },
@@ -65,10 +65,10 @@ export const userBookingService = {
     /**
      * 预约日历图相关
      */
-    Initcalendar(data){
+    Initcalendar(data) {
         return request({
-            url:'adminApi/v/chartsList',
-            method:'get',
+            url: 'adminApi/v/chartsList',
+            method: 'get',
             data
         })
     }
@@ -231,7 +231,7 @@ export const useRecordService = {
         //获取使用记录列表信息
         getRecordList(data) {
             return request({
-                url: '/adminApi/v/powerList/appointmentAllList',
+                url: '/adminApi/v/appointmentAllList',
                 method: 'post',
                 data
             })
