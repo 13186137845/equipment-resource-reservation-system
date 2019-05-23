@@ -6,7 +6,8 @@ export default [
         children: [
             { path: '/bookingSystem', title: '设备预约' },
             { path: '/bookingInfo', title: '预约信息' },
-            { path: '/bookingRecord', title: '预约记录' }
+            { path: '/bookingRecord', title: '预约记录' },
+            { path: '/bookingexamine',title:'审核'}
         ]
     },
     {
@@ -16,7 +17,6 @@ export default [
             { path: '/equipmentInfo', title: '设备信息' },
             { path: '/useRecord', title: '使用记录' },
             { path: '/equipmentRepaire', title: '设备报修' },
-            { path: '/dataStatistics', title: '数据统计' }
         ]
     },
     {
@@ -31,8 +31,8 @@ export default [
         title: '个人中心',
         icon: 'calendar-minus-o',
         children: [
-            { path: '#', title: '个人信息' },
-            { path: '#', title: '借还记录' },
+            {path:'pensonalInfo',title:'个人信息'},
+            {path:'pensonalRecord',title:'借还记录'},
             { path: '#', title: '我的日志' },
             { path: '#', title: '我的事件' },
             { path: '#', title: '我的文章' }
@@ -72,7 +72,6 @@ export default [
         title: '统计分析',
         icon: 'calendar-minus-o',
         children: [
-            { path: '/overview', title: '总览' }
         ]
     }
 ]

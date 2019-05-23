@@ -45,6 +45,32 @@ export const userBookingService = {
             method: 'post',
             data
         })
+    },
+    //取消预约，归还操作
+    delsystem(data){
+        return request({
+            url:'/adminApi/u/setComplete',
+            method:'post',
+            data
+        })
+    },
+    //审核列表
+    examine(data) {
+        return request({
+            url: '/adminApi/v/appointmentAllList',
+            method: 'post',
+            data
+        })
+    },
+    /**
+     * 预约日历图相关
+     */
+    Initcalendar(data){
+        return request({
+            url:'adminApi/v/chartsList',
+            method:'get',
+            data
+        })
     }
 }
 
@@ -170,6 +196,7 @@ export const EquipmentService = {
                 data
             })
         },
+        //删除设备
         delEquipment(data) {
             return request({
                 url: '/adminApi/d/delEquipment',
@@ -177,7 +204,7 @@ export const EquipmentService = {
                 data
             })
         },
-        //获取添加用户信息下拉列表框信息
+        //获取添加设备信息下拉列表框信息
         getEquipment() {
             return request({
                 url: '/adminApi/v/equipmentView',
@@ -187,7 +214,7 @@ export const EquipmentService = {
         //修改设备信息
         upEquipment(data) {
             return request({
-                url: 'adminApi/u/updUser',
+                url: 'adminApi/u/updEquipment',
                 method: 'post',
                 data
             })

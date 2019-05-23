@@ -8,7 +8,7 @@
         </el-form-item>
 
         <el-form-item label="设备名称：" :span="2">
-            <el-select v-model="form.EN_NAME" filterable placeholder="请选择设备名称">
+            <el-select v-model="form.EN_NAME" clearable filterable placeholder="请选择设备名称">
             <el-option
                 v-for="item in departmentList"
                 :key="item.ME_ID"

@@ -2,7 +2,7 @@
 <template>
     <d2-container>
         <!-- 条件查询搜索 -->
-    <el-form :inline="true" :lable-position="lableposition" size="mini" label-width="130px" :model="dataForm">
+    <el-form :inline="true" :lable-position="lableposition" size="mini" label-width="100px" :model="dataForm">
         <el-form-item>
         <el-form-item label="设备编号：" :span="2">
             <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
@@ -44,19 +44,17 @@
             ></el-option>
             </el-select>
         </el-form-item>
-
-    
-        <el-form-item label="购入负责人：" :span="2">
-            <el-input v-model="form.BUY_NAME" autocomplete="off"></el-input>
+            <el-form-item label="负责人：" :span="2">
+                <el-input v-model="form.BUY_NAME" autocomplete="off"></el-input>
+            </el-form-item>
+            <!-- 添加 导入 -->
+            <el-form-item>
+                <el-button @click="handle()">查看</el-button>
+                <el-button type="primary" @click="addEquipment">添加</el-button>
+            </el-form-item>
+      
         </el-form-item>
 
-        
-        </el-form-item>
-        <!-- 添加 导入 -->
-        <el-form-item>
-        <el-button @click="handle()">查看</el-button>
-        <el-button type="primary" @click="addEquipment">添加</el-button>
-        </el-form-item>
 
     
     </el-form>
@@ -344,7 +342,6 @@ export default {
             paramst.append("ME_ID", this.dataList[index].ME_ID);//获取当前行编号
             EquipmentService.delEquipment(paramst)
             .then(res => {
-                console.log(res);
                 this.dataList = res.list;
             })
             .catch(err => {
@@ -354,7 +351,7 @@ export default {
             type: "success",
             message: "删除成功!"
             });
-            this.$router.go(0);
+            this.dataList.splice(index, 1);
         })
         .catch(() => {
             this.$message({

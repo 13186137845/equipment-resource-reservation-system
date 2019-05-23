@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img
+    <!-- <img
       src="./image/d2-help-button@2x.png"
       style="width: 138px;"
       @click="dialogVisible = true">
@@ -39,7 +39,7 @@
           </el-col>
         </el-row>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 

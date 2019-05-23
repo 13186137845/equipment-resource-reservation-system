@@ -54,11 +54,11 @@
 <el-pagination
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
-    :current-page="currentPage4"
-    :page-sizes="[100, 200, 300, 400]"
-    :page-size="100"
+    :current-page="currentPage"
+    :page-sizes="[4, 8,12 , 16]"
+    :page-size="4"
     layout="total, sizes, prev, pager, next, jumper"
-    :total="400">
+    :total="4">
     </el-pagination>
 </el-tab-pane>
         
@@ -107,11 +107,11 @@
 <el-pagination
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
-    :current-page="currentPage4"
-    :page-sizes="[100, 200, 300, 400]"
-    :page-size="100"
+    :current-page="currentPage"
+    :page-sizes="[4, 8, 12, 16]"
+    :page-size="4"
     layout="total, sizes, prev, pager, next, jumper"
-    :total="400">
+    :total="4">
     </el-pagination>
 </template>
 
@@ -130,7 +130,7 @@ data() {
     return {
         // 弹窗可视化
         lookEquipmentVisible: false,
-
+        currentPage:4,
     tableData: [{
     
         xuhao: '1',
@@ -230,6 +230,15 @@ computed: {
     
 },
 methods: {
+    handleSizeChange(){
+
+    },
+    handleSizeChange(){
+
+    },
+    handleCurrentChange(){
+
+    }
 }
 };
 </script>

@@ -90,13 +90,12 @@ export default {
   },
   methods: {
     submit() {
-      console.log("ture");
       let params = new URLSearchParams();
       params.append("ME_ID", this.form.id);
       params.append("MPR_ID", this.form.xname);
       params.append("MA_START_DATE", this.form.day[0]);
       params.append("MA_END_DATE", this.form.day[1]);
-      params.append("MA_STATE", (this.form.delivery = true ? 0 : 1));
+      params.append("MA_STATE", (this.form.delivery==true?1:0));
       userBookingService
         .addsystem(params)
         .then(result => {
@@ -108,7 +107,7 @@ export default {
         })
         .catch(err => {
           console.log("false");
-          this.$message.error("添加失败");
+          // this.$message.error("添加失败");
         });
     }
   }

@@ -1,26 +1,10 @@
 <template>
   <d2-container :filename="filename">
-    <template slot="header">设备报修</template>
+    <template slot="header">个人信息</template>
     <div class="bookings-bd" v-show="!show3">
         <el-row :gutter="20" class="bookings-dhk">
           <el-col :span="3">
-            <label class="bookings-lab">报修设备编号：</label>
-          </el-col>
-          <el-col :span="5">
-            <el-input v-model="input" clearable placeholder></el-input>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20" class="bookings-dhk">
-          <el-col :span="3">
-            <label class="bookings-lab">报修设备名称：</label>
-          </el-col>
-          <el-col :span="5">
-            <el-input v-model="input" clearable placeholder></el-input>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20" class="bookings-dhk">
-          <el-col :span="3">
-            <label class="bookings-lab">报修设备地点：</label>
+            <label class="bookings-lab">姓名：</label>
           </el-col>
           <el-col :span="5">
             <el-input v-model="input" clearable placeholder="请输入内容"></el-input>
@@ -28,7 +12,23 @@
         </el-row>
         <el-row :gutter="20" class="bookings-dhk">
           <el-col :span="3">
-            <label class="bookings-lab">申请报修人员姓名：</label>
+            <label class="bookings-lab">性别：</label>
+          </el-col>
+          <el-col :span="5">
+            <el-input v-model="input" clearable placeholder="请输入内容"></el-input>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20" class="bookings-dhk">
+          <el-col :span="3">
+            <label class="bookings-lab">年龄：</label>
+          </el-col>
+          <el-col :span="5">
+            <el-input v-model="input" clearable placeholder="请输入内容"></el-input>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20" class="bookings-dhk">
+          <el-col :span="3">
+            <label class="bookings-lab">家庭住址：</label>
           </el-col>
           <el-col :span="5">
             <el-input v-model="input" clearable placeholder="请输入内容"></el-input>
@@ -37,14 +37,14 @@
       
         <el-row :gutter="20" class="bookings-dhk">
           <el-col :span="3">
-            <label class="bookings-lab">请详细描述产品损坏信息：</label>
+            <label class="bookings-lab">个人概况：</label>
           </el-col>
           <el-col :span="15">
             <el-input type="textarea" placeholder="请输入内容" v-model="textarea2"></el-input>
           </el-col>
         </el-row>
         <el-row :gutter="20" class="bookings-dhk">
-          <el-button type="primary" plain @click="bookingsopen">报修</el-button>
+          <el-button type="primary" plain @click="bookingsopen">保存</el-button>
           <el-button type="primary" plain @click="bookingsclose">取消</el-button>
         </el-row>
         </div>
@@ -59,7 +59,6 @@ export default {
       input: "", //注册
       value1: "", //注册
       textarea2: "", //注册
-      show3:"",
       filename: __filename
     }
   },
@@ -93,4 +92,3 @@ export default {
   line-height: 40px;
 }
 </style>
-
