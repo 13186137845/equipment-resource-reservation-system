@@ -71,6 +71,26 @@ export const userBookingService = {
             method:'get',
             data
         })
+    },
+    /**
+     * 设备保修相关
+     */
+    Equipment(data){
+        return request({
+            url:'/adminApi/i/insRepair',
+            method:'put',
+            data
+        })
+    },
+    /**
+     * 设备保修编号
+     */
+    warranty(data){
+        return request({
+            url:'/adminApi/v/equipmentIDView',
+            method:'post',
+            data
+        })
     }
 }
 

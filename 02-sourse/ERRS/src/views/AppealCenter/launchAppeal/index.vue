@@ -1,43 +1,94 @@
 <template>
   <d2-container>
-    <template slot="header">发起申诉</template>
-    <el-upload
-  class="upload-demo"
-  action="http://192.168.0.188:8088/buxiangqumingzile/adminApi/uploadFile"
-  :on-preview="handlePreview"
-  :on-remove="handleRemove"
-  :before-remove="beforeRemove"
-  multiple
-  :limit="3"
-  :on-exceed="handleExceed"
-  :file-list="fileList">
-  <el-button size="small" type="primary">点击上传</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-</el-upload>
+    <!-- <el-steps :active="active" finish-status="success">
+      <el-step title="提交申诉"></el-step>
+      <el-step title="正在申诉"></el-step>
+      <el-step title="申诉成功"></el-step>
+    </el-steps> -->
+    <!-- <el-button style="margin-top: 12px;" @click="next">下一步</el-button> -->
+    
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="申诉名称" prop="name">
+        <el-input v-model="ruleForm.name"></el-input>
+      </el-form-item>
+      <el-form-item label="申诉类型" prop="region">
+        <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+          <el-option label="设备维修" value="wx"></el-option>
+          <el-option label="违规操作" value="cz"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="操作敏感度" prop="resource">
+        <el-radio-group v-model="ruleForm.resource">
+          <el-radio label="零级敏感度"></el-radio>
+          <el-radio label="一级敏感度"></el-radio>
+          <el-radio label="二级敏感度"></el-radio>
+          <el-radio label="三级敏感度"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="申诉详情" prop="desc">
+        <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm('ruleForm')">立即申诉</el-button>
+        <el-button @click="resetForm('ruleForm')">重置</el-button>
+      </el-form-item>
+    </el-form>
   </d2-container>
 </template>
 
 <script>
-
 export default {
-    data() {
-      return {
-        fileList: []
-      };
-    },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
+  data() {
+    return {
+      fileList: [],
+      active: 0, //申诉状态0、1、2
+      ruleForm: {
+        name: "",
+        region: "",
+        resource: "",
+        desc: ""
       },
-      handlePreview(file) {
-        console.log(file);
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${ file.name }？`);
+      rules: {
+        name: [
+          { required: true, message: "请输入活动名称", trigger: "blur" },
+          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
+        ],
+        region: [
+          { required: true, message: "请选择活动区域", trigger: "change" }
+        ],
+        resource: [
+          { required: true, message: "请选择活动资源", trigger: "change" }
+        ],
+        desc: [{ required: true, message: "请填写活动形式", trigger: "blur" }]
       }
+    };
+  },
+  methods: {
+    //进度条下一步0 -> 1 -> 2
+    // next() {
+    //   if (this.active++ > 2) this.active = 0;
+    // },
+    //提交按钮
+    submitForm(formName) {
+      // if (this.active++ > 2) this.active = 0;
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
+};
 </script>
