@@ -25,7 +25,7 @@
         <el-form-item label="预约使用日期：" :label-width="formLabelWidth">
           <el-col :span="8">
             <el-date-picker
-              v-model="form.day"
+              v-model="form.time"
               type="datetimerange"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
@@ -37,13 +37,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false;">确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false; submit()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { userBookingService } from "@/common/api";
 export default {
   data() {
     return {
@@ -52,15 +53,49 @@ export default {
       form: {
         id: "",
         name: "",
+        nameid: "",
         dname: "",
         gname: "",
         xname: "",
-        day: "",
+        time: "",
+        onday: "",
+        endday: "",
         speak: "",
+        indes: "",//存索引
         delivery: false
       },
       formLabelWidth: "120px"
     };
+  },
+  methods:{
+    submit() {
+      let params = new URLSearchParams();
+      params.append("ME_ID", this.form.id);
+      params.append("MA_ID", this.form.nameid);
+      params.append("MA_START_DATE", this.form.time[0]);
+      params.append("MA_END_DATE", this.form.time[1]);
+      userBookingService.addsys(params)
+        .then(result => {
+          if(this.form.time[0]==this.form.onday && this.form.time[1]==this.form.endday){
+            this.$message({
+              message: "预约时间无更改",
+              type: "error"
+            });
+          }else{
+            this.$message({
+              message: "更改成功",
+              type: "success"
+            });
+          }
+        })
+        .catch(err => {
+          console.log("false");
+          this.$message.error("更改失败");
+        });
+        this.$emit("contentToggle",this.form.time);
+        this.form.time = ""; 
+        this.$router.go(0);
+    }
   }
 };
 </script>

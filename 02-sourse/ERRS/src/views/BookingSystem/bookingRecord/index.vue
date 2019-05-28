@@ -175,6 +175,7 @@ export default {
     },
     //点击查看
     handleEdit(index, row) {
+      index = (this.currentPage-1)*this.pagesize+index
       console.log(index, row);
       this.$refs.bookingRecord.dialogFormVisible = true;//弹框状态
       this.$refs.bookingRecord.form.id = this.tableData[index].ME_ID;//设备id

@@ -50,7 +50,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer" style="margin-top:-60px">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false; submit()">确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false; submit() ;clear()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -104,11 +104,15 @@ export default {
             message: "添加成功",
             type: "success"
           });
+          
         })
         .catch(err => {
           console.log("false");
           // this.$message.error("添加失败");
         });
+    },
+    clear(){
+      this.form.day = ""
     }
   }
 };
