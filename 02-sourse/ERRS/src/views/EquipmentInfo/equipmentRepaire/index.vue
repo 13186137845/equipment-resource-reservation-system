@@ -7,7 +7,15 @@
             <label class="bookings-lab">报修设备编号：</label>
           </el-col>
           <el-col :span="5">
-            <el-input v-model="input" clearable placeholder></el-input>
+            <el-select v-model="form.ME_ID" filterable placeholder="请选择设备报修编号">
+            <el-option
+                v-for="item in departmentList"
+                :key="item.ME_ID"
+                :label="item.ME_ID"
+                :value="item.ME_ID"
+            ></el-option>
+            </el-select>
+         
           </el-col>
         </el-row>
         <el-row :gutter="20" class="bookings-dhk">
@@ -15,7 +23,7 @@
             <label class="bookings-lab">报修设备名称：</label>
           </el-col>
           <el-col :span="5">
-            <el-input v-model="input" clearable placeholder></el-input>
+            <el-input v-model="form.EN_NAME"  clearable placeholder></el-input>
           </el-col>
         </el-row>
         <el-row :gutter="20" class="bookings-dhk">
@@ -51,7 +59,9 @@
   </d2-container>
 </template>
 
+
 <script>
+import { EquipmentService } from "@/common/api";
 export default {
   name: 'page2',
   data () {
@@ -60,8 +70,27 @@ export default {
       value1: "", //注册
       textarea2: "", //注册
       show3:"",
-      filename: __filename
+      filename: __filename,
+        departmentList: [],
+        form: {
+        ME_ID: "",
+        EN_NAME: "",
+        EN_ID: "",
+        ME_POSITION: "",
+     
+        }
     }
+  },
+  mounted () {
+   
+    EquipmentService.getEquipmentNumber()
+        .then(res => {
+        this.departmentList = res.ME_IDList;
+     
+        })
+        .catch(err => {
+        console.log("数据初始化失败：" + err);
+        });
   },
   methods: {
     bookingsopen() {

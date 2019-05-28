@@ -47,10 +47,10 @@ export const userBookingService = {
         })
     },
     //取消预约，归还操作
-    delsystem(data){
+    delsystem(data) {
         return request({
-            url:'/adminApi/u/setComplete',
-            method:'post',
+            url: '/adminApi/u/setComplete',
+            method: 'post',
             data
         })
     },
@@ -66,30 +66,30 @@ export const userBookingService = {
      * 预约日历图相关
      */
     //点击设备字段，返回单个设备的详细信息
-    getSingleEqu(data){
+    getSingleEqu(data) {
         return request({
-            url:'adminApi/v/chartsList',
-            method:'post',
+            url: 'adminApi/v/chartsList',
+            method: 'post',
             data
         })
     },
     /**
      * 设备保修相关
      */
-    Equipment(data){
+    Equipment(data) {
         return request({
-            url:'/adminApi/i/insRepair',
-            method:'put',
+            url: '/adminApi/i/insRepair',
+            method: 'put',
             data
         })
     },
     /**
      * 设备保修编号
      */
-    warranty(data){
+    warranty(data) {
         return request({
-            url:'/adminApi/v/equipmentIDView',
-            method:'post',
+            url: '/adminApi/v/equipmentIDView',
+            method: 'post',
             data
         })
     }
@@ -140,7 +140,7 @@ export const sysMenuService = {
     getNav() {
         return request({
             url: '/adminApi/v/power',
-            method:'get'
+            method: 'get'
         })
     },
     /**
@@ -233,6 +233,13 @@ export const EquipmentService = {
                 method: 'get'
             })
         },
+        //获取添加设备编号下拉列表框信息
+        getEquipmentNumber() {
+            return request({
+                url: '/adminApi/v/getME_ID',
+                method: 'get'
+            })
+        },
         //修改设备信息
         upEquipment(data) {
             return request({
@@ -250,22 +257,22 @@ export const EquipmentService = {
 
 export const useRecord = {
 
-    //获取使用记录列表信息
-    useRecordList(data) {
-        return request({
-            url: '/adminApi/v/appointmentAllList',
-            method: 'post',
-            data
-        })
+        //获取使用记录列表信息
+        useRecordList(data) {
+            return request({
+                url: '/adminApi/v/appointmentAllList',
+                method: 'post',
+                data
+            })
+        }
+
+
     }
-
-
-}
- /**
+    /**
      * @description [ seRecord] 设备管理相关
      */
 
-    export const useRecordService = {
+export const useRecordService = {
 
         //获取使用记录列表信息
         getRecordList(data) {
@@ -276,10 +283,10 @@ export const useRecord = {
             })
         },
         //获取设备总数
-        getEquCount(){
+        getEquCount() {
             return request({
-                url:'/adminApi/v/dataCharts',
-                method:'post'
+                url: '/adminApi/v/dataCharts',
+                method: 'post'
             })
         }
 
@@ -296,6 +303,8 @@ export const useAuthorityService = {
                 method: 'post',
 
             })
+
+
         }
 
 
@@ -313,5 +322,47 @@ export const personnelService = {
 
         })
     }
+
+}
+
+/**
+ * @description [ seRecord] 部门管理相关
+ */
+export const departmentService = {
+
+    //获取使用记录列表信息
+    getDepartment(data) {
+        return request({
+            url: '/adminApi/v/departmentList',
+            method: 'post',
+            data
+
+        })
+    }, //添加用户信息
+    addDepartment(data) {
+        return request({
+            url: '/adminApi/i/insDepartment',
+            method: 'put',
+            data
+        })
+    },
+    //获取添加用户信息下拉列表框信息
+
+    //修改用户信息
+    updateDepartment(data) {
+        return request({
+            url: 'adminApi/u/updDepartment',
+            method: 'post',
+            data
+        })
+    }
+    // //删除用户数据
+    // deleteUser(data) {
+    //     return request({
+    //         url: "adminApi/d/delUser",
+    //         method: 'post',
+    //         data
+    //     })
+    // }
 
 }
