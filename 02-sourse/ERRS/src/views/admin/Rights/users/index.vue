@@ -17,85 +17,27 @@
         <el-button type="info">导出</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      size="mini"
-      :data="dataList"
-      border
-      @selection-change="dataListSelectionChangeHandle"
-      @sort-change="dataListSortChangeHandle"
-      style="width: 100%;"
-    >
-      <el-table-column
-        type="selection"
-        header-align="center"
-        align="center"
-        width="50"
-      />
-      <el-table-column
-        prop="MI_NAME"
-        :label="tableHead.MI_NAME"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="MU_NO"
-        :label="tableHead.MU_NO"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="MD_NAME"
-        :label="tableHead.MD_NAME"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="MI_PHONE"
-        :label="tableHead.MI_PHONE"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="MR_INFORMATION"
-        :label="tableHead.MR_INFORMATION"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="Project"
-        :label="tableHead.project"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="projectDuty"
-        :label="tableHead.projectDuty"
-        header-align="center"
-        align="center"
-      />
+    <el-table size="mini" :data="dataList" border @selection-change="dataListSelectionChangeHandle" @sort-change="dataListSortChangeHandle" style="width: 100%;">
+      <el-table-column type="selection" header-align="center" align="center" width="50" />
+      <el-table-column prop="MI_NAME" :label="tableHead.MI_NAME" header-align="center" align="center" />
+      <el-table-column prop="MU_NO" :label="tableHead.MU_NO" header-align="center" align="center" />
+      <el-table-column prop="MD_NAME" :label="tableHead.MD_NAME" header-align="center" align="center" />
+      <el-table-column prop="MI_PHONE" :label="tableHead.MI_PHONE" header-align="center" align="center" />
+      <el-table-column prop="MR_INFORMATION" :label="tableHead.MR_INFORMATION" header-align="center" align="center" />
+      <el-table-column prop="Project" :label="tableHead.project" header-align="center" align="center" />
+      <el-table-column prop="projectDuty" :label="tableHead.projectDuty" header-align="center" align="center" />
       <el-table-column :label="tableHead.handle" fixed="right" width="149">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="mini"
-            @click="updateUser(scope.$index, scope.row.id)"
-            >编辑</el-button
-          >
-          <el-button type="text" size="mini" @click="deleuser(scope.$index,scope.row.id)"
-            >删除</el-button
-          >
+          <el-button type="text" size="mini" @click="updateUser(scope.$index, scope.row.id)">编辑</el-button>
+          <el-button type="text" size="mini" @click="deleuser(scope.$index,scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 弹窗, 新增 / 修改 -->
-    <add-user ref="adduser" />
+    <add-user ref="adduser" @getMessage="getVal" />
     <update-user ref="updateuser" />
     <!-- 分页 -->
-    <el-pagination
-      slot="footer"
-      :page-sizes="[10, 20, 50, 100]"
-      layout="total, sizes, prev, pager, next, jumper"
-    >
+    <el-pagination slot="footer" :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
   </d2-container>
 </template>
@@ -117,19 +59,20 @@ export default {
       dataForm: {
         username: ""
       },
-      tableHead: {//表头参数
-          MI_NAME: "姓名",
-          MD_NAME: "部门",
-          MU_NO: "工号",
-          MI_PHONE: "手机号",
-          MR_INFORMATION: "权限",
-          project: "参与项目",
-          projectDuty: "项目职责",
-          handle: "操作"
-          //获取的数据中有一个MU_ID，即用户id并没有在表格中展示
+      tableHead: {
+        //表头参数
+        MI_NAME: "姓名",
+        MD_NAME: "部门",
+        MU_NO: "工号",
+        MI_PHONE: "手机号",
+        MR_INFORMATION: "权限",
+        project: "参与项目",
+        projectDuty: "项目职责",
+        handle: "操作"
+        //获取的数据中有一个MU_ID，即用户id并没有在表格中展示
       },
       dataList: [],
-      title:"标题"
+      title: "标题"
     };
   },
   mounted() {
@@ -140,11 +83,10 @@ export default {
       adminUserService
         .getInfo()
         .then(res => {
-          console.log(res);
           this.dataList = res.list;
         })
         .catch(err => {
-          console.log("获取用户信息失败：" + err);
+          this.$message.error("获取用户信息失败！");
         });
     },
     adduser() {
@@ -157,34 +99,41 @@ export default {
     },
     //删除用户数据
     deleuser(index, row) {
-      console.log(this.dataList)
-      this.$confirm('此操作将永久删除该用户, 是否继续?', '删除提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "删除提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
           let params = new URLSearchParams();
-          params.append("MI_ID",this.dataList[index].MI_ID);
-          params.append("MU_ID",this.dataList[index].MU_ID);
-          adminUserService.deleteUser(params)
-            .then(res=>{
-               this.$message({
-                  message: "删除成功！",
-                  type: "success"
-                });
-                this.dataList.splice(index, 1);
-            }).catch(err=>{
+          params.append("MI_ID", this.dataList[index].MI_ID);
+          params.append("MU_ID", this.dataList[index].MU_ID);
+          adminUserService
+            .deleteUser(params)
+            .then(res => {
               this.$message({
-                message:"系统异常，删除失败",
-                type:"error"
+                message: "删除成功！",
+                type: "success"
               });
-            }) 
-        }).catch(() => {
+              this.dataList.splice(index, 1);
+            })
+            .catch(err => {
+              this.$message({
+                message: "系统异常，删除失败",
+                type: "error"
+              });
+            });
+        })
+        .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
+            type: "info",
+            message: "已取消删除"
+          });
         });
+    },
+    //得到子组件传来的值
+    getVal(msg) {
+      this.dataList.push(msg[0]);
     },
     dataListSelectionChangeHandle() {
       console.log("数据操作");

@@ -32,7 +32,6 @@ export default [
         icon: 'calendar-minus-o',
         children: [
             {path:'pensonalInfo',title:'个人信息'},
-            {path:'pensonalRecord',title:'借还记录'},
             { path: '#', title: '我的日志' },
             { path: '#', title: '我的事件' },
             { path: '#', title: '我的文章' }

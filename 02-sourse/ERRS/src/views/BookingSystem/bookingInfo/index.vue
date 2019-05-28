@@ -1,159 +1,61 @@
 <template>
   <d2-container>
     <!-- 条件查询 -->
-    <el-form
-      :inline="true"
-      :lable-position="lableposition"
-      label-width="90px"
-      size="mini"
-    >
+    <el-form :inline="true" :lable-position="lableposition" label-width="90px" size="mini">
       <el-form-item>
         <el-form-item label="设备编号：" :span="2">
           <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
         </el-form-item>
-
         <el-form-item label="设备名称：" :span="2">
-          <el-select
-            v-model="form.EN_NAME"
-            clearable
-            filterable
-            placeholder="请选择设备名称"
-          >
-            <el-option
-              v-for="item in departmentList"
-              :key="item.ME_ID"
-              :label="item.EN_NAME"
-              :value="item.EN_ID"
-            ></el-option>
+          <el-select v-model="form.EN_NAME" clearable filterable placeholder="请选择设备名称">
+            <el-option v-for="item in departmentList" :key="item.ME_ID" :label="item.EN_NAME" :value="item.EN_ID"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="设备地址：" :span="2">
           <el-input v-model="form.ME_POSITION" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备状态：" :span="2">
-          <el-select
-            v-model="form.ME_STATE"
-            clearable
-            filterable
-            placeholder="请选择设备状态"
-          >
-            <el-option
-              v-for="item in state"
-              :key="item.value"
-              :label="item.states"
-              :value="item.value"
-            ></el-option>
+          <el-select v-model="form.ME_STATE" clearable filterable placeholder="请选择设备状态">
+            <el-option v-for="item in state" :key="item.value" :label="item.states" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
         <el-button type="info" @click="handle()">查询</el-button>
       </el-form-item>
     </el-form>
     <!-- 绑定数据表格 -->
-    <el-table
-      size="mini"
-      :data="
+    <el-table size="mini" :data="
         tableData &&
           tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)
-      "
-      border
-      style="width: 100%"
-    >
-      <el-table-column
-        align="center"
-        label="设备编号"
-        prop="ME_ID"
-      ></el-table-column>
-      <el-table-column
-        align="center"
-        label="设备名称"
-        prop="EN_NAME"
-      ></el-table-column>
-      <el-table-column
-        align="center"
-        label="设备地址"
-        prop="ME_POSITION"
-      ></el-table-column>
+      " border style="width: 100%">
+      <el-table-column align="center" label="设备编号" prop="ME_ID"></el-table-column>
+      <el-table-column align="center" label="设备名称" prop="EN_NAME"></el-table-column>
+      <el-table-column align="center" label="设备地址" prop="ME_POSITION"></el-table-column>
       <el-table-column align="center" label="设备状态" prop="ME_STATE">
         <template slot-scope="scope">
-          <el-button size="mini" type="success" v-if="scope.row.ME_STATE == 0"
-            >正常</el-button
-          >
-          <el-button size="mini" type="warning" v-if="scope.row.ME_STATE == 1"
-            >维修</el-button
-          >
+          <el-button size="mini" type="success" v-if="scope.row.ME_STATE == 0">正常</el-button>
+          <el-button size="mini" type="warning" v-if="scope.row.ME_STATE == 1">维修</el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" label="预约状态" prop="COMPLETE_FLAG">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="warning"
-            v-if="scope.row.COMPLETE_FLAG == 0"
-            >正在审核</el-button
-          >
-          <el-button
-            size="mini"
-            type="success"
-            v-if="scope.row.COMPLETE_FLAG == 1"
-            >预约成功</el-button
-          >
-          <el-button
-            size="mini"
-            type="primary"
-            v-if="scope.row.COMPLETE_FLAG == 2"
-            >归还成功</el-button
-          >
-          <el-button
-            size="mini"
-            type="danger"
-            v-if="scope.row.COMPLETE_FLAG == 4"
-            >取消预约</el-button
-          >
+          <el-button size="mini" type="warning" v-if="scope.row.COMPLETE_FLAG == 0">正在审核</el-button>
+          <el-button size="mini" type="success" v-if="scope.row.COMPLETE_FLAG == 1">预约成功</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.COMPLETE_FLAG == 2">归还成功</el-button>
+          <el-button size="mini" type="danger" v-if="scope.row.COMPLETE_FLAG == 4">取消预约</el-button>
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        label="拟预约时间"
-        prop="MA_START_DATE"
-      ></el-table-column>
-      <el-table-column
-        align="center"
-        label="拟归还时间"
-        prop="MA_END_DATE"
-      ></el-table-column>
+      <el-table-column align="center" label="拟预约时间" prop="MA_START_DATE"></el-table-column>
+      <el-table-column align="center" label="拟归还时间" prop="MA_END_DATE"></el-table-column>
       <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            slot="reference"
-            @click="handleEdit(scope.$index, scope.row)"
-            >查看</el-button
-          >
-          <el-button
-            size="mini"
-            slot="reference"
-            @click="handledelite(scope.$index, scope.row)"
-            >取消</el-button
-          >
-          <el-button
-            size="mini"
-            slot="reference"
-            @click="handleback(scope.$index, scope.row)"
-            >归还</el-button
-          >
+          <el-button size="mini" slot="reference" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+          <el-button size="mini" slot="reference" @click="handledelite(scope.$index, scope.row)">取消</el-button>
+          <el-button size="mini" slot="reference" @click="handleback(scope.$index, scope.row)">归还</el-button>
         </template>
       </el-table-column>
       <!-- 按钮end -->
     </el-table>
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[5, 10, 20, 40]"
-      :page-size="pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="tableData.length"
-    ></el-pagination>
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[5, 10, 20, 40]" :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper" :total="tableData.length"></el-pagination>
     <bookinginfo ref="bookinginfo" />
   </d2-container>
 </template>
