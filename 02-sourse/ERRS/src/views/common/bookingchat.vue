@@ -37,7 +37,7 @@ export default {
       dex: "", //接收父组件传过来的索引
       currentPage: 1, //初始页
       pagesize: 10, //每页的数据
-      ME_ID:""//接收父组件传来的设备编号
+      ME_ID: "" //接收父组件传来的设备编号
     };
   },
   methods: {
@@ -51,7 +51,8 @@ export default {
       //点击第几页
     },
     //获取预约记录（）单个设备
-    getInfo() {//张天
+    getInfo() {
+      //张天
       //初始化预约记录（单个设备）
       userBookingService
         .system()
@@ -60,13 +61,13 @@ export default {
         })
         .catch(err => {});
     },
-    getInfoData(){//车志伟
+    getInfoData() {
+      //车志伟
       let params = new URLSearchParams();
-      params.append("ME_ID",this.ME_ID)
-      userBookingService.getSingleEqu(params)
-      .then(res=>{
-         this.gridData = res
-      })
+      params.append("ME_ID", this.ME_ID);
+      userBookingService.getSingleEqu(params).then(res => {
+        this.gridData = res;
+      });
     }
   }
 };

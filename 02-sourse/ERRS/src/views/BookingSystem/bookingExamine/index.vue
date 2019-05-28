@@ -1,24 +1,13 @@
 <template>
   <d2-container :filename="filename">
-      <!-- 条件查询 -->
-    <el-form
-      :inline="true"
-      :lable-position="lableposition"
-      label-width="90px"
-      size="mini"
-    >
+    <!-- 条件查询 -->
+    <el-form :inline="true" :lable-position="lableposition" label-width="90px" size="mini">
       <el-form-item>
         <el-form-item label="设备编号：" :span="2">
           <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
         </el-form-item>
-
         <el-form-item label="设备名称：" :span="2">
-          <el-select
-            v-model="form.EN_NAME"
-            clearable
-            filterable
-            placeholder="请选择设备名称"
-          >
+          <el-select v-model="form.EN_NAME" clearable filterable placeholder="请选择设备名称">
             <el-option
               v-for="item in departmentList"
               :key="item.ME_ID"
@@ -58,13 +47,23 @@
           <el-button size="mini" type="success" v-if="scope.row.MA_STATE==0">正常</el-button>
           <el-button size="mini" type="warning" v-if="scope.row.MA_STATE==1">紧急预约</el-button>
         </template>
-      </el-table-column>      
+      </el-table-column>
       <el-table-column align="center" label="拟预约时间" prop="MA_START_DATE"></el-table-column>
       <el-table-column align="center" label="拟归还时间" prop="MA_END_DATE"></el-table-column>
       <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
-          <el-button size="mini" type="success" slot="reference" @click="handleAdobt(scope.$index, scope.row)">通过审核</el-button>
-          <el-button size="mini" type="warning" slot="reference" @click="handleRefuse(scope.$index, scope.row)">打回</el-button>
+          <el-button
+            size="mini"
+            type="success"
+            slot="reference"
+            @click="handleAdobt(scope.$index, scope.row)"
+          >通过审核</el-button>
+          <el-button
+            size="mini"
+            type="warning"
+            slot="reference"
+            @click="handleRefuse(scope.$index, scope.row)"
+          >打回</el-button>
         </template>
       </el-table-column>
       <!-- 按钮end -->
@@ -98,9 +97,9 @@ export default {
         EN_NAME: "",
         EN_ID: "",
         ME_POSITION: "",
-        MI_NAME:""
+        MI_NAME: ""
       },
-      departmentList:[],
+      departmentList: [],
       userList: [],
       filename: __filename,
       dialogFormVisible: false,
@@ -123,7 +122,7 @@ export default {
         this.tableData = res.list;
       })
       .catch(err => {});
-     //查询条件--设备列表
+    //查询条件--设备列表
     EquipmentService.getEquipment()
       .then(res => {
         this.departmentList = res.Equipment;
@@ -131,7 +130,7 @@ export default {
       })
       .catch(err => {
         console.log("数据初始化失败：" + err);
-      });  
+      });
   },
   methods: {
     // 初始页currentPage、初始每页数据数pagesize和数据data
@@ -173,13 +172,13 @@ export default {
       });
     },
     //点击打回按钮
-    handleRefuse (index,row){
+    handleRefuse(index, row) {
       //弹框提示
       this.$confirm("此操作将打回用户的审核, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "error"
-      }).then(()=>{
+      }).then(() => {
         //点击确定按钮
         let params = new URLSearchParams();
         params.append("COMPLETE_FLAG", 4);
@@ -190,13 +189,14 @@ export default {
           .then(res => {
             this.$message.erro("系统故障,打回失败");
             this.tableData = res.list;
-          }).catch(err=>{
+          })
+          .catch(err => {
             this.$message.success("打回操作成功,请刷新页面");
             this.tableData.splice(index, 1);
-          })
-      })
+          });
+      });
     },
-      //查询--重载表格
+    //查询--重载表格
     handle() {
       let params = new URLSearchParams();
       params.append("ME_ID", this.form.ME_ID);

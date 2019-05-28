@@ -18,7 +18,7 @@
             ></el-option>
             </el-select>
             </el-form-item>
-              <el-form-item label="购入时间：" :span="2">
+            <el-form-item label="购入时间：" :span="2">
             <el-date-picker
             v-model="form.value7"
             value-format="yyyy-MM-dd hh:mm:ss"
@@ -52,7 +52,6 @@
         <el-button type="info"  @click="handle()">查询</el-button>
     
         </el-form-item>
-  
     </el-form>
     <!--  
     表格-->
@@ -133,14 +132,14 @@
             size="mini"
             type="primary"
             slot="reference"
-          @click="lookEquipment"
+            @click="lookEquipment"
             >查看</el-button
             >
         </el-popover>
         </template>
         </el-table-column>
     </el-table>
-     <look-equipment ref="lookEquipment" />
+    <look-equipment ref="lookEquipment" />
 <!-- 分页 -->
 <el-pagination
     @size-change="handleSizeChange"
@@ -166,7 +165,7 @@ export default {
     return {
         //分页
       currentPage: 1, //初始页
-        pagesize: 5,
+        pagesize: 10, //默认分页
         //文本规范
         lableposition: "left",
         formLabelAlign: {
@@ -253,7 +252,9 @@ export default {
     mounted() {
         //数据初始化
     this.getDataList();
-    EquipmentService.getEquipment()
+    //初始化设备下拉框
+    EquipmentService
+    .getEquipment()
         .then(res => {
         this.departmentList = res.Equipment;
         this.role = res.Role;
@@ -318,7 +319,6 @@ export default {
     },
     components: {
       lookEquipment,  //弹窗引入
-  
-}
+    }
 };
 </script>
