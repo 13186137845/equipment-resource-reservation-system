@@ -31,6 +31,14 @@ export const userBookingService = {
             data
         })
     },
+    //改变设备预约时间
+    addsys(data) {
+        return request({
+            url: 'adminApi/u/updTime',
+            method: 'put',
+            data
+        })
+    },
     //发送当前设备，和时间
     sendsystem(data) {
         return request({

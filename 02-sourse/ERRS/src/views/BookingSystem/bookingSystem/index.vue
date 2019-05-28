@@ -1,24 +1,14 @@
 <template>
   <d2-container :filename="filename">
     <!-- 条件查询 -->
-    <el-form
-      :inline="true"
-      :lable-position="lableposition"
-      label-width="90px"
-      size="mini"
-    >
+    <el-form :inline="true" :lable-position="lableposition" label-width="90px" size="mini">
       <el-form-item>
         <el-form-item label="设备编号：" :span="2">
           <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
         </el-form-item>
 
         <el-form-item label="设备名称：" :span="2">
-          <el-select
-            v-model="form.EN_NAME"
-            clearable
-            filterable
-            placeholder="请选择设备名称"
-          >
+          <el-select v-model="form.EN_NAME" clearable filterable placeholder="请选择设备名称">
             <el-option
               v-for="item in departmentList"
               :key="item.ME_ID"
@@ -31,12 +21,7 @@
           <el-input v-model="form.ME_POSITION" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备状态：" :span="2">
-          <el-select
-            v-model="form.ME_STATE"
-            clearable
-            filterable
-            placeholder="请选择设备状态"
-          >
+          <el-select v-model="form.ME_STATE" clearable filterable placeholder="请选择设备状态">
             <el-option
               v-for="item in state"
               :key="item.value"
@@ -50,7 +35,7 @@
     </el-form>
     <el-table
       size="mini"
-     :data="tableData&&tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+      :data="tableData&&tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       border
       style="width: 542px"
       @row-click="handleBooking"
@@ -68,7 +53,10 @@
       <el-table-column align="center" label="预约人数" prop="MA_SIZE" width="60">
         <template slot-scope="scope">
           <span v-if="scope.row.MA_SIZE==0">空闲</span>
-          <el-link v-if="scope.row.MA_SIZE!=0" @click="handleEd(scope.$index, scope.row)">{{scope.row.MA_SIZE}}</el-link>
+          <el-link
+            v-if="scope.row.MA_SIZE!=0"
+            @click="handleEd(scope.$index, scope.row)"
+          >{{scope.row.MA_SIZE}}</el-link>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" width="80">
@@ -99,7 +87,10 @@
     <!-- 父组件向子组件传值end -->
     <!-- 日期选择预约模块 -->
     <div>
-      <booking-canle ref="bookingcanle" style="margin-left:600px; margin-top:80px;width:690px;height:600px;" />
+      <booking-canle
+        ref="bookingcanle"
+        style="margin-left:600px; margin-top:80px;width:690px;height:600px;"
+      />
     </div>
   </d2-container>
 </template>
@@ -110,7 +101,7 @@ import bookingchat from "./../../common/bookingchat";
 import { userBookingService } from "@/common/api";
 import request from "@/plugin/axios";
 import { EquipmentService } from "@/common/api";
-import bookingCanle from "@/views/common/booking-charts"
+import bookingCanle from "@/views/common/booking-charts";
 export default {
   name: "bookingSystem",
   data() {
@@ -158,7 +149,7 @@ export default {
           states: "维修中"
         }
       ]
-    }
+    };
   },
   components: {
     booking,
@@ -188,8 +179,8 @@ export default {
         this.role = res.Role;
       })
       .catch(err => {
-        this.$message.error("数据初始化失败")
-      });  
+        this.$message.error("数据初始化失败");
+      });
   },
   methods: {
     // 初始页currentPage、初始每页数据数pagesize和数据data
@@ -201,51 +192,49 @@ export default {
       this.currentPage = currentPage;
       //点击第几页
     },
-    //点击查看（搜索）
-    // handle() {
-    //   let url = this.baseUrl + this.equipments;
-    //   let params = new URLSearchParams();
-    //   params.append("EN_ID", this.equipments);
-    //   request({
-    //     url: url,
-    //     method: "post",
-    //     params
-    //   })
-    //     .then(res => {
-    //       this.tableData = res.list;
-    //     })
-    //     .catch(err => {});
-    // },
+    //点击查询
     handle() {
-      let params = new URLSearchParams();
-      params.append("ME_ID", this.form.ME_ID);
-      params.append("EN_ID", this.form.EN_NAME);
-      params.append("ME_POSITION", this.form.ME_POSITION);
-      params.append("ME_STATE", this.form.ME_STATE);
-      userBookingService
-        .sentsystem(params)
+      if(this.form.ME_ID=="" && this.form.EN_NAME=="" && this.form.ME_POSITION=="" && this.form.ME_STATE==""){
+        userBookingService
+        .system()
         .then(res => {
           this.tableData = res.list;
+          this.defaultData = res.list;
         })
-        .catch(err => {
-          tihs.$message.error("数据初始化失败！");
-        });
+        .catch(err => {});
+      }else{
+        let params = new URLSearchParams();
+        params.append("ME_ID", this.form.ME_ID);
+        params.append("EN_ID", this.form.EN_NAME);
+        params.append("ME_POSITION", this.form.ME_POSITION);
+        params.append("ME_STATE", this.form.ME_STATE);
+        userBookingService
+          .system(params)
+          .then(res => {
+            this.tableData = res.list;
+            this.form.EN_NAME="";
+          })
+          .catch(err => {
+            tihs.$message.error("数据初始化失败！");
+          });
+      }
+      
     },
     handlrepl() {
       userBookingService
-      .system()
-      .then(res => {
-        this.tableData = this.defaultData;
-      })
-      .catch(err => {});
+        .system()
+        .then(res => {
+          this.tableData = this.defaultData;
+        })
+        .catch(err => {});
     },
     //点击预约
     handleEdit(index, row) {
+      index = (this.currentPage - 1) * this.pagesize + index;
       this.$refs.booking.dialogFormVisible = true; //弹框状态
       this.$refs.booking.form.id = this.tableData[index].ME_ID; //往子组件传设备id
       this.$refs.booking.form.name = this.tableData[index].EN_NAME; //往子组件传设备name
       this.$refs.booking.form.dname = this.tableData[index].ME_POSITION; //往子组件传设备地址
-      // this.$refs.booking.form.delivery = this.tableData[index].MA_ID;
     },
     //点击查看（表格内）
     handleEd(index, row) {
@@ -253,34 +242,36 @@ export default {
       this.$refs.bookingchat.dex = index; //往子组件传索引
       this.$refs.bookingchat.getInfo(); //调用子组件 methods 内 getInfo 方法
     },
-    tableRowClassName ({row, rowIndex}) {
-    //把每一行的索引放进row
-    row.index = rowIndex;
+    tableRowClassName({ row, rowIndex }) {
+      //把每一行的索引放进row
+      row.index = rowIndex;
     },
     //点击设备查看详细预约信息
-    handleBooking(row,event,column){
+    handleBooking(row, event, column) {
       //row表格字段数据
       //event鼠标事件
       //column表格基础信息
-      let index = row.index;//取索引
+      let index = row.index; //取索引
       let params = new URLSearchParams();
-      params.append("ME_ID",row.ME_ID)
-      userBookingService.getSingleEqu(params)
-      .then(res=>{
-        //do something
-        let data = [{title:'',start : '',end : ''}]
-        data[0].title = "已被预约"
-        data[0].start = (res[0].MA_START_DATE.split(" "))[0]
-        data[0].end = (res[0].MA_END_DATE.split(" "))[0]
-        // this.$refs.bookingcanle.monthData.push(data[0])
-        this.$refs.bookingcanle.monthData = data
-        this.$refs.bookingcanle.index = row.index;//索引
-        this.$refs.bookingcanle.ME_ID = row.ME_ID;
-      }).catch(err=>{
-        this.$message.success("该设备暂无人预约")
-        let data = [{title:'',start : '',end : ''}]
-        this.$refs.bookingcanle.monthData = data;
-      })
+      params.append("ME_ID", row.ME_ID);
+      userBookingService
+        .getSingleEqu(params)
+        .then(res => {
+          //do something
+          let data = [{ title: "", start: "", end: "" }];
+          data[0].title = "已被预约";
+          data[0].start = res[0].MA_START_DATE.split(" ")[0];
+          data[0].end = res[0].MA_END_DATE.split(" ")[0];
+          // this.$refs.bookingcanle.monthData.push(data[0])
+          this.$refs.bookingcanle.monthData = data;
+          this.$refs.bookingcanle.index = row.index; //索引
+          this.$refs.bookingcanle.ME_ID = row.ME_ID;
+        })
+        .catch(err => {
+          this.$message.success("该设备暂无人预约");
+          let data = [{ title: "", start: "", end: "" }];
+          this.$refs.bookingcanle.monthData = data;
+        });
     }
   }
 };

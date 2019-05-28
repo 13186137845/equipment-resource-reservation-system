@@ -1,62 +1,23 @@
 <template>
   <!-- 添加用户的弹出层 -->
-  <el-dialog
-    title="添加用户"
-    :visible.sync="addUserVisible"
-    width="40%"
-    style="margin-top:-60px"
-  >
-    <el-form
-      :model="form"
-      style="margin-top:-20px"
-      :rules="dataRule"
-      ref="form"
-    >
-      <el-form-item
-        label="姓名："
-        :label-width="formLabelWidth"
-        :span="2"
-        prop="MI_NAME"
-      >
+  <el-dialog title="添加用户" :visible.sync="addUserVisible" width="40%" style="margin-top:-60px">
+    <el-form :model="form" style="margin-top:-20px" :rules="dataRule" ref="form">
+      <el-form-item label="姓名：" :label-width="formLabelWidth" :span="2" prop="MI_NAME">
         <el-col :span="colWinth">
           <el-input v-model="form.MI_NAME" autocomplete="off"></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item
-        label="部门："
-        :label-width="formLabelWidth"
-        :span="2"
-        prop="MD_NAME"
-      >
+      <el-form-item label="部门：" :label-width="formLabelWidth" :span="2" prop="MD_NAME">
         <el-select v-model="form.MD_NAME" placeholder="请选择部门">
-          <el-option
-            v-for="item in departmentList"
-            :key="item.MD_ID"
-            :label="item.MD_NAME"
-            :value="item.MD_ID"
-          ></el-option>
+          <el-option v-for="item in departmentList" :key="item.MD_ID" :label="item.MD_NAME" :value="item.MD_ID"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item
-        label="工号："
-        :label-width="formLabelWidth"
-        :span="2"
-        prop="MU_NO"
-      >
+      <el-form-item label="工号：" :label-width="formLabelWidth" :span="2" prop="MU_NO">
         <el-col :span="colWinth">
-          <el-input
-            v-model.number="form.MU_NO"
-            placeholder="请输入数字工号"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model.number="form.MU_NO" placeholder="请输入数字工号" autocomplete="off"></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item
-        label="手机号："
-        :label-width="formLabelWidth"
-        :span="2"
-        prop="MI_PHONE"
-      >
+      <el-form-item label="手机号：" :label-width="formLabelWidth" :span="2" prop="MI_PHONE">
         <el-col :span="colWinth">
           <el-input v-model="form.MI_PHONE" autocomplete="off"></el-input>
         </el-col>
@@ -71,34 +32,15 @@
           <el-input v-model="form.projectDuty" autocomplete="off"></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item
-        label="密码："
-        :label-width="formLabelWidth"
-        :span="2"
-        prop="MU_PASSWORD"
-      >
+      <el-form-item label="密码：" :label-width="formLabelWidth" :span="2" prop="MU_PASSWORD">
         <el-col :span="colWinth">
-          <el-input
-            type="password"
-            v-model="form.MU_PASSWORD"
-            autocomplete="off"
-          ></el-input>
+          <el-input type="password" v-model="form.MU_PASSWORD" autocomplete="off"></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item
-        label="权限"
-        :label-width="formLabelWidth"
-        :span="2"
-        prop="MR_INFORMATION"
-      >
+      <el-form-item label="权限" :label-width="formLabelWidth" :span="2" prop="MR_INFORMATION">
         <el-col :span="colWinth">
           <el-select v-model="form.MR_INFORMATION" placeholder="选择用户权限">
-            <el-option
-              v-for="item in role"
-              :key="item.MR_ID"
-              :label="item.MR_INFORMATION"
-              :value="item.MR_ID"
-            ></el-option>
+            <el-option v-for="item in role" :key="item.MR_ID" :label="item.MR_INFORMATION" :value="item.MR_ID"></el-option>
           </el-select>
         </el-col>
       </el-form-item>
@@ -118,6 +60,7 @@ export default {
   name: "addUser",
   data() {
     return {
+      propsList: [],
       addUserVisible: false,
       form: {
         MI_NAME: "", //姓名
@@ -206,6 +149,19 @@ export default {
                   message: "恭喜你，添加成功",
                   type: "success"
                 });
+                //给道具数组添加数据
+                this.propsList = [
+                  {
+                    MI_NAME: this.form.MI_NAME,
+                    MU_NO: this.form.MU_NO, //工号
+                    MI_PHONE: this.form.MI_PHONE, //电话
+                    MR_ID: this.form.MR_ID,
+                    MD_NAME: this.form.MD_NAME, //部门
+                    MR_INFORMATION: this.form.MR_INFORMATION //权限
+                  }
+                ];
+                //传值给父组件
+                this.$emit("getMessage", this.propsList);
               })
               .catch(err => {
                 //添加失败 dosomething

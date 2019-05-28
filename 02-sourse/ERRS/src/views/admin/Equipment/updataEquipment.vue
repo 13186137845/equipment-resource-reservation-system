@@ -76,7 +76,8 @@
             :show-file-list="false"
             :on-change="handlePictureCardPreview"
             :before-upload="beforeupload"
-            accept="image/png,image/gif,image/jpg,image/jpeg">上传设备图片
+            accept="image/png,image/gif,image/jpg,image/jpeg">
+            <el-button type="success" size="small">上传设备图片</el-button>
       </el-upload>
       </el-form-item>
     </el-form>

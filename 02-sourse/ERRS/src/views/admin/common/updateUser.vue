@@ -1,12 +1,7 @@
 <template>
   <!-- 添加用户的弹出层 -->
-  <el-dialog
-    title="修改用户"
-    :visible.sync="updateUserVisible"
-    width="40%"
-    style="margin-top:-60px"
-  >
-    <el-form :model="form" style="margin-top:-20px"       :rules="dataRule" ref="form">
+  <el-dialog title="修改用户" :visible.sync="updateUserVisible" width="40%" style="margin-top:-60px">
+    <el-form :model="form" style="margin-top:-20px" :rules="dataRule" ref="form">
       <el-form-item label="姓名：" :label-width="formLabelWidth" :span="2" prop="MI_NAME">
         <el-col :span="colWinth">
           <el-input v-model="form.MI_NAME" autocomplete="off"></el-input>
@@ -14,21 +9,12 @@
       </el-form-item>
       <el-form-item label="部门：" :label-width="formLabelWidth" :span="2" prop="MD_NAME">
         <el-select v-model="form.MD_NAME" placeholder="请选择部门">
-          <el-option
-            v-for="item in departmentList"
-            :key="item.MD_ID"
-            :label="item.MD_NAME"
-            :value="item.MD_ID"
-          ></el-option>
+          <el-option v-for="item in departmentList" :key="item.MD_ID" :label="item.MD_NAME" :value="item.MD_ID"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="工号：" :label-width="formLabelWidth" :span="2">
         <el-col :span="colWinth">
-          <el-input
-            v-model="form.MU_NO"
-            :disabled="true"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model="form.MU_NO" :disabled="true" autocomplete="off"></el-input>
         </el-col>
       </el-form-item>
       <el-form-item label="手机号：" :label-width="formLabelWidth" :span="2" prop="MI_PHONE">
@@ -48,22 +34,13 @@
       </el-form-item>
       <el-form-item label="密码：" :label-width="formLabelWidth" :span="2" prop="MU_PASSWORD">
         <el-col :span="colWinth">
-          <el-input
-            type="password"
-            v-model="form.MU_PASSWORD"
-            autocomplete="off"
-          ></el-input>
+          <el-input type="password" v-model="form.MU_PASSWORD" autocomplete="off"></el-input>
         </el-col>
       </el-form-item>
       <el-form-item label="权限" :label-width="formLabelWidth" :span="2" prop="MR_INFORMATION">
         <el-col :span="colWinth">
           <el-select v-model="form.MR_INFORMATION" placeholder="选择用户权限">
-            <el-option
-              v-for="item in role"
-              :key="item.MR_ID"
-              :label="item.MR_INFORMATION"
-              :value="item.MR_ID"
-            ></el-option>
+            <el-option v-for="item in role" :key="item.MR_ID" :label="item.MR_INFORMATION" :value="item.MR_ID"></el-option>
           </el-select>
         </el-col>
       </el-form-item>
@@ -115,10 +92,10 @@ export default {
       return {
         MI_NAME: [{ required: true, message: "姓名不能为空", trigger: "blur" }],
         MD_NAME: [{ required: true, message: "未选择部门", trigger: "change" }],
-        MI_PHONE: [
-          { required: true, message: "电话号码不能为空", trigger: "blur" },
-          { validator: validateMobile, trigger: "blur" }
-        ],
+        // MI_PHONE: [
+        //   { required: true, message: "电话号码不能为空", trigger: "blur" },
+        //   { validator: validateMobile, trigger: "blur" }
+        // ],
         MR_INFORMATION: [
           { required: true, message: "权限不能为空", trigger: "blur" }
         ],
@@ -134,7 +111,7 @@ export default {
     adminUserService
       .getAddUserMenu()
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.departmentList = res.Department;
         this.role = res.Role;
       })
