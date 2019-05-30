@@ -258,12 +258,13 @@ export default {
         .getSingleEqu(params)
         .then(res => {
           //do something
-          let data = [{ title: "", start: "", end: "" }];
-          data[0].title = "已被预约";
-          data[0].start = res[0].MA_START_DATE.split(" ")[0];
-          data[0].end = res[0].MA_END_DATE.split(" ")[0];
+          // let data = [{ title: "", start: "", end: "" }];
+
+          // data[0].title = "已被预约";
+          // data[0].start = res[0].MA_START_DATE.split(" ")[0];
+          // data[0].end = res[0].MA_END_DATE.split(" ")[0];
           // this.$refs.bookingcanle.monthData.push(data[0])
-          this.$refs.bookingcanle.monthData = data;
+          this.$refs.bookingcanle.monthData = this.getMonthList(res);
           this.$refs.bookingcanle.index = row.index; //索引
           this.$refs.bookingcanle.ME_ID = row.ME_ID;
         })
@@ -272,6 +273,13 @@ export default {
           let data = [{ title: "", start: "", end: "" }];
           this.$refs.bookingcanle.monthData = data;
         });
+    },
+    getMonthList(res){
+      let dataList = []
+      for(let i=0;i<res.length;i++){
+        dataList[i] = {title:"已被预约",start:res[i].MA_START_DATE.split(" ")[0],end:res[i].MA_END_DATE.split(" ")[0]}
+      }
+      return dataList;
     }
   }
 };

@@ -48,19 +48,7 @@ new Vue({
         // 设置顶栏菜单
         this.$store.commit('d2admin/menu/headerSet', menuHeader)
         // 设置侧边栏菜单
-        this.$store.commit('d2admin/menu/asideSet', menuAside)
-        sysMenuService.getNav().then(res => {
-            console.log(res)
-            let defmenu = {
-                path: '/index',
-                title: '首页',
-                icon: 'home'
-            }
-            res.MU_POWER.unshift(defmenu)
-            this.$store.commit('d2admin/menu/asideSet', res.MU_POWER)
-        }).catch(err => {
-            this.$message.error("菜单初始化失败");
-        })
+        // this.$store.commit('d2admin/menu/asideSet', menuAside)
         // 初始化菜单搜索功能
         this.$store.commit('d2admin/search/init', menuHeader)
     },
@@ -78,5 +66,17 @@ new Vue({
         this.$store.commit('d2admin/ua/get')
         // 初始化全屏监听
         this.$store.dispatch('d2admin/fullscreen/listen')
+        sysMenuService.getNav().then(res => {
+            console.log(res)
+            let defmenu = {
+                path: '/index',
+                title: '首页',
+                icon: 'home'
+            }
+            res.MU_POWER.unshift(defmenu)
+            this.$store.commit('d2admin/menu/asideSet', res.MU_POWER)
+        }).catch(err => {
+            this.$message.error("菜单初始化失败");
+        })
     }
 }).$mount('#app')
