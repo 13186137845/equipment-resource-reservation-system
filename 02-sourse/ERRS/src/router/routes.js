@@ -49,11 +49,11 @@ const frameIn = [{
             component: _import("BookingSystem/bookingRecord")
         },
         {
-            path:"bookingexamine",
-            name:"bookingexamine",
-            meta:{
-                title:"审核",
-                auth:true
+            path: "bookingexamine",
+            name: "bookingexamine",
+            meta: {
+                title: "审核",
+                auth: true
             },
             component: _import("BookingSystem/bookingExamine")
         },
@@ -184,7 +184,7 @@ const frameIn = [{
                 auth: true
             },
             component: _import("admin/Rights/personnel")
-        }, ,
+        },
         {
             path: "admin/SystemMenu",
             name: "SystemMenu",
@@ -195,8 +195,8 @@ const frameIn = [{
             component: _import("admin/System/SystemMenu")
         },
         {
-            path:'admin/department',
-            name:'department',
+            path: 'admin/department',
+            name: 'department',
             meta: {
                 title: "部门管理",
                 auth: true

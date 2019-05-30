@@ -97,7 +97,7 @@ methods: {
                 //添加成功 刷新列表
 
                 this.$message({
-                    message: "添加成功,请刷新页面",
+                    message: "添加成功",
                     type: "success"
                 });
                 this.addDeparmentVisible = false;

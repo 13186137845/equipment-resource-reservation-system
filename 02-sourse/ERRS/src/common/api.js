@@ -226,6 +226,8 @@ export const EquipmentService = {
                 data
             })
         },
+
+
         //删除设备
         delEquipment(data) {
             return request({
@@ -265,15 +267,33 @@ export const EquipmentService = {
 
 export const useRecord = {
 
-        //获取使用记录列表信息
-        useRecordList(data) {
+    //获取使用记录列表信息
+    useRecordList(data) {
+        return request({
+            url: '/adminApi/v/appointmentAllList',
+            method: 'post',
+            data
+        })
+    },
+
+
+}
+
+/**
+ * @description [ Equipment ] 设备报修相关
+ */
+
+export const getRepair = {
+
+
+        //报修设备提交
+        getRepair(data) {
             return request({
-                url: '/adminApi/v/appointmentAllList',
-                method: 'post',
+                url: '/adminApi/i/insRepair',
+                method: 'put',
                 data
             })
         }
-
 
     }
     /**
@@ -329,9 +349,28 @@ export const personnelService = {
             method: 'post',
 
         })
+    },
+    //获取用户修改信息页面渲染
+    getPerList() {
+        return request({
+            url: '/adminApi/v/userInf',
+            method: 'get'
+        })
+    },
+    //修改用户页面信息
+    upPerList(data) {
+        return request({
+            url: '/adminApi/u/updUserInf',
+            method: 'post',
+            data
+        })
     }
 
+
+
+
 }
+
 
 /**
  * @description [ seRecord] 部门管理相关
@@ -346,7 +385,7 @@ export const departmentService = {
             data
 
         })
-    }, //添加用户信息
+    }, //添加部门信息
     addDepartment(data) {
         return request({
             url: '/adminApi/i/insDepartment',
@@ -356,14 +395,15 @@ export const departmentService = {
     },
     //获取添加用户信息下拉列表框信息
 
-    //修改用户信息
+    //修改部门信息
     updateDepartment(data) {
         return request({
             url: 'adminApi/u/updDepartment',
             method: 'post',
             data
         })
-    }
+    },
+
     // //删除用户数据
     // deleteUser(data) {
     //     return request({
