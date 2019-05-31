@@ -129,7 +129,7 @@ export default {
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("数据初始化失败：" + err);
+        // console.log("数据初始化失败：" + err);
       });
   },
   methods: {
@@ -191,7 +191,7 @@ export default {
             this.tableData = res.list;
           })
           .catch(err => {
-            this.$message.success("打回操作成功,请刷新页面");
+            this.$message.success("打回操作成功");
             this.tableData.splice(index, 1);
           });
       });
@@ -206,11 +206,11 @@ export default {
       userBookingService
         .examine(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.tableData = res.list;
         })
         .catch(err => {
-          console.log("获取数据失败：" + err);
+          // console.log("获取数据失败：" + err);
         });
     }
   }

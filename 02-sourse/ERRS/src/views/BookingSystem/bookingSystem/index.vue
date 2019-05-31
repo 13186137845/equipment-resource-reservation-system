@@ -194,15 +194,20 @@ export default {
     },
     //点击查询
     handle() {
-      if(this.form.ME_ID=="" && this.form.EN_NAME=="" && this.form.ME_POSITION=="" && this.form.ME_STATE==""){
+      if (
+        this.form.ME_ID == "" &&
+        this.form.EN_NAME == null &&
+        this.form.ME_POSITION == "" &&
+        this.form.ME_STATE == ""
+      ) {
         userBookingService
-        .system()
-        .then(res => {
-          this.tableData = res.list;
-          this.defaultData = res.list;
-        })
-        .catch(err => {});
-      }else{
+          .system()
+          .then(res => {
+            this.tableData = res.list;
+            this.defaultData = res.list;
+          })
+          .catch(err => {});
+      } else {
         let params = new URLSearchParams();
         params.append("ME_ID", this.form.ME_ID);
         params.append("EN_ID", this.form.EN_NAME);
@@ -212,13 +217,11 @@ export default {
           .system(params)
           .then(res => {
             this.tableData = res.list;
-            this.form.EN_NAME="";
           })
           .catch(err => {
             tihs.$message.error("数据初始化失败！");
           });
       }
-      
     },
     handlrepl() {
       userBookingService
@@ -238,6 +241,8 @@ export default {
     },
     //点击查看（表格内）
     handleEd(index, row) {
+      index = (this.currentPage - 1) * this.pagesize + index;
+      // console.log(index)
       this.$refs.bookingchat.FormVisible = true; //弹框状态
       this.$refs.bookingchat.dex = index; //往子组件传索引
       this.$refs.bookingchat.getInfo(); //调用子组件 methods 内 getInfo 方法
@@ -257,13 +262,6 @@ export default {
       userBookingService
         .getSingleEqu(params)
         .then(res => {
-          //do something
-          // let data = [{ title: "", start: "", end: "" }];
-
-          // data[0].title = "已被预约";
-          // data[0].start = res[0].MA_START_DATE.split(" ")[0];
-          // data[0].end = res[0].MA_END_DATE.split(" ")[0];
-          // this.$refs.bookingcanle.monthData.push(data[0])
           this.$refs.bookingcanle.monthData = this.getMonthList(res);
           this.$refs.bookingcanle.index = row.index; //索引
           this.$refs.bookingcanle.ME_ID = row.ME_ID;
@@ -274,10 +272,14 @@ export default {
           this.$refs.bookingcanle.monthData = data;
         });
     },
-    getMonthList(res){
-      let dataList = []
-      for(let i=0;i<res.length;i++){
-        dataList[i] = {title:"已被预约",start:res[i].MA_START_DATE.split(" ")[0],end:res[i].MA_END_DATE.split(" ")[0]}
+    getMonthList(res) {
+      let dataList = [];
+      for (let i = 0; i < res.length; i++) {
+        dataList[i] = {
+          title: "已被预约",
+          start: res[i].MA_START_DATE.split(" ")[0],
+          end: res[i].MA_END_DATE.split(" ")[0]
+        };
       }
       return dataList;
     }

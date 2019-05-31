@@ -1,12 +1,11 @@
 <template>
-  <d2-container>
+  <d2-container >
     <!-- 条件查询 -->
     <el-form :inline="true" :lable-position="lableposition" label-width="90px" size="mini">
       <el-form-item>
         <el-form-item label="设备编号：" :span="2">
           <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
         </el-form-item>
-
         <el-form-item label="设备名称：" :span="2">
           <el-select v-model="form.EN_NAME" clearable filterable placeholder="请选择设备名称">
             <el-option
@@ -65,7 +64,7 @@
       <el-table-column align="center" label="拟归还时间" prop="MA_END_DATE"></el-table-column>
       <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
-          <el-button size="mini" slot="reference" @click="handleEdit(scope.$index, scope.row);">查看</el-button>
+          <el-button size="mini" slot="reference" @click="handleEdit(scope.$index, scope.row);">操作</el-button>
           <el-button size="mini" slot="reference" @click="handledelite(scope.$index, scope.row)">取消</el-button>
           <el-button size="mini" slot="reference" @click="handleback(scope.$index, scope.row)">归还</el-button>
         </template>
@@ -81,6 +80,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="tableData.length"
     ></el-pagination>
+
     <bookinginfo ref="bookinginfo" @contentToggle="contToggle"/>
   </d2-container>
 </template>
@@ -104,7 +104,8 @@ export default {
         ME_STATE: "",
         BUY_DATE: "",
         BUY_NAME: "",
-        value7: ""
+        value7: "",
+        COMPLETE_FLAG: ""
       },
       userList: [],
       dialogFormVisible: false,
@@ -127,7 +128,7 @@ export default {
           states: "维修中"
         }
       ],
-      propsData:""
+      propsData: ""
     };
   },
   components: {
@@ -138,7 +139,7 @@ export default {
     userBookingService
       .sentsystem()
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.tableData = res.list;
       })
       .catch(err => {});
@@ -149,7 +150,7 @@ export default {
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("数据初始化失败：" + err);
+        // console.log("数据初始化失败：" + err);
       });
   },
   methods: {
@@ -229,11 +230,12 @@ export default {
     },
     contToggle(event) {
       // this.tableData[index].MA_START_DATE
-      this.propsData = event
-      console.log(this.propsData)
+      this.propsData = event;
+      // console.log(this.propsData)
     },
-    //点击查看
+    //点击操作
     handleEdit(index, row) {
+      console.log(this.tableData[index].COMPLETE_FLAG);
       this.$refs.bookinginfo.dialogFormVisible = true;
       this.$refs.bookinginfo.form.id = this.tableData[index].ME_ID; //设备id
       this.$refs.bookinginfo.form.nameid = this.tableData[index].MA_ID; //预约
@@ -243,24 +245,40 @@ export default {
       this.$refs.bookinginfo.form.onday = this.tableData[index].MA_START_DATE; //预约时间
       this.$refs.bookinginfo.form.endday = this.tableData[index].MA_END_DATE; //归还时间
       this.$refs.bookinginfo.form.indes = index; //归还时间
+      this.$refs.bookinginfo.form.saze = this.tableData[index].COMPLETE_FLAG; //预约状态
     },
-    //查询--重载表格
+    //查询--重载表格sentsystem
     handle() {
-      let params = new URLSearchParams();
-      params.append("ME_ID", this.form.ME_ID);
-      params.append("EN_ID", this.form.EN_NAME);
-      params.append("ME_POSITION", this.form.ME_POSITION);
-      params.append("ME_STATE", this.form.ME_STATE);
-      userBookingService
-        .sentsystem(params)
-        .then(res => {
-          // console.log(res);
-          this.tableData = res.list;
-        })
-        .catch(err => {
-          console.log("获取数据失败：" + err);
-        });
-    }
+      console.log(this.form.EN_NAME)
+      if (
+        this.form.ME_ID == "" &&
+        this.form.EN_NAME == null &&
+        this.form.ME_POSITION == "" &&
+        this.form.ME_STATE == ""
+      ) {
+        userBookingService
+          .sentsystem()
+          .then(res => {
+            this.tableData = res.list;
+            this.defaultData = res.list;
+          })
+          .catch(err => {});
+      } else {
+        let params = new URLSearchParams();
+        params.append("ME_ID", this.form.ME_ID);
+        params.append("EN_ID", this.form.EN_NAME);
+        params.append("ME_POSITION", this.form.ME_POSITION);
+        params.append("ME_STATE", this.form.ME_STATE);
+        userBookingService
+          .sentsystem(params)
+          .then(res => {
+            this.tableData = res.list;
+          })
+          .catch(err => {
+            tihs.$message.error("数据初始化失败！");
+          });
+      }
+    },
   }
 };
 </script>

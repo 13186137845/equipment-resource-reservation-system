@@ -26,7 +26,9 @@ import VueQriously from 'vue-qriously'
 import VCharts from 'v-charts'
 import VueQArt from 'vue-qart'
 import FullCalendar from 'vue-fullcalendar'
-
+//打印
+import Print from 'vue-print-nb'
+Vue.use(Print);  //注册
 
 
 // 核心插件
