@@ -144,12 +144,12 @@ export default {
     userBookingService
       .sendsystem()
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.tableData = res.list;
-        console.log(this.tableData);
+        // console.log(this.tableData);
       })
       .catch(err => {
-        console.log("数据初始化失败：" + err);
+        // console.log("数据初始化失败：" + err);
       });
     //查询条件--设备列表
     EquipmentService.getEquipment()
@@ -158,7 +158,7 @@ export default {
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("数据初始化失败：" + err);
+        // console.log("数据初始化失败：" + err);
       });
   },
   components: {
@@ -177,7 +177,7 @@ export default {
     //点击查看
     handleEdit(index, row) {
       index = (this.currentPage-1)*this.pagesize+index
-      console.log(index, row);
+      // console.log(index, row);
       this.$refs.bookingRecord.dialogFormVisible = true;//弹框状态
       this.$refs.bookingRecord.form.id = this.tableData[index].ME_ID;//设备id
       this.$refs.bookingRecord.form.name = this.tableData[index].EN_NAME;//设备名字
@@ -195,11 +195,11 @@ export default {
       params.append("ME_STATE", this.form.ME_STATE);
       userBookingService.sentsystem(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.tableData = res.list;
         })
         .catch(err => {
-          console.log("获取用户信息失败：" + err);
+          // console.log("获取用户信息失败：" + err);
         });
     }
   }

@@ -36,6 +36,7 @@
     "vue": "^2.6.10",
     "vue-fullcalendar": "^1.0.9",
     "vue-i18n": "^8.10.0",
+    "vue-print-nb": "^1.0.3",
     "vue-qart": "^2.2.0",
     "vue-qriously": "^1.1.1",
     "vue-router": "^3.0.3",

@@ -39,6 +39,7 @@
               end-placeholder="结束日期"
               :default-time="['12:00:00']"
               value-format="yyyy-MM-dd hh:mm:ss"
+              :picker-options="pickerOptions"
             ></el-date-picker>
           </el-col>
         </el-form-item>
@@ -58,6 +59,7 @@
 <script>
 import { type } from "os";
 import { userBookingService } from "@/common/api";
+import { all } from 'q';
 
 export default {
   data() {
@@ -73,7 +75,12 @@ export default {
         delivery: false //紧急预约状态（false关闭,true开启）
       },
       formLabelWidth: "120px",
-      options: []//存放初始化数据
+      options: [], //存放初始化数据
+      pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() < Date.now() - 8.64e7;
+          }
+        },
     };
   },
   mounted() {
@@ -81,14 +88,15 @@ export default {
     userBookingService
       .addMpr()
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.options = res.Project;
       })
       .catch(err => {
-        console.log("数据初始化失败：" + err);
+        // console.log("数据初始化失败：" + err);
       });
   },
   methods: {
+    //点击确定
     submit() {
           console.log( typeof(new Date(this.form.day[0])));
       let params = new URLSearchParams();
@@ -96,24 +104,24 @@ export default {
       params.append("MPR_ID", this.form.xname);
       params.append("MA_START_DATE", this.form.day[0]);
       params.append("MA_END_DATE", this.form.day[1]);
-      params.append("MA_STATE", (this.form.delivery==true?1:0));
-      userBookingService
+      params.append("MA_STATE", this.form.delivery == true ? 1 : 0);
+        userBookingService
         .addsystem(params)
         .then(result => {
-          console.log("okkkture");
+          // console.log("okkkture");
           this.$message({
             message: "添加成功",
             type: "success"
           });
-          
         })
         .catch(err => {
-          console.log("false");
+          // console.log("false");
           // this.$message.error("添加失败");
         });
     },
-    clear(){
-      this.form.day = ""
+    clear() {
+      this.form.day = "";
+      this.form.xname= "";
     }
   }
 };

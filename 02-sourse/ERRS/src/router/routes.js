@@ -8,7 +8,9 @@ const _import = require("@/common/import." + process.env.NODE_ENV);
  */
 const frameIn = [{
     path: "/",
-    redirect: { name: "index" },
+    redirect: {
+        name: "index"
+    },
     component: layoutHeaderAside,
     children: [
         // 首页
@@ -136,6 +138,40 @@ const frameIn = [{
             component: _import("PersonalCenter/pensonalRecord")
         },
         // 个人中心end
+        // 新闻中心start
+        {
+            path: 'newscenter',
+            name: 'newscenter',
+            meta: {
+                title: "新闻中心",
+                auth: true
+            },
+            component: _import("newsCenter/newscenter")
+        },
+        // 新闻中心end
+        // 反馈中心start
+        {
+            path: 'feedBack',
+            name: 'feedBack',
+            meta: {
+                title: "反馈信息",
+                auth: true
+            },
+            component: _import("FeedBack/feedBack")
+        },
+        // 反馈中心end
+        //二维码集合start
+        {
+            path: '/admin/openQR',
+            name: 'openQR',
+            meta: {
+                title: "二维码打印",
+                auth: true
+            },
+            component: _import("admin/Equipment/openQR")
+        },
+        
+        //二维码集合end
         // 统计分析start
         // 统计分析end
         //管理后台的路由start
