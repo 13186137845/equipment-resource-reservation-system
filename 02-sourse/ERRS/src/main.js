@@ -23,7 +23,7 @@ import VCharts from 'v-charts'//统计图
 import VueQArt from 'vue-qart'//二维码插件
 import FullCalendar from 'vue-fullcalendar'//日历
 import pluginExport from '@d2-projects/vue-table-export'//导出
-
+import Print from 'vue-print-nb'//打印
 
 // 核心插件
 Vue.use(d2Admin)
@@ -33,6 +33,7 @@ Vue.use(VCharts)
 Vue.use(VueQriously)
 Vue.use(FullCalendar)
 Vue.use(pluginExport)
+Vue.use(Print);
 
 new Vue({
     router,

@@ -1,13 +1,7 @@
 <template>
   <d2-container>
     <!-- 条件查询搜索 -->
-    <el-form
-      :inline="true"
-      :lable-position="lableposition"
-      size="mini"
-      label-width="100px"
-      :model="dataForm"
-    >
+    <el-form :inline="true" :lable-position="lableposition" size="mini" label-width="100px" :model="dataForm">
       <el-form-item>
         <el-form-item label="设备编号：" :span="2">
           <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
@@ -15,38 +9,18 @@
 
         <el-form-item label="设备名称：" :span="2">
           <el-select v-model="form.EN_NAME" filterable placeholder="请选择设备名称">
-            <el-option
-              v-for="item in departmentList"
-              :key="item.ME_ID"
-              :label="item.EN_NAME"
-              :value="item.EN_ID"
-            ></el-option>
+            <el-option v-for="item in departmentList" :key="item.ME_ID" :label="item.EN_NAME" :value="item.EN_ID"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="购入时间：" :span="2">
-          <el-date-picker
-            v-model="form.value7"
-            value-format="yyyy-MM-dd hh:mm:ss"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="~"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="pickerOptions2"
-          ></el-date-picker>
+          <el-date-picker v-model="form.value7" value-format="yyyy-MM-dd hh:mm:ss" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2"></el-date-picker>
         </el-form-item>
         <el-form-item label="设备地址：" :span="2">
           <el-input v-model="form.ME_POSITION" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备状态：" :span="2">
           <el-select v-model="form.ME_STATE" filterable placeholder="请选择设备状态">
-            <el-option
-              v-for="item in state"
-              :key="item.value"
-              :label="item.states"
-              :value="item.value"
-            ></el-option>
+            <el-option v-for="item in state" :key="item.value" :label="item.states" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="负责人：" :span="2">
@@ -61,88 +35,36 @@
       </el-form-item>
     </el-form>
     <!--表格-->
-    <el-table
-      size="mini"
-      :data="
+    <el-table size="mini" :data="
                 dataList &&
                     dataList.slice(
                         (currentPage - 1) * pagesize,
                         currentPage * pagesize
                     )
-            "
-      border
-      style="width: 100%;"
-    >
-      <el-table-column type="selection" header-align="center" align="center" width="50"/>
-      <el-table-column prop="ME_ID" :label="tableHead.ME_ID" header-align="center" align="center"/>
-      <el-table-column
-        prop="EN_NAME"
-        :label="tableHead.EN_NAME"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="imgPath"
-        :label="tableHead.EN_IMG"
-        width="100"
-        header-align="center"
-        align="center"
-      >
+            " border style="width: 100%;">
+      <el-table-column type="selection" header-align="center" align="center" width="50" />
+      <el-table-column prop="ME_ID" :label="tableHead.ME_ID" header-align="center" align="center" />
+      <el-table-column prop="EN_NAME" :label="tableHead.EN_NAME" header-align="center" align="center" />
+      <el-table-column prop="imgPath" :label="tableHead.EN_IMG" width="100" header-align="center" align="center">
         <!--插入图片链接的代码-->
         <template slot-scope="scope">
-          <el-popover placement="right" title trigger="hover">
-            <img :src="imgPath+scope.row.ME_IMG_NAME" style="width: 280px;height: 140px">
-            <img
-              slot="reference"
-              :src="imgPath+scope.row.ME_IMG_NAME"
-              :alt="暂无图片"
-              style="max-height: 50px;max-width: 130px"
-            >
+          <el-popover placement="right" title="" trigger="hover">
+            <img :src="imgPath+scope.row.ME_IMG_NAME" style="width: 280px;height: 140px" />
+            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" alt="暂无图片" style="max-height: 50px;max-width: 130px">
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="ME_POSITION"
-        :label="tableHead.ME_POSITION"
-        header-align="center"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="ME_STATE"
-        :label="tableHead.ME_STATE"
-        header-align="center"
-        align="center"
-      >
+      <el-table-column prop="ME_POSITION" :label="tableHead.ME_POSITION" header-align="center" align="center"></el-table-column>
+      <el-table-column prop="ME_STATE" :label="tableHead.ME_STATE" header-align="center" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.ME_STATE == 0">正常</span>
           <span v-if="scope.row.ME_STATE == 1">维修中</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="BUY_DATE"
-        :label="tableHead.BUY_DATE"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="BUY_NAME"
-        :label="tableHead.BUY_NAME"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="REPAIR_SIZE"
-        :label="tableHead.REPAIR_SIZE"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        :label="tableHead.handle"
-        fixed="right"
-        header-align="center"
-        align="center"
-        width="149"
-      >
+      <el-table-column prop="BUY_DATE" :label="tableHead.BUY_DATE" header-align="center" align="center" />
+      <el-table-column prop="BUY_NAME" :label="tableHead.BUY_NAME" header-align="center" align="center" />
+      <el-table-column prop="REPAIR_SIZE" :label="tableHead.REPAIR_SIZE" header-align="center" align="center" />
+      <el-table-column :label="tableHead.handle" fixed="right" header-align="center" align="center" width="149">
         <!-- 编辑悬浮标签 -->
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -159,38 +81,21 @@
               <p>设备购入负责人: {{ scope.row.BUY_NAME }}</p>
               <p>维修次数: {{ scope.row.REPAIR_SIZE }}</p>
               <template>
-                <qriously :value="scope.row.ME_ID" :size="138"/>
+                <qriously :value="scope.row.ME_ID" :size="138" />
               </template>
             </div>
-            <el-button
-              size="mini"
-              type="primary"
-              slot="reference"
-              @click="updataEquipment(scope.$index, scope.row)"
-            >编辑</el-button>
-            <el-button
-              type="danger"
-              slot="reference"
-              size="mini"
-              @click="delEquipment(scope.$index, scope.row.id)"
-            >删除</el-button>
+            <el-button size="mini" type="primary" slot="reference" @click="updataEquipment(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="danger" slot="reference" size="mini" @click="delEquipment(scope.$index, scope.row.id)">删除</el-button>
           </el-popover>
         </template>
       </el-table-column>
     </el-table>
     <!-- 导入弹窗 -->
-    <add-equipment ref="addEquipment"/>
-    <updata-equipment ref="updataEquipment"/>
+    <add-equipment ref="addEquipment" @getMessage="getVal" />
+    <updata-equipment ref="updataEquipment" @getMessage="getVal" />
     <!-- 分页 -->
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[5, 10, 20, 40]"
-      :page-size="pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="dataList.length"
-    ></el-pagination>
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[5, 10, 20, 40]" :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper" :total="dataList.length">
+    </el-pagination>
   </d2-container>
 </template>
 
@@ -395,10 +300,12 @@ export default {
     },
     //编辑弹窗
     updataEquipment(index, row) {
-      console.log(this.imgPath + row.ME_IMG_NAME);
       this.$refs.updataEquipment.updataEquipmentVisible = true;
       this.$refs.updataEquipment.form = this.dataList[index];
-    }
+    },
+    getVal(msg) {
+      this.dataList.push(msg[0]);
+    },
   },
   components: {
     //弹窗引入
