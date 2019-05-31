@@ -40,7 +40,7 @@
         <template slot-scope="scope">
           <el-popover placement="right" title="" trigger="hover">
             <img :src="imgPath+scope.row.ME_IMG_NAME" style="width: 280px;height: 140px" />
-            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" :alt="暂无图片" style="max-height: 50px;max-width: 130px">
+            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" alt="暂无图片" style="max-height: 50px;max-width: 130px">
           </el-popover>
         </template>
       </el-table-column>

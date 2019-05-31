@@ -28,6 +28,13 @@
           <el-input v-model="form.BUY_NAME" autocomplete="off"></el-input>
         </el-col>
       </el-form-item>
+      <el-form-item style="margin-left:21%">
+      <!-- 文件上传 -->
+        <el-upload :action="uploadPath" multiple accept="image/jpeg,image/png,image/gif" :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" :on-success="uploadSuccess" :on-error="uploadError" :limit="3" :file-list="fileList" ref="upload">
+          <el-button slot="trigger" type="success" size="mini">上传设备图片</el-button>
+          <!-- <el-button type="success" size="mini" @click="uploadSubmit" style="margin-left:30px">开始上传</el-button> -->
+        </el-upload>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer" style="margin-top:-30px">
       <el-button @click="addEquipmentVisible = false">取 消</el-button>
@@ -55,10 +62,13 @@ export default {
       },
       // 设备名称
       departmentList: [],
-
       role: [],
       formLabelWidth: "120px",
-      colWinth: 12
+      colWinth: 12,
+      //上传文件
+      uploadPath: process.env.VUE_APP_API + "/adminApi/uploadFile",
+      fileList: [],
+      equImg: ""
     };
   },
   mounted() {
@@ -101,18 +111,28 @@ export default {
             params.append("ME_POSITION", this.form.ME_POSITION);
             params.append("BUY_DATE", this.form.BUY_DATE);
             params.append("BUY_NAME", this.form.BUY_NAME);
-
             console.log();
             EquipmentService.addEquipment(params)
               .then(res => {
-                //添加成功 刷新列表
-
                 this.$message({
                   message: "添加成功,请刷新页面",
                   type: "success"
                 });
+                //给道具数组添加数据
+                this.propsList = [
+                  {
+                    ME_ID: this.form.ME_ID,
+                    EN_ID: this.form.EN_ID,
+                    ME_POSITION: this.form.ME_POSITION,
+                    ME_STATE: this.form.ME_STATE,
+                    BUY_DATE: this.form.BUY_DATE,
+                    BUY_NAME: this.form.BUY_NAME,
+                    ME_IMG_NAME: this.form.ME_IMG_NAME
+                  }
+                ];
+                //传值给父组件
+                this.$emit("getMessage", this.propsList);
                 this.addEquipmentVisible = false;
-                this.$refs.addEquipment.getDataList();
               })
               .catch(err => {
                 //添加失败 dosomething
@@ -125,7 +145,31 @@ export default {
       },
       1000,
       { leading: true, trailing: false }
-    )
+    ),
+    // uploadSubmit() {
+    //   this.$refs.upload.submit(); //上传文件
+    // },
+    handlePreview(file) {
+      //点击选择文件之后的钩子函数
+      // console.log(file)
+    },
+    handleRemove(file, fileList) {
+      //文件列表移除文件时的钩子
+      // console.log(file,fileList)
+    },
+    beforeRemove(file, fileList) {
+      //删除文件之前的钩子
+      // console.log(file,fileList)
+    },
+    uploadSuccess(res, file, fileList) {
+      //文件上传成功钩子
+      // this.$message.success("文件上传成功");
+      this.equImg = res.data;
+    },
+    uploadError() {
+      //文件上传失败钩子
+      this.$message.error("文件上传失败");
+    }
   }
 };
 </script>

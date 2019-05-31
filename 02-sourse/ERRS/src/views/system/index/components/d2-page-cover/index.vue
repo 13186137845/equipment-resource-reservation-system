@@ -1,7 +1,11 @@
 <template>
   <div class="d2-page-cover">
     <div class="d2-page-cover__logo">
-      <slot/>
+      <slot />
+    </div>
+    <div class="errs-welcome">
+      <img src="./image/welcome.png" alt="加载中..." class="welcome">
+      <div class="bg-banner"></div>
     </div>
     <p class="d2-page-cover__title">设备资源管理系统</p>
     <p class="d2-page-cover__sub-title">优雅的资源管理集成方案</p>
@@ -39,6 +43,59 @@
     margin-bottom: 10px;
     font-size: 12px;
     color: $color-text-placehoder;
+  }
+  .errs-welcome {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+  .welcome {
+    position: absolute;
+    top: 36%;
+    left: 10%;
+    width: 80%;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .bg-banner {
+    width: 80%;
+    height: 1000px;
+    margin-top: -10%;
+    margin-left: 10%;
+    z-index: -10;
+    background-image: url("./image/bg-banner.jpeg");
+    background-repeat: no-repeat;
+    transform: translateX(30deg);
+    animation: move 40s linear infinite alternate;
+  }
+  @keyframes move {
+    // 0%{margin-top:-10%}
+    // 10%{margin-top:-8%}
+    // 20%{margin-top:-6%}
+    // 30%{margin-top:-4%}
+    // 40%{margin-top:-2%}
+    // 50%{margin-top:0%}
+    // 60%{margin-top:2%}
+    // 70%{margin-top:4%}
+    // 80%{margin-top:6%}
+    // 90%{margin-top:8%}
+    // 100%{margin-top:10%}
+    0% {
+      background-size: 100%
+    }
+    25% {
+      background-size: 120%
+    }
+    50% {
+      background-size: 140%
+    }
+    100% {
+      background-size: 160%
+    }
   }
 }
 </style>

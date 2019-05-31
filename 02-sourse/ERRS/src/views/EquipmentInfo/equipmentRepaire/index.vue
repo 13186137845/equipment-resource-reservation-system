@@ -78,7 +78,6 @@ export default {
     };
   },
   computed: {
-    ...mapState("d2admin/user", ["info"]),
     dataRule() {
       return {
         ME_ID: [
@@ -90,11 +89,15 @@ export default {
         MRE_EXPLAIN: [
           { required: true, message: "设备详情不能为空", trigger: "blur" }
         ]
-      };
-    }
+      }
+    },
+    ...mapState("d2admin/user", ["info"])
+  },
+  updated () {
+    this.form.INS_USER = this.$store.state.d2admin.user.info.name
   },
   mounted() {
-    (this.form.INS_USER = "fofo"), //this.$store.state.d2admin.user.info.name
+    // this.form.INS_USER = this.$store.state.d2admin.user.info.name, //this.$store.state.d2admin.user.info.name
       EquipmentService.getEquipmentNumber()
         .then(res => {
           this.departmentList = res.ME_IDList;

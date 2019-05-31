@@ -14,7 +14,7 @@
         <el-button type="danger">删除</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="info">导出</el-button>
+        <el-button type="info" @click="userExport">导出</el-button>
       </el-form-item>
     </el-form>
     <el-table size="mini" :data="dataList" border @selection-change="dataListSelectionChangeHandle" @sort-change="dataListSortChangeHandle" style="width: 100%;">
@@ -41,8 +41,8 @@
     </el-pagination>
   </d2-container>
 </template>
- 
- <script>
+
+<script>
 //暂时不用混合方法
 // import mixinViewModule from '@/mixins/view-module'
 //导入添加用户模块
@@ -140,6 +140,37 @@ export default {
     },
     dataListSortChangeHandle() {
       console.log("数据排序");
+    },
+    userExport(){//导出功能
+    //定义导出列
+    const columns = [{
+      label:"姓名",
+      prop:"MI_NAME"
+    },{
+      label:"工号",
+      prop:"MU_NO"
+    },{
+      label:"部门",
+      prop:"MI_NAME"
+    },{
+      label:"手机号",
+      prop:"MI_PHONE"
+    },{
+      label:"权限",
+      prop:"MR_INFORMATION"
+    },{
+      label:"参与项目",
+      prop:"project"
+    },{
+      label:"项目职责",
+      prop:"projectDuty"
+    }]
+    const data = this.dataList
+      this.$export.csv({
+        columns,
+        data,
+        title:"用户信息表"
+      })
     }
   },
   components: {

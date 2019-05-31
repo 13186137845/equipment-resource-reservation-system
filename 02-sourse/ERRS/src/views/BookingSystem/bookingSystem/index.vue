@@ -277,7 +277,7 @@ export default {
     getMonthList(res){
       let dataList = []
       for(let i=0;i<res.length;i++){
-        dataList[i] = {title:"已被预约",start:res[i].MA_START_DATE.split(" ")[0],end:res[i].MA_END_DATE.split(" ")[0]}
+        dataList[i] = {title:"已被预约",start:res[i].MA_START_DATE,end:res[i].MA_END_DATE,EN_NAME:res[i].EN_NAME,ME_ID:res[i].ME_ID,MI_NAME:res[i].MI_NAME}
       }
       return dataList;
     }

@@ -49,7 +49,7 @@
         <template slot-scope="scope">
           <el-popover placement="right" title="" trigger="hover">
             <img :src="imgPath+scope.row.ME_IMG_NAME" style="width: 280px;height: 140px" />
-            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" :alt="暂无图片" style="max-height: 50px;max-width: 130px">
+            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" alt="暂无图片" style="max-height: 50px;max-width: 130px">
           </el-popover>
         </template>
       </el-table-column>
@@ -88,8 +88,8 @@
       </el-table-column>
     </el-table>
     <!-- 导入弹窗 -->
-    <add-equipment ref="addEquipment" />
-    <updata-equipment ref="updataEquipment" />
+    <add-equipment ref="addEquipment" @getMessage="getVal" />
+    <updata-equipment ref="updataEquipment" @getMessage="getVal" />
     <!-- 分页 -->
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[5, 10, 20, 40]" :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper" :total="dataList.length">
     </el-pagination>
@@ -297,10 +297,12 @@ export default {
     },
     //编辑弹窗
     updataEquipment(index, row) {
-      console.log(this.imgPath + row.ME_IMG_NAME);
       this.$refs.updataEquipment.updataEquipmentVisible = true;
       this.$refs.updataEquipment.form = this.dataList[index];
-    }
+    },
+    getVal(msg) {
+      this.dataList.push(msg[0]);
+    },
   },
   components: {
     //弹窗引入

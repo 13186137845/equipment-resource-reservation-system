@@ -90,6 +90,7 @@ export default {
   },
   methods: {
     submit() {
+          console.log( typeof(new Date(this.form.day[0])));
       let params = new URLSearchParams();
       params.append("ME_ID", this.form.id);
       params.append("MPR_ID", this.form.xname);
