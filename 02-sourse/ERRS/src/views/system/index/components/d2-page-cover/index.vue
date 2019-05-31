@@ -23,6 +23,7 @@
   justify-content: center;
   align-items: center;
   .d2-page-cover__logo {
+    z-index: 20;
     img {
       width: 200px;
     }
@@ -53,19 +54,19 @@
   }
   .welcome {
     position: absolute;
-    top: 36%;
-    left: 10%;
-    width: 80%;
+    top: 39%;
+    left: 15%;
+    width: 70%;
     z-index: 10;
     margin: 0;
     padding: 0;
     overflow: hidden;
   }
   .bg-banner {
-    width: 80%;
-    height: 1000px;
+    width: 70%;
+    height: 168%;
     margin-top: -10%;
-    margin-left: 10%;
+    margin-left: 15%;
     z-index: -10;
     background-image: url("./image/bg-banner.jpeg");
     background-repeat: no-repeat;

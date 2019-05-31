@@ -1,4 +1,4 @@
-﻿// Vue
+// Vue
 import Vue from 'vue'
 import App from './App'
 // 核心插件
@@ -13,12 +13,8 @@ import search from 'vue-search'
 import router from './router'
 import menuHeader from '@/menu/header'
 import menuAside from '@/menu/aside'
-import {
-    sysMenuService
-} from '@/common/api'
-import {
-    frameInRoutes
-} from '@/router/routes'
+import {sysMenuService} from '@/common/api'
+import {frameInRoutes} from '@/router/routes'
 //各类插件
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -26,7 +22,7 @@ import VueQriously from 'vue-qriously'//二维码插件
 import VCharts from 'v-charts'//统计图
 import VueQArt from 'vue-qart'//二维码插件
 import FullCalendar from 'vue-fullcalendar'//日历
-import pluginExport from '@d2-projects/vue-table-export'
+import pluginExport from '@d2-projects/vue-table-export'//导出
 
 
 // 核心插件
