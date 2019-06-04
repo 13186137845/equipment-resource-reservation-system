@@ -173,6 +173,15 @@ const frameIn = [{
         
         //二维码集合end
         // 统计分析start
+        {
+            path:"curing",
+            name:"curing",
+            meta:{
+                title:"养护统计",
+                auth:true
+            },
+            component:_import("analysis/curing")
+        },
         // 统计分析end
         //管理后台的路由start
         {

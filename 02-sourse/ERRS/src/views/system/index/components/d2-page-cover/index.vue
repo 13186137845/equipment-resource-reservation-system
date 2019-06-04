@@ -74,17 +74,6 @@
     animation: move 40s linear infinite alternate;
   }
   @keyframes move {
-    // 0%{margin-top:-10%}
-    // 10%{margin-top:-8%}
-    // 20%{margin-top:-6%}
-    // 30%{margin-top:-4%}
-    // 40%{margin-top:-2%}
-    // 50%{margin-top:0%}
-    // 60%{margin-top:2%}
-    // 70%{margin-top:4%}
-    // 80%{margin-top:6%}
-    // 90%{margin-top:8%}
-    // 100%{margin-top:10%}
     0% {
       background-size: 100%
     }
