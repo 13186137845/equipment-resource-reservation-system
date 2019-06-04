@@ -30,7 +30,7 @@
         <el-form-item>
           <el-button @click="handle()">查看</el-button>
           <el-button type="primary" @click="addEquipment">添加</el-button>
-          <el-button v-print="'#printTest'">打印</el-button>
+          
         </el-form-item>
       </el-form-item>
     </el-form>
@@ -68,7 +68,7 @@
         <!-- 编辑悬浮标签 -->
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
-            <div id="printTest">
+            <div>
               <p>设备编号: {{ scope.row.ME_ID }}</p>
               <p>设备名称: {{ scope.row.EN_NAME }}</p>
               <p>
