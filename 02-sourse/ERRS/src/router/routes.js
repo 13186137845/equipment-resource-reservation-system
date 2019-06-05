@@ -182,6 +182,15 @@ const frameIn = [{
             },
             component:_import("analysis/curing")
         },
+        {
+            path:"repair",
+            name:"repair",
+            meta:{
+                title:"维修统计",
+                auth:true
+            },
+            component:_import("analysis/repair")
+        },
         // 统计分析end
         //管理后台的路由start
         {

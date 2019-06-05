@@ -11,10 +11,10 @@
             <el-option v-for="item in departmentList" :key="item.ME_ID" :label="item.EN_NAME" :value="item.EN_ID"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="养护时间：" :span="2">
+        <el-form-item label="维修时间：" :span="2">
           <el-date-picker v-model="form.CuringDate" value-format="yyyy-MM-dd hh:mm:ss" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2"></el-date-picker>
         </el-form-item>
-        <el-form-item label="养护类型：" :span="2">
+        <el-form-item label="故障程度：" :span="2">
           <el-input v-model="form.CURINGTYPE " autocomplete="off"></el-input>
         </el-form-item>
         <el-button type="primary" @click="handle()">查询</el-button>
@@ -37,25 +37,26 @@
     <!-- 统计图部分start -->
     <el-col>
       <el-col :span="12">
-        <!-- 养护维度 -->
-        <curing-task class="curing-task" style="margin:5%" />
+        <!-- 维修维度 -->
+        <repair-task class="repair-task" style="margin:5%" />
       </el-col>
       <el-col :span="12">
-        <curing-cost class="curing-cost" style="margin:5%" />
+        <!-- 费用维度 -->
+        <repair-cost class="repair-cost" style="margin:5%" />
       </el-col>
     </el-col>
     <!-- 统计图部分end -->
     <!-- 智能分析 -->
-    <analysis ref="analysis" />
+    <!-- <analysis ref="analysis" /> -->
   </d2-container>
 </template>
 
 <script>
-import analysis from "../common/analysis"
+// import analysis from "../common/analysis"
 import tableData from "./tableData";
 import { EquipmentService } from "@/common/api";
-import curingTask from "./curing-task";
-import curingCost from "./curing-cost";
+import repairTask from "./repair-task";
+import repairCost from "./repair-cost";
 export default {
   data() {
     return {
@@ -104,7 +105,7 @@ export default {
         ME_ID: "设备编号",
         EN_NAME: "设备名称",
         ME_POSITION: "设备地点",
-        CURINGTYPE: "养护类型",
+        CURINGTYPE: "维修详情",
         CuringDate: "任务日期",
         people: "责任人"
       },
@@ -144,9 +145,9 @@ export default {
     }
   },
   components: {
-    curingTask,
-    analysis,
-    curingCost
+    repairTask,
+    // analysis,
+    repairCost
   }
 };
 </script>

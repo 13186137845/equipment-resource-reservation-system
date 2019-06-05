@@ -2,7 +2,7 @@
   <div>
     <div>
       <el-form :inline="true" size="mini">
-        <label style="font-size:22px;font-weight:bold;">任务情况</label>&nbsp;
+        <label style="font-size:22px;font-weight:bold;">费用情况</label>&nbsp;
         <el-form-item style="margin-top:3px;">
           <el-form-item label="统计维度:" :span="2">
             <el-select v-model="value" placeholder="请选择" @change="chooseTask">
@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import degreeData from "./taskData/degreeData";
-import dateData from "./taskData/dateData";
-import typeData from "./taskData/typeData";
-import curingData from "./taskData/curingData";
+import degreeData from "./costData/degreeData";
+import dateData from "./costData/dateData";
+import typeData from "./costData/typeData";
+import curingData from "./costData/curingData";
 export default {
   data() {
     this.chartExtend = {
@@ -87,7 +87,7 @@ export default {
         },
         {
           value: "3",
-          label: "养护类型"
+          label: "故障程度"
         },
         {
           value: "4",

@@ -87,7 +87,7 @@ export default {
         },
         {
           value: "3",
-          label: "养护类型"
+          label: "故障程度"
         },
         {
           value: "4",
