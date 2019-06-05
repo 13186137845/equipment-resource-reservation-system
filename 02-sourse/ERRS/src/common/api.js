@@ -377,40 +377,59 @@ export const personnelService = {
  */
 export const departmentService = {
 
-    //获取使用记录列表信息
-    getDepartment(data) {
+        //获取使用记录列表信息
+        getDepartment(data) {
+            return request({
+                url: '/adminApi/v/departmentList',
+                method: 'post',
+                data
+
+            })
+        }, //添加部门信息
+        addDepartment(data) {
+            return request({
+                url: '/adminApi/i/insDepartment',
+                method: 'put',
+                data
+            })
+        },
+        //获取添加用户信息下拉列表框信息
+
+        //修改部门信息
+        updateDepartment(data) {
+            return request({
+                url: '/adminApi/u/updDepartment',
+                method: 'post',
+                data
+            })
+        },
+
+        // //删除用户数据
+        // deleteUser(data) {
+        //     return request({
+        //         url: "adminApi/d/delUser",
+        //         method: 'post',
+        //         data
+        //     })
+        // }
+
+    }
+    /**
+     * @description [ seRecord] 个人中心
+     */
+export const PersonalCenter = {
+
+    //获取个人日志信息
+    getPensEven(data) {
         return request({
-            url: '/adminApi/v/departmentList',
+            url: '/adminApi/v/logList',
             method: 'post',
             data
 
         })
-    }, //添加部门信息
-    addDepartment(data) {
-        return request({
-            url: '/adminApi/i/insDepartment',
-            method: 'put',
-            data
-        })
-    },
-    //获取添加用户信息下拉列表框信息
-
-    //修改部门信息
-    updateDepartment(data) {
-        return request({
-            url: 'adminApi/u/updDepartment',
-            method: 'post',
-            data
-        })
     },
 
-    // //删除用户数据
-    // deleteUser(data) {
-    //     return request({
-    //         url: "adminApi/d/delUser",
-    //         method: 'post',
-    //         data
-    //     })
-    // }
+
+
 
 }

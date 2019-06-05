@@ -7,7 +7,7 @@ import d2Admin from '@/plugin/d2admin'
 import store from '@/store/index'
 // 多国语
 import i18n from './i18n'
-import search from 'vue-search'
+// import search from 'vue-search'
 
 // 菜单和路由设置
 import router from './router'
@@ -28,7 +28,7 @@ import Print from 'vue-print-nb'//打印
 // 核心插件
 Vue.use(d2Admin)
 Vue.use(ElementUI)
-Vue.use(search)
+// Vue.use(search)
 Vue.use(VCharts)
 Vue.use(VueQriously)
 Vue.use(FullCalendar)
@@ -51,7 +51,7 @@ new Vue({
         this.$store.commit('d2admin/search/init', menuHeader)
     },
     components: {
-        search,
+        // search,
         VueQArt
     },
     mounted() {
