@@ -69,7 +69,7 @@ export default {
         document.body.removeChild(dom);
         let blob = that.dataURLToBlob(dom.toDataURL("image/png"));
         a.setAttribute("href", URL.createObjectURL(blob));
-        a.setAttribute("download", "xxxxxx.png");
+        a.setAttribute("download", "设备预约二维码.png");
         document.body.appendChild(a);
         a.click();
         URL.revokeObjectURL(blob);

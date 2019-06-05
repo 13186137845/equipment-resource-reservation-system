@@ -7,7 +7,7 @@ export default [
     icon: 'folder-o'
   },
   {
-    path:'#',
+    path:'Topic',
     title: '话题中心',
     icon: 'folder-o'
   }

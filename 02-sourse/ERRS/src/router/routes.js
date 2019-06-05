@@ -149,6 +149,17 @@ const frameIn = [{
             component: _import("newsCenter/newscenter")
         },
         // 新闻中心end
+        // 话题中心start
+        {
+            path: 'Topic',
+            name: 'Topic',
+            meta: {
+                title: "话题中心",
+                auth: true
+            },
+            component: _import("newsCenter/Topic")
+        },
+        // 话题中心end
         // 反馈中心start
         {
             path: 'feedBack',
