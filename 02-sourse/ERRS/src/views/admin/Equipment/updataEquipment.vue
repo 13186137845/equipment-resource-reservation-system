@@ -19,7 +19,7 @@
         :span="2"
       >
         <el-col :span="colWinth">
-          <el-input v-model="form.ME_ID" autocomplete="off"></el-input>
+          <el-input v-model="form.ME_ID" autocomplete="off" readonly  :disabled="edit" ></el-input>
         </el-col>
       </el-form-item>
       <el-form-item
@@ -90,10 +90,13 @@
 
 <script>
 import { EquipmentService } from "@/common/api";
+import { debounce } from "lodash"; 
 export default {
   name: "updataEquipment",
   data() {
     return {
+       readonly: true,
+      edit: true,
       //上传图片
       // 可视化弹窗
       updataEquipmentVisible: false,
@@ -130,7 +133,7 @@ export default {
     // 必填
     dataRule() {
       return {
-        ME_ID: [{ required: true, message: "编号不能为空", trigger: "blur" }],
+       
         EN_NAME: [
           { required: true, message: "设备名称不能为空", trigger: "blur" }
         ],
@@ -154,7 +157,12 @@ export default {
       });
   },
   methods: {
-    submit() {
+ submit: debounce(
+        function() {
+        //提交时消抖
+        this.$refs["form"].validate(valid => {
+          //校检表单
+            if (valid) {
       // 确定按钮
       let params = new URLSearchParams();
       params.append("ME_ID", this.form.ME_ID);
@@ -177,7 +185,15 @@ export default {
         .catch(err => {
           //添加失败 dosomething
         });
-    },
+         } else {
+            return false;
+            }
+        });
+        },
+        1000,
+        { leading: true, trailing: false }
+    )
+    ,
       // 阻止upload的自己上传，进行再操作
       beforeupload (file) {
       //   this.params.append('file',file)

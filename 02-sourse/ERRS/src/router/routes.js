@@ -130,10 +130,19 @@ const frameIn = [{
             path: 'pensonalRecord',
             name: 'pensonalRecord',
             meta: {
-                title: "借还记录",
+                title: "我的日志",
                 auth: true
             },
             component: _import("PersonalCenter/pensonalRecord")
+        },
+        {
+            path: 'pensonalEven',
+            name: 'pensonalEven',
+            meta: {
+                title: "我的事件",
+                auth: true
+            },
+            component: _import("PersonalCenter/pensonalEven")
         },
         // 个人中心end
         // 统计分析start

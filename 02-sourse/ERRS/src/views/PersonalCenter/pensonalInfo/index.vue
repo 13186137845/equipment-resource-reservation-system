@@ -1,7 +1,7 @@
 <template>
   <d2-container :filename="filename">
     <template slot="header">个人信息</template>
-    <el-form :model="form" style="margin-top:-20px" :rules="dataRule" ref="form">
+    <el-form :model="form" style="margin-top:-20px"  ref="form">
         <el-row :gutter="20" class="bookings-dhk">
           <el-col :span="3">
            <label class="bookings-lab" >姓名：</label>
@@ -88,7 +88,11 @@ export default {
   },
   computed: {
     ...mapState("d2admin/user", ["info"]),
+
      
+  },
+  updated () {
+   this.form.INS_USER =this.$store.state.d2admin.user.info.name 
   },
   mounted () {
     //this.form.INS_USER = "fofo",this.$store.state.d2admin.user.info.name

@@ -1,11 +1,17 @@
 <template>
   <d2-container :filename="filename">
     <template slot="header">设备报修</template>
-    <el-form :model="form" style="margin-top:-20px" :rules="dataRule" ref="form">
-        <el-row :gutter="20" class="bookings-dhk">
-          <el-col :span="3">
-            <label class="bookings-lab">报修设备编号：</label>
-          </el-col>
+    <el-form     
+    :model="form"
+      style="margin-top:20px"
+      :rules="dataRule"
+      ref="form">
+         <el-form-item
+        label="报修设备编号："
+        :label-width="formLabelWidth"
+        prop="ME_ID"
+        :span="2"
+      >
           <el-col :span="5">
             <el-select v-model="form.ME_ID" filterable placeholder="请选择设备报修编号">
             <el-option
@@ -17,39 +23,45 @@
             </el-select>
          
           </el-col>
-        </el-row>
-        <el-row :gutter="20" class="bookings-dhk">
-          <el-col :span="3">
-            <label class="bookings-lab"  >报修设备地点：</label>
-          </el-col>
+         </el-form-item>
+        <el-form-item
+        label="报修设备地点："
+        :label-width="formLabelWidth"
+        :span="2"
+        prop="MRE_LOCATION"
+        >
           <el-col :span="5">
             <el-input v-model="form.MRE_LOCATION" clearable placeholder="请输入内容"></el-input>
           </el-col>
-        </el-row>
-        <el-row :gutter="20" class="bookings-dhk">
-          <el-col :span="3">
-            <label class="bookings-lab">申请报修人员姓名：</label>
-          </el-col>
+      </el-form-item>
+       <el-form-item
+        label="报修人员姓名："
+        :label-width="formLabelWidth"
+        :span="2"
+        >
           <el-col :span="5">
             <el-input v-model="form.INS_USER"  readonly  :disabled="edit" clearable ></el-input>
           </el-col>
-        </el-row>
+   </el-form-item>
       
-        <el-row :gutter="20" class="bookings-dhk">
-          <el-col :span="3">
-            <label class="bookings-lab">请详细描述产品损坏信息：</label>
-          </el-col>
+       <el-form-item
+        label="请详细描述产品损坏信息："
+        :label-width="formLabelWidth"
+        :span="2"
+        prop="MRE_EXPLAIN"
+        >
+       
           <el-col :span="15">
             <el-input type="textarea" clearable placeholder="请输入内容" v-model="form.MRE_EXPLAIN"></el-input>
           </el-col>
-        </el-row>
-        
+       </el-form-item>
+        </el-form> 
         <el-row :gutter="20" class="bookings-dhk">
           <el-button type="primary" plain @click="bookingsopen">报修</el-button>
           <el-button type="primary" plain @click="bookingsclose">取消</el-button>
         </el-row>
        
-           </el-form> 
+           
   </d2-container>
 </template>
 
@@ -76,8 +88,13 @@ export default {
         MRE_LOCATION: "",
         MRE_EXPLAIN : "",
         INS_USER:"" 
-        }
+        },
+         formLabelWidth: "150px",
+      colWinth: 12
     }
+  },
+  updated () {
+      this.form.INS_USER = this.$store.state.d2admin.user.info.name
   },
   computed: {
     ...mapState("d2admin/user", ["info"]),
@@ -98,7 +115,7 @@ export default {
     }
   },
   mounted () {
-    this.form.INS_USER = "fofo",//this.$store.state.d2admin.user.info.name
+  
     EquipmentService.getEquipmentNumber()
         .then(res => {
         this.departmentList = res.ME_IDList;

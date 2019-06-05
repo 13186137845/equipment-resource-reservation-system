@@ -26,7 +26,10 @@ import VueQriously from 'vue-qriously'
 import VCharts from 'v-charts'
 import VueQArt from 'vue-qart'
 import FullCalendar from 'vue-fullcalendar'
+import VueQuillEditor from 'vue-quill-editor'
 
+// use
+Vue.use(VueQuillEditor)
 
 
 // 核心插件
@@ -45,38 +48,39 @@ new Vue({
     created() {
         // 处理路由 得到每一级的路由设置
         this.$store.commit('d2admin/page/init', frameInRoutes)
-        // 设置顶栏菜单
+            // 设置顶栏菜单
         this.$store.commit('d2admin/menu/headerSet', menuHeader)
-        // 设置侧边栏菜单
+            // 设置侧边栏菜单
         this.$store.commit('d2admin/menu/asideSet', menuAside)
         sysMenuService.getNav().then(res => {
-            console.log(res)
-            let defmenu = {
-                path: '/index',
-                title: '首页',
-                icon: 'home'
-            }
-            res.MU_POWER.unshift(defmenu)
-            this.$store.commit('d2admin/menu/asideSet', res.MU_POWER)
-        }).catch(err => {
-            this.$message.error("菜单初始化失败");
-        })
-        // 初始化菜单搜索功能
+                console.log(res)
+                let defmenu = {
+                    path: '/index',
+                    title: '首页',
+                    icon: 'home'
+                }
+                res.MU_POWER.unshift(defmenu)
+                this.$store.commit('d2admin/menu/asideSet', res.MU_POWER)
+            }).catch(err => {
+                this.$message.error("菜单初始化失败");
+            })
+            // 初始化菜单搜索功能
         this.$store.commit('d2admin/search/init', menuHeader)
     },
     components: {
         search,
-        VueQArt
+        VueQArt,
+
 
     },
     mounted() {
         // 展示系统信息
         this.$store.commit('d2admin/releases/versionShow')
-        // 用户登录后从数据库加载一系列的设置
+            // 用户登录后从数据库加载一系列的设置
         this.$store.dispatch('d2admin/account/load')
-        // 获取并记录用户 UA
+            // 获取并记录用户 UA
         this.$store.commit('d2admin/ua/get')
-        // 初始化全屏监听
+            // 初始化全屏监听
         this.$store.dispatch('d2admin/fullscreen/listen')
     }
 }).$mount('#app')
