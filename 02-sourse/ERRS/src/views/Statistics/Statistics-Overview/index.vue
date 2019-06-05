@@ -256,7 +256,7 @@ export default {
       }
     },
     useRecordService.getEquCount().then(res=>{
-      console.log(res)
+      // console.log(res)
       this.equCount = res.equipmentSize
       this.scarp = res.repairSize
     })

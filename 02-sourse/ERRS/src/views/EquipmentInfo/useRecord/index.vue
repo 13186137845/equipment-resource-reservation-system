@@ -219,7 +219,7 @@ export default {
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("数据初始化失败：" + err);
+        // console.log("数据初始化失败：" + err);
       });
     this.getDataList();
   },
@@ -241,11 +241,11 @@ export default {
       useRecordService
         .getRecordList(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.dataList = res.list;
         })
         .catch(err => {
-          console.log("获取用户信息失败：" + err);
+          // console.log("获取用户信息失败：" + err);
         });
         
     //   console.log(this.form.value7[0], "color:green;");
@@ -254,12 +254,12 @@ export default {
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {
       this.pagesize = size;
-      console.log(this.pagesize);
+      // console.log(this.pagesize);
       //每页下拉显示数据
     },
     handleCurrentChange: function(currentPage) {
       this.currentPage = currentPage;
-      console.log(this.currentPage);
+      // console.log(this.currentPage);
       //点击第几页
     },
     //获取历史记录信息
@@ -269,11 +269,11 @@ export default {
       useRecordService
         .getRecordList(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.dataList = res.list;
         })
         .catch(err => {
-          console.log("获取用户信息失败：" + err);
+          // console.log("获取用户信息失败：" + err);
         });
     }
   },

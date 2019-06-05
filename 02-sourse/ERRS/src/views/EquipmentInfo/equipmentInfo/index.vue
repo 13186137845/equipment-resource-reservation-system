@@ -203,11 +203,11 @@ export default {
     },
     lookEquipment() {
       this.$refs.lookEquipment.lookEquipmentVisible = true;
-      console.log(this.$refs.lookEquipment.lookEquipmentVisible);
+      // console.log(this.$refs.lookEquipment.lookEquipmentVisible);
     },
     //查询按钮
     handle() {
-      console.log(this.form.value7[0], "color:green;");
+      // console.log(this.form.value7[0], "color:green;");
       let params = new URLSearchParams();
       params.append("ME_ID", this.form.ME_ID);
       params.append("EN_ID", this.form.EN_NAME);
@@ -222,26 +222,26 @@ export default {
         this.form.value7[1] == undefined ? "" : this.form.value7[1]
       );
       params.append("BUY_NAME", this.form.BUY_NAME);
-      console.log(params, "color:red");
+      // console.log(params, "color:red");
 
       EquipmentService.getEquipmentInfo(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.dataList = res.list;
         })
         .catch(err => {
-          console.log("获取用户信息失败：" + err);
+          // console.log("获取用户信息失败：" + err);
         });
     },
     //获取用户信息
     getDataList() {
       EquipmentService.getEquipmentInfo()
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.dataList = res.list;
         })
         .catch(err => {
-          console.log("获取用户信息失败：" + err);
+          // console.log("获取用户信息失败：" + err);
         });
     }
   },

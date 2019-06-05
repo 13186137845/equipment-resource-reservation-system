@@ -18,11 +18,11 @@ export default {
         if (process.env.NODE_ENV === 'development') {
           util.log.capsule('D2Admin', 'ErrorHandler', 'danger')
           util.log.danger('>>>>>> 错误信息 >>>>>>')
-          console.log(info)
+          // console.log(info)
           util.log.danger('>>>>>> Vue 实例 >>>>>>')
-          console.log(instance)
+          // console.log(instance)
           util.log.danger('>>>>>> Error >>>>>>')
-          console.log(error)
+          // console.log(error)
         }
       })
     }

@@ -94,9 +94,9 @@ export default {
       })
       this.$log.capsule('D2Admin', 'handleShowMore', 'primary')
       console.group(log.message)
-      console.log('time: ', log.time)
-      console.log('type: ', log.type)
-      console.log(log.meta)
+      // console.log('time: ', log.time)
+      // console.log('type: ', log.type)
+      // console.log(log.meta)
       console.groupEnd()
     },
     // 日志上传

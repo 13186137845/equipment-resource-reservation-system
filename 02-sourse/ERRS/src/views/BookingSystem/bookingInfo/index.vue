@@ -235,7 +235,7 @@ export default {
     },
     //点击操作
     handleEdit(index, row) {
-      console.log(this.tableData[index].COMPLETE_FLAG);
+      // console.log(this.tableData[index].COMPLETE_FLAG);
       this.$refs.bookinginfo.dialogFormVisible = true;
       this.$refs.bookinginfo.form.id = this.tableData[index].ME_ID; //设备id
       this.$refs.bookinginfo.form.nameid = this.tableData[index].MA_ID; //预约
@@ -249,7 +249,7 @@ export default {
     },
     //查询--重载表格sentsystem
     handle() {
-      console.log(this.form.EN_NAME)
+      // console.log(this.form.EN_NAME)
       if (
         this.form.ME_ID == "" &&
         this.form.EN_NAME == null &&

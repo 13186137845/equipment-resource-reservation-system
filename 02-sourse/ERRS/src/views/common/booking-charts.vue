@@ -35,7 +35,7 @@ export default {
     },
     // 点击事件
     eventClick(event, jsEvent, pos) {
-      console.log(event.name)
+      // console.log(event.name)
       this.$refs.bookingchat.FormVisible = true; //弹框状态
       this.$refs.bookingchat.ME_ID = this.ME_ID; //往子组件传索引
       let data = [{EN_NAME:event.EN_NAME,MA_END_DATE:event.end,MA_START_DATE:event.start,ME_ID:event.ME_ID,MI_NAME:event.MI_NAME}]
@@ -45,7 +45,7 @@ export default {
     // 点击当天
     dayClick(day, jsEvent) {
       //  console.log(day.format('YYYY-MM-DD'))
-      console.log();
+      // console.log();
     },
     // 查看更多
     moreClick(day, events, jsEvent) {

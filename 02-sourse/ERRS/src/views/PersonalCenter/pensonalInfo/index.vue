@@ -99,11 +99,11 @@ export default {
     personnelService.getPerList()
         .then(res => {
         this.form = res;
-        console.log(this.form,"color:green")
+        // console.log(this.form,"color:green")
      
         })
         .catch(err => {
-        console.log("数据初始化失败：" + err);
+        // console.log("数据初始化失败：" + err);
         });
   },
   methods: {
@@ -123,7 +123,7 @@ export default {
              params.append("USER_LOCAL",this.form.USER_LOCAL );
              params.append("MI_ID",this.form.MI_ID );
     
-            console.log();
+            // console.log();
             personnelService.upPerList(params)
                 .then(res => {
                 //添加成功 刷新列表
@@ -136,7 +136,7 @@ export default {
                 })
                 .catch(err => {
                 //添加失败 dosomething
-                console.log(err);
+                // console.log(err);
                 });
             } else {
             return false;

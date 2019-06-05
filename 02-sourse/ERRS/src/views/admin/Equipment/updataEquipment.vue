@@ -110,13 +110,13 @@ export default {
     // 获取菜单
     EquipmentService.getEquipment()
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.departmentList = res.Equipment;
 
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("菜单获取失败：" + err);
+        // console.log("菜单获取失败：" + err);
       });
   },
   methods: {

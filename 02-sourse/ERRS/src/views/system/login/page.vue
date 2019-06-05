@@ -176,7 +176,7 @@ export default {
           .then(async res=>{
             await this.login(res)
             await sysMenuService.getNav().then(res=>{
-              console.log(res)
+              // console.log(res)
               let defmenu = {path: '/index', title: '首页', icon: 'home'}
               res.MU_POWER.unshift(defmenu)
               this.$store.commit('d2admin/menu/asideSet', res.MU_POWER)//动态菜单
@@ -186,7 +186,7 @@ export default {
             this.$router.replace(this.$route.query.redirect || '/')
           })
           .catch(err=>{
-            console.log(err)
+            // console.log(err)
           })
       })
     }
