@@ -17,7 +17,8 @@
         <el-button type="info" @click="userExport">导出</el-button>
       </el-form-item>
     </el-form>
-    <el-table size="mini" :data="dataList" border @selection-change="dataListSelectionChangeHandle" @sort-change="dataListSortChangeHandle" style="width: 100%;">
+    <el-table size="mini" :data="dataList &&dataList.slice((currentPage - 1) * pagesize,currentPage * pagesize)
+            " border @selection-change="dataListSelectionChangeHandle" @sort-change="dataListSortChangeHandle" style="width: 100%;">
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column prop="MI_NAME" :label="tableHead.MI_NAME" header-align="center" align="center" />
       <el-table-column prop="MU_NO" :label="tableHead.MU_NO" header-align="center" align="center" />
