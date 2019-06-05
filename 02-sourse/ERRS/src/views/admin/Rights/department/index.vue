@@ -164,12 +164,12 @@ export default {
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {
         this.pagesize = size;
-        console.log(this.pagesize);
+        // console.log(this.pagesize);
       //每页下拉显示数据
     },
     handleCurrentChange: function(currentPage) {
         this.currentPage = currentPage;
-        console.log(this.currentPage);
+        // console.log(this.currentPage);
       //点击第几页
     },
     // //查询按钮
@@ -177,15 +177,15 @@ export default {
    
         let params = new URLSearchParams();
         params.append("MD_ID", this.form.MD_NAME);
-   console.log(params,"style:black");
+  //  console.log(params,"style:black");
        
         departmentService.getDepartment(params)
         .then(res => {
-            console.log(res);
+            // console.log(res);
            this.dataList = res;
         })
         .catch(err => {
-            console.log("获取用户信息失败：" + err);
+            // console.log("获取用户信息失败：" + err);
         });
     },
     //获取用户信息
@@ -194,11 +194,11 @@ export default {
         .then(res => {
             
             this.dataList = res;
-            console.log(res,"style:red");
+            // console.log(res,"style:red");
             
         })
         .catch(err => {
-            console.log("获取用户信息失败：" + err);
+            // console.log("获取用户信息失败：" + err);
         });
         },
 //     },

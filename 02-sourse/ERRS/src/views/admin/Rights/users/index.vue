@@ -148,10 +148,10 @@ export default {
       this.dataList.push(msg[0]);
     },
     dataListSelectionChangeHandle() {
-      console.log("数据操作");
+      // console.log("数据操作");
     },
     dataListSortChangeHandle() {
-      console.log("数据排序");
+      // console.log("数据排序");
     },
     userExport() {
       //导出功能

@@ -91,7 +91,7 @@ methods: {
             params.append("MD_NAME", this.form.MD_NAME);
             params.append("MD_INFORMATION", this.form.MD_INFORMATION);
     
-            console.log();
+            // console.log();
             departmentService.addDepartment(params)
                 .then(res => {
                 //添加成功 刷新列表
@@ -105,7 +105,7 @@ methods: {
                 })
                 .catch(err => {
                 //添加失败 dosomething
-                console.log(err);
+                // console.log(err);
                 });
             } else {
             return false;

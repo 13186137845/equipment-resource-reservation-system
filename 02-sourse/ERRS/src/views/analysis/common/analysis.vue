@@ -42,7 +42,7 @@ export default {
     for(let i=0;i<curingData.length-1;i++){
       this.tableData.push(curingData[i]);
     }
-    console.log(curingData)
+    // console.log(curingData)
   }
 };
 </script>

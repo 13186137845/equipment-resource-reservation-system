@@ -75,12 +75,12 @@ export default {
     // 获取菜单
     EquipmentService.getEquipment()
       .then(res => {
-        console.log(res);
+        // console.log(res);
         this.departmentList = res.Equipment;
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("菜单获取失败：" + err);
+        // console.log("菜单获取失败：" + err);
       });
   },
   computed: {
@@ -111,7 +111,7 @@ export default {
             params.append("ME_POSITION", this.form.ME_POSITION);
             params.append("BUY_DATE", this.form.BUY_DATE);
             params.append("BUY_NAME", this.form.BUY_NAME);
-            console.log();
+            // console.log();
             EquipmentService.addEquipment(params)
               .then(res => {
                 this.$message({
@@ -136,7 +136,7 @@ export default {
               })
               .catch(err => {
                 //添加失败 dosomething
-                console.log(err);
+                // console.log(err);
               });
           } else {
             return false;

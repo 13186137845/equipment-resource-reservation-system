@@ -64,7 +64,7 @@ new Vue({
         // 初始化全屏监听
         this.$store.dispatch('d2admin/fullscreen/listen')
         sysMenuService.getNav().then(res => {
-            console.log(res)
+            // console.log(res)
             let defmenu = {
                 path: '/index',
                 title: '首页',

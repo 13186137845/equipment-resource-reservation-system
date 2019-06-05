@@ -151,16 +151,16 @@ export default {
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {
         this.pagesize = size;
-        console.log(this.pagesize);
+        // console.log(this.pagesize);
       //每页下拉显示数据
     },
     handleCurrentChange: function(currentPage) {
         this.currentPage = currentPage;
-        console.log(this.currentPage);
+        // console.log(this.currentPage);
       //点击第几页
     },
      handle() {
-      console.log(this.form.value7[0], "color:green;");
+      // console.log(this.form.value7[0], "color:green;");
       let params = new URLSearchParams();
    
       params.append("MI_NAME", this.form.MI_NAME);
@@ -173,10 +173,10 @@ export default {
       PersonalCenter.getPensEven(params)
         .then(res => {
           this.dataList = res;
-          console.log(res,'color:yellow');
+          // console.log(res,'color:yellow');
         })
         .catch(err => {
-          console.log("获取用户信息失败：" + err);
+          // console.log("获取用户信息失败：" + err);
         });
     },
 
@@ -185,7 +185,7 @@ export default {
       .getPensEven()
       .then(res => {
         this.dataList  = res;
-        console.log(res,'color:yellow')
+        // console.log(res,'color:yellow')
       })
       .catch(err => {
         this.$message({

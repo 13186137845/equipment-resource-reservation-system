@@ -122,7 +122,7 @@ export default {
      
         })
         .catch(err => {
-        console.log("数据初始化失败：" + err);
+        // console.log("数据初始化失败：" + err);
         });
   },
   methods: {
@@ -141,7 +141,7 @@ export default {
              params.append("INS_USER",this.form.INS_USER );
 
     
-            console.log();
+            // console.log();
             getRepair.getRepair(params)
                 .then(res => {
                 //添加成功 刷新列表
@@ -154,7 +154,7 @@ export default {
                 })
                 .catch(err => {
                 //添加失败 dosomething
-                console.log(err);
+                // console.log(err);
                 });
             } else {
             return false;

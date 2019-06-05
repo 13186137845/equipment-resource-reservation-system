@@ -231,10 +231,10 @@ computed: {
 },
 methods: {
     handleSizeChange(){
-        console.log()
+        // console.log()
     },
     handleCurrentChange(){
-        console.log()
+        // console.log()
     }
 }
 };

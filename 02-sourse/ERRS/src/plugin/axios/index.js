@@ -23,7 +23,7 @@ function errorLog (error) {
   // 打印到控制台
   if (process.env.NODE_ENV === 'development') {
     util.log.danger('>>>>>> Error >>>>>>')
-    console.log(error)
+    // console.log(error)
   }
   // 显示提示
   Message({
@@ -50,7 +50,7 @@ service.interceptors.request.use(
   },
   error => {
     // 发送失败
-    console.log(error)
+    // console.log(error)
     Promise.reject(error)
   }
 )

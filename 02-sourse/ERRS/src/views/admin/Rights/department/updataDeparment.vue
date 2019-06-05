@@ -97,7 +97,7 @@ export default {
             params.append("MD_NAME", this.form.MD_NAME);
             params.append("MD_INFORMATION", this.form.MD_INFORMATION);
     
-            console.log();
+            // console.log();
       // params.append("file",this.fileList);
       departmentService.updateDepartment(params)
         .then(res => {

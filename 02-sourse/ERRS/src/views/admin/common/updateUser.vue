@@ -116,7 +116,7 @@ export default {
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("菜单获取失败：" + err);
+        // console.log("菜单获取失败：" + err);
       });
   },
   methods: {
