@@ -27,10 +27,8 @@
         </el-form-item>
         <el-button type="info" @click="handle()">查询</el-button>
       </el-form-item>
-
     </el-form>
-    <!--  
-    表格-->
+    <!--表格-->
     <el-table size="mini" :data="dataList&&dataList.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%;">
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column prop="ME_ID" :label="tableHead.ME_ID" header-align="center" align="center" />
@@ -40,7 +38,7 @@
         <template slot-scope="scope">
           <el-popover placement="right" title="" trigger="hover">
             <img :src="imgPath+scope.row.ME_IMG_NAME" style="width: 280px;height: 140px" />
-            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" :alt="暂无图片" style="max-height: 50px;max-width: 130px">
+            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" alt="暂无图片" style="max-height: 50px;max-width: 130px">
           </el-popover>
         </template>
       </el-table-column>
@@ -124,7 +122,7 @@ export default {
       tableHead: {
         ME_ID: "设备编号",
         EN_NAME: "设备名称",
-        EN_IMG:"设备图片",
+        EN_IMG: "设备图片",
         ME_POSITION: "设备地址",
         ME_STATE: "状态",
         BUY_DATE: "设备购入时间",
@@ -190,7 +188,7 @@ export default {
         this.role = res.Role;
       })
       .catch(err => {
-        console.log("数据初始化失败：" + err);
+        this.$message.error("数据初始化失败!");
       });
   },
   methods: {

@@ -30,6 +30,7 @@
         <el-form-item>
           <el-button @click="handle()">查看</el-button>
           <el-button type="primary" @click="addEquipment">添加</el-button>
+          
         </el-form-item>
       </el-form-item>
     </el-form>
@@ -49,7 +50,7 @@
         <template slot-scope="scope">
           <el-popover placement="right" title="" trigger="hover">
             <img :src="imgPath+scope.row.ME_IMG_NAME" style="width: 280px;height: 140px" />
-            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" :alt="暂无图片" style="max-height: 50px;max-width: 130px">
+            <img slot="reference" :src="imgPath+scope.row.ME_IMG_NAME" alt="暂无图片" style="max-height: 50px;max-width: 130px">
           </el-popover>
         </template>
       </el-table-column>
@@ -67,20 +68,22 @@
         <!-- 编辑悬浮标签 -->
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
-            <p>设备编号: {{ scope.row.ME_ID }}</p>
-            <p>设备名称: {{ scope.row.EN_NAME }}</p>
-            <p>
-              设备状态:
-              <span v-if="scope.row.ME_STATE == 0">正常</span>
-              <span v-if="scope.row.ME_STATE == 1">维修中</span>
-            </p>
-            <p>设备地址: {{ scope.row.ME_POSITION }}</p>
-            <p>设备购入时间: {{ scope.row.BUY_DATE }}</p>
-            <p>设备购入负责人: {{ scope.row.BUY_NAME }}</p>
-            <p>维修次数: {{ scope.row.REPAIR_SIZE }}</p>
-            <template>
-              <qriously :value="scope.row.ME_ID" :size="138" />
-            </template>
+            <div>
+              <p>设备编号: {{ scope.row.ME_ID }}</p>
+              <p>设备名称: {{ scope.row.EN_NAME }}</p>
+              <p>
+                设备状态:
+                <span v-if="scope.row.ME_STATE == 0">正常</span>
+                <span v-if="scope.row.ME_STATE == 1">维修中</span>
+              </p>
+              <p>设备地址: {{ scope.row.ME_POSITION }}</p>
+              <p>设备购入时间: {{ scope.row.BUY_DATE }}</p>
+              <p>设备购入负责人: {{ scope.row.BUY_NAME }}</p>
+              <p>维修次数: {{ scope.row.REPAIR_SIZE }}</p>
+              <template>
+                <qriously :value="scope.row.ME_ID" :size="138" />
+              </template>
+            </div>
             <el-button size="mini" type="primary" slot="reference" @click="updataEquipment(scope.$index, scope.row)">编辑</el-button>
             <el-button type="danger" slot="reference" size="mini" @click="delEquipment(scope.$index, scope.row.id)">删除</el-button>
           </el-popover>
@@ -88,8 +91,8 @@
       </el-table-column>
     </el-table>
     <!-- 导入弹窗 -->
-    <add-equipment ref="addEquipment" />
-    <updata-equipment ref="updataEquipment" />
+    <add-equipment ref="addEquipment" @getMessage="getVal" />
+    <updata-equipment ref="updataEquipment" @getMessage="getVal" />
     <!-- 分页 -->
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[5, 10, 20, 40]" :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper" :total="dataList.length">
     </el-pagination>
@@ -297,10 +300,12 @@ export default {
     },
     //编辑弹窗
     updataEquipment(index, row) {
-      console.log(this.imgPath + row.ME_IMG_NAME);
       this.$refs.updataEquipment.updataEquipmentVisible = true;
       this.$refs.updataEquipment.form = this.dataList[index];
-    }
+    },
+    getVal(msg) {
+      this.dataList.push(msg[0]);
+    },
   },
   components: {
     //弹窗引入

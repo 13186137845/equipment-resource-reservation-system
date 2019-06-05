@@ -57,6 +57,7 @@ export default {
       userBookingService
         .system()
         .then(res => {
+          // console.log(res.list[this.dex].Appointment)
           this.gridData = res.list[this.dex].Appointment;
         })
         .catch(err => {});

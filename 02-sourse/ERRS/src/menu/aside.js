@@ -41,7 +41,7 @@ export default [
         title: '反馈中心',
         icon: 'calendar-minus-o',
         children: [
-            { path: '#', title: '反馈信息' }
+            { path: 'feedBack', title: '反馈信息' }
         ]
     },
     {

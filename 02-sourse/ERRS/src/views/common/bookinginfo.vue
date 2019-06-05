@@ -22,8 +22,8 @@
             <el-input v-model="form.gname" :disabled="true"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="预约使用日期：" :label-width="formLabelWidth">
-          <el-col :span="8">
+        <el-form-item label="预约使用日期：" :label-width="formLabelWidth" v-if="this.form.saze!=1">
+          <el-col :span="8" v-if="this.form.saze!=1">
             <el-date-picker
               v-model="form.time"
               type="datetimerange"
@@ -31,6 +31,7 @@
               end-placeholder="结束日期"
               :default-time="['00:00:00', '23:59:59']"
               value-format="yyyy-MM-dd hh:mm:ss"
+              :picker-options="pickerOptions"
             ></el-date-picker>
           </el-col>
         </el-form-item>
@@ -62,10 +63,20 @@ export default {
         endday: "",
         speak: "",
         indes: "",//存索引
-        delivery: false
+        delivery: false,
+        saze: ""
       },
-      formLabelWidth: "120px"
+      formLabelWidth: "120px",
+      nowday: "",
+      pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() < Date.now() - 8.64e7;
+          }
+        },
     };
+  },
+  mounted(){
+    this.nowday = new Date();
   },
   methods:{
     submit() {
@@ -89,7 +100,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log("false");
+          // console.log("false");
           this.$message.error("更改失败");
         });
         this.$emit("contentToggle",this.form.time);

@@ -2,7 +2,7 @@
 export default [
   { path: '/index', title: '首页', icon: 'home' },
   {
-    path:'#',
+    path:'newscenter',
     title: '新闻中心',
     icon: 'folder-o'
   },

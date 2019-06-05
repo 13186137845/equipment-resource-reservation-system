@@ -70,16 +70,12 @@ export default {
     };
   },
   methods: {
-    //进度条下一步0 -> 1 -> 2
-    // next() {
-    //   if (this.active++ > 2) this.active = 0;
-    // },
-    //提交按钮
     submitForm(formName) {
       // if (this.active++ > 2) this.active = 0;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          //成功操作
+          
         } else {
           console.log("error submit!!");
           return false;
