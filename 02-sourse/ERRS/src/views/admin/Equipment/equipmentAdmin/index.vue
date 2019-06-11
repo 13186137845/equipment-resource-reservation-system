@@ -30,8 +30,23 @@
         <el-form-item>
           <el-button @click="handle()">查看</el-button>
           <el-button type="primary" @click="addEquipment">添加</el-button>
+  
+    
           
         </el-form-item>
+        <el-form-item>
+  <el-upload
+  class="upload-demo"
+  ref="upload"
+  action="https://jsonplaceholder.typicode.com/posts/"
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :auto-upload="false">
+  <el-button slot="trigger" size="mini"  type="success">导入</el-button>
+ 
+</el-upload>
+        
+</el-form-item>
       </el-form-item>
     </el-form>
     <!--表格-->
@@ -64,7 +79,7 @@
       <el-table-column prop="BUY_DATE" :label="tableHead.BUY_DATE" header-align="center" align="center" />
       <el-table-column prop="BUY_NAME" :label="tableHead.BUY_NAME" header-align="center" align="center" />
       <el-table-column prop="REPAIR_SIZE" :label="tableHead.REPAIR_SIZE" header-align="center" align="center" />
-      <el-table-column :label="tableHead.handle" fixed="right" header-align="center" align="center" width="149">
+      <el-table-column :label="tableHead.handle"  header-align="center" align="center" width="149">
         <!-- 编辑悬浮标签 -->
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -116,6 +131,7 @@ export default {
       currentPage: 1, //初始页
       pagesize: 10,
       //文本规范
+        fileList: [{}, {}],
       lableposition: "left",
       formLabelAlign: {
         name: "",
@@ -202,6 +218,7 @@ export default {
   },
   mounted() {
     //数据初始化
+   
     this.getDataList();
     EquipmentService.getEquipment()
       .then(res => {
@@ -213,6 +230,15 @@ export default {
       });
   },
   methods: {
+       submitUpload() {
+        this.$refs.upload.submit();
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {
       this.pagesize = size;
@@ -226,6 +252,10 @@ export default {
     },
     //查询按钮
     handle() {
+        if (!this.form.value7 && typeof(this.form.value7)!="undefined" && this.form.value7!=0){ 
+    this.form.value7=""
+}
+    
       // console.log(this.form.value7[0], "color:green;");
       let params = new URLSearchParams();
       params.append("ME_ID", this.form.ME_ID);
@@ -300,6 +330,7 @@ export default {
     },
     //编辑弹窗
     updataEquipment(index, row) {
+      index = (this.currentPage - 1) * this.pagesize + index;
       this.$refs.updataEquipment.updataEquipmentVisible = true;
       this.$refs.updataEquipment.form = this.dataList[index];
     },

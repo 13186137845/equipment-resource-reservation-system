@@ -24,7 +24,19 @@
         <el-button type="primary" @click="handle">查询</el-button>
         <el-button type="danger" @click="addDeparment">增加部门</el-button>
         </el-form-item>
-
+        <el-form-item>
+  <el-upload
+  class="upload-demo"
+  ref="upload"
+  action="https://jsonplaceholder.typicode.com/posts/"
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :auto-upload="false">
+  <el-button slot="trigger" size="mini"  type="success">导入</el-button>
+ 
+</el-upload>
+        
+</el-form-item>
     
     </el-form>
     <!--  
@@ -57,7 +69,7 @@
   
         <el-table-column
         :label="tableHead.handle"
-        fixed="right"
+      
         header-align="center"
         align="center"
         width="149"
@@ -75,6 +87,7 @@
             <el-button  type="danger"
             slot="reference" size="mini"
             @click="delEquipment(scope.$index,scope.row.id)">删除</el-button>
+     
     
         </template>
         </el-table-column>
@@ -114,6 +127,7 @@ export default {
       currentPage: 1, //初始页
         pagesize: 10,
         //文本规范
+          fileList: [{}, {}],
         lableposition: "left",
       departmentList:[],
         role: [],
@@ -161,6 +175,15 @@ export default {
 
     },
     methods: {
+       submitUpload() {
+        this.$refs.upload.submit();
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {
         this.pagesize = size;
@@ -174,7 +197,8 @@ export default {
     },
     // //查询按钮
     handle() {
-   
+
+
         let params = new URLSearchParams();
         params.append("MD_ID", this.form.MD_NAME);
   //  console.log(params,"style:black");

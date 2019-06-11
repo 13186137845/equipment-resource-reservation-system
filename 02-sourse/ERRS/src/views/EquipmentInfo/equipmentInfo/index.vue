@@ -25,7 +25,7 @@
         <el-form-item label="购入负责人：" :span="2">
           <el-input v-model="form.BUY_NAME" autocomplete="off"></el-input>
         </el-form-item>
-        <el-button type="info" @click="handle()">查询</el-button>
+        <el-button type="info" @click="handle">查询</el-button>
       </el-form-item>
     </el-form>
     <!--表格-->
@@ -52,7 +52,7 @@
       <el-table-column prop="BUY_DATE" :label="tableHead.BUY_DATE" header-align="center" align="center" />
       <el-table-column prop="BUY_NAME" :label="tableHead.BUY_NAME" header-align="center" align="center" />
       <el-table-column prop="REPAIR_SIZE" :label="tableHead.REPAIR_SIZE" header-align="center" align="center" />
-      <el-table-column :label="tableHead.handle" fixed="right" header-align="center" align="center" width="149">
+      <el-table-column :label="tableHead.handle" header-align="center" align="center" width="160">
         <!-- 编辑悬浮标签 -->
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -202,12 +202,18 @@ export default {
       //点击第几页
     },
     lookEquipment() {
+    
       this.$refs.lookEquipment.lookEquipmentVisible = true;
       // console.log(this.$refs.lookEquipment.lookEquipmentVisible);
     },
     //查询按钮
     handle() {
-      // console.log(this.form.value7[0], "color:green;");
+  
+
+        if (!this.form.value7 && typeof(this.form.value7)!="undefined" && this.form.value7!=0){ 
+    this.form.value7=""
+}
+
       let params = new URLSearchParams();
       params.append("ME_ID", this.form.ME_ID);
       params.append("EN_ID", this.form.EN_NAME);
@@ -232,6 +238,8 @@ export default {
         .catch(err => {
           // console.log("获取用户信息失败：" + err);
         });
+        
+
     },
     //获取用户信息
     getDataList() {

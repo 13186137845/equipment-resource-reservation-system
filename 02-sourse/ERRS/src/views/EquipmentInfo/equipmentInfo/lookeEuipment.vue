@@ -56,9 +56,9 @@
     @current-change="handleCurrentChange"
     :current-page="currentPage"
     :page-sizes="[4, 8,12 , 16]"
-    :page-size="4"
+    :page-size="1"
     layout="total, sizes, prev, pager, next, jumper"
-    :total="4">
+    :total="1">
     </el-pagination>
 </el-tab-pane>
         
@@ -109,9 +109,9 @@
     @current-change="handleCurrentChange"
     :current-page="currentPage"
     :page-sizes="[4, 8, 12, 16]"
-    :page-size="4"
+    :page-size="1"
     layout="total, sizes, prev, pager, next, jumper"
-    :total="4">
+    :total="1">
     </el-pagination>
 </template>
 
@@ -138,16 +138,16 @@ data() {
         bianhao: 'zptc-fuhuahan',
         name: '显微镜',
         time: '2019-05-21 16:05:54',
-        baozhangperson:'陈薇薇',
+        baozhangperson:'小薇',
         baozhangtext:'通电后无法启动',
-        dealperson:'傅化韩'
+        dealperson:'小傅'
         }, {
         xuhao: '2',
         danhao: 'BXD20190548',
         bianhao: 'zptc-fuhuahan',
         name: '显微镜',
         time: '2019-05-21 16:05:54',
-        baozhangperson:'傅化韩',
+        baozhangperson:'小韩',
         baozhangtext:'无法启动',
         dealperson:'系统管理员'
         }, {
@@ -158,7 +158,7 @@ data() {
         time: '2019-05-21 16:05:54',
         baozhangperson:'系统管理员',
         baozhangtext:'无法开机启动',
-        dealperson:'傅化韩'
+        dealperson:'小韩'
         }, {
         xuhao: '4',
         danhao: 'BXD20190547',
@@ -166,8 +166,8 @@ data() {
         name: '显微镜',
         time: '2019-05-21 16:05:54',
         baozhangperson:'一级保全',
-        baozhangtext:'张天',
-        dealperson:'车志伟'
+        baozhangtext:'小天',
+        dealperson:'小车'
         }]
         ,
         tableDatas: [{
@@ -178,7 +178,7 @@ data() {
         name: '显微镜',
         time: '2号设备厂',
         baozhangperson:'日常自主保全',
-        baozhangtext:'车志伟',
+        baozhangtext:'小车',
         dealperson:'470.05'
         }, {
         xuhao: '2',
@@ -187,7 +187,7 @@ data() {
         name: '显微镜',
         time: '1号设备厂',
         baozhangperson:'日常自主保全',
-        baozhangtext:'张天',
+        baozhangtext:'小天',
         dealperson:'470.05'
         }, {
         xuhao: '3',
@@ -196,7 +196,7 @@ data() {
         name: '显微镜',
         time: '1号设备厂',
         baozhangperson:'一级保全',
-        baozhangtext:'车志伟',
+        baozhangtext:'小车',
         dealperson:'1215.70'
         }, {
         xuhao: '4',
@@ -205,7 +205,7 @@ data() {
         name: '显微镜',
         time: '2号设备厂',
         baozhangperson:'日常自主保全',
-        baozhangtext:'张天',
+        baozhangtext:'小天',
         dealperson:'470.05'
         },, {
         xuhao: '5',
@@ -214,7 +214,7 @@ data() {
         name: '显微镜',
         time: '2号设备厂',
         baozhangperson:'日常自主保全',
-        baozhangtext:'张天',
+        baozhangtext:'小天',
         dealperson:'470.05'
         }]
         

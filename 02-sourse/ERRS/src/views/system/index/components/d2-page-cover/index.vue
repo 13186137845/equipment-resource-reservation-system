@@ -7,10 +7,12 @@
       <img src="./image/welcome.png" alt="加载中..." class="welcome">
       <div class="bg-banner"></div>
     </div>
-    <p class="d2-page-cover__title">设备资源管理系统</p>
-    <p class="d2-page-cover__sub-title">优雅的资源管理集成方案</p>
+    <div style="background: #ffffff; text-align: center;z-index: 10;">
+    <p class="d2-page-cover__title">设备资源预约系统</p>
+    <p class="d2-page-cover__sub-title">优雅的资源预约集成方案</p>
     <p class="d2-page-cover__build-time">FINAL BUILD TIME {{$buildTime}}</p>
     <p class="d2-page-cover__sub-title">内测版1.0</p>
+    </div>
   </div>
 </template>
 
@@ -26,6 +28,8 @@
     z-index: 20;
     img {
       width: 200px;
+     
+      
     }
   }
   .d2-page-cover__title {
@@ -57,6 +61,7 @@
     top: 39%;
     left: 15%;
     width: 70%;
+
     z-index: 10;
     margin: 0;
     padding: 0;
@@ -67,7 +72,7 @@
     height: 168%;
     margin-top: -10%;
     margin-left: 15%;
-    z-index: -10;
+    z-index: -100;
     background-image: url("./image/bg-banner.jpeg");
     background-repeat: no-repeat;
     transform: translateX(30deg);

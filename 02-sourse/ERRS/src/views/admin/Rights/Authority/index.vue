@@ -62,7 +62,7 @@
         />
         <el-table-column
         :label="tableHead.handle"
-        fixed="right"
+      
         header-align="center"
         align="center"
         width="149"

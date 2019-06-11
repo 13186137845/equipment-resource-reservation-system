@@ -91,6 +91,7 @@ export const userBookingService = {
             data
         })
     },
+
     /**
      * 设备保修编号
      */
@@ -284,13 +285,26 @@ export const useRecord = {
  */
 
 export const getRepair = {
-
-
+        // 报修列表信息获取
+        getRepairInfo() {
+            return request({
+                url: 'adminApi/v/repairList',
+                method: 'post'
+            })
+        },
         //报修设备提交
         getRepair(data) {
             return request({
                 url: '/adminApi/i/insRepair',
                 method: 'put',
+                data
+            })
+        },
+        //报修列表更改
+        upRepair(data) {
+            return request({
+                url: 'adminApi/u/updRepair',
+                method: 'post',
                 data
             })
         }

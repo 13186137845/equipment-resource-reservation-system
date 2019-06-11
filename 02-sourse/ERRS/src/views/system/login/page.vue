@@ -7,7 +7,7 @@
     </div>
     <div
       class="page-login--layer page-login--layer-time"
-      flex="main:center cross:center">
+      flex="main:center cross:bottom">
       {{time}}
     </div>
     <div class="page-login--layer">
@@ -15,9 +15,7 @@
         class="page-login--content"
         flex="dir:top main:justify cross:center box:justify">
         <div class="page-login--content-header">
-          <p class="page-login--content-header-motto">
-            时间是一切财富中最宝贵的财富。 <span>—— 德奥弗拉斯多</span>
-          </p>
+        
         </div>
         <div
           class="page-login--content-main"
@@ -25,6 +23,10 @@
           <!-- logo -->
           <!-- <img class="page-login--logo" src="./image/logo@2x.png"> -->
           <!-- 表单 -->
+          <div class="logo">
+            <img src="../login/image/logo@2x.png">
+            
+          </div>
           <div class="page-login--form">
             <el-card shadow="never">
               <el-form ref="loginForm" label-position="top" :rules="rules" :model="formLogin" size="default">
@@ -39,10 +41,12 @@
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="code">
-                  <el-input type="text" v-model="formLogin.code" placeholder="- - - -">
+                  <el-input type="text" v-model="formLogin.code" >
                     <template slot="prepend">验证码</template>
                     <template slot="append">
-                      <img class="login-code" src="./image/login-code.png">
+                      <div class="login-code">
+                      <s-identify :identifyCode="identifyCode"></s-identify>
+                      </div>
                     </template>
                   </el-input>
                 </el-form-item>
@@ -52,13 +56,11 @@
             <p
               class="page-login--options"
               flex="main:justify cross:center">
-              <span><d2-icon name="question-circle"/> 忘记密码</span>
+              <span><d2-icon name="question-circle"/>忘记密码</span>
               <!-- <span>注册用户</span> -->
             </p>
             <!-- 快速登录按钮 -->
-            <el-button class="page-login--quick" size="default" type="info" @click="dialogVisible = true">
-              快速选择用户（测试功能）
-            </el-button>
+           
           </div>
         </div>
         <div class="page-login--content-footer">
@@ -73,19 +75,7 @@
         </div>
       </div>
     </div>
-    <el-dialog
-      title="快速选择用户"
-      :visible.sync="dialogVisible"
-      width="400px">
-      <el-row :gutter="10" style="margin: -20px 0px -10px 0px;">
-        <el-col v-for="(user, index) in users" :key="index" :span="8">
-          <div class="page-login--quick-user" @click="handleUserBtnClick(user)">
-            <d2-icon name="user-circle-o"/>
-            <span>{{user.MU_NO}}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </el-dialog>
+    
   </div>
 </template>
 
@@ -94,12 +84,15 @@ import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 import {sysAccountService} from '@/common/api'
 import {sysMenuService} from '@/common/api'
+import SIdentify from '../login/identify' //验证码文件
 export default {
   data () {
     return {
       timeInterval: null,
       time: dayjs().format('HH:mm:ss'),
       // 快速选择用户
+        identifyCodes: "1234567890",
+      identifyCode: "",
       dialogVisible: false,
       users: [
         {
@@ -122,7 +115,7 @@ export default {
       formLogin: {
         MU_NO: '95927',
         MU_PASSWORD: '123456',
-        code: 'v9am'
+        code: ''
       },
       // 校验
       rules: {
@@ -133,20 +126,42 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '请输入验证码', trigger: 'blur' }
+          { required: true, message: '请输入4位数验证码', trigger: 'blur' }
         ]
       }
     }
+  },
+  components: {
+    SIdentify
   },
   mounted () {
     this.timeInterval = setInterval(() => {
       this.refreshTime()
     }, 1000)
+    , 
+    this.identifyCode = "";
+    this.makeCode(this.identifyCodes, 4);
   },
   beforeDestroy () {
     clearInterval(this.timeInterval)
   },
   methods: {
+     randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
+    refreshCode() {
+      this.identifyCode = "";
+      this.makeCode(this.identifyCodes, 4);
+    },
+    makeCode(o, l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode += this.identifyCodes[
+          this.randomNum(0, this.identifyCodes.length)
+        ];
+      }
+      console.log(this.identifyCode);
+    }
+  ,
     ...mapActions('d2admin/account', [
       'login'
     ]),
@@ -167,11 +182,16 @@ export default {
      */
     // 提交登录信息
     submit () {
+   console.log(this.identifyCode+"zheshidenglu")
+    console.log(this.formLogin.code+"zheshiyanzheng")
+   
       let param = new URLSearchParams();
       param.append("MU_NO", this.formLogin.MU_NO);
       param.append("MU_PASSWORD", this.formLogin.MU_PASSWORD);
+      if(this.identifyCode==this.formLogin.code){
       this.$refs.loginForm.validate((valid) => {
-        if(!valid) return
+ 
+        if(!valid)return
         sysAccountService.login(param)
           .then(async res=>{
             await this.login(res)
@@ -181,25 +201,29 @@ export default {
               res.MU_POWER.unshift(defmenu)
               this.$store.commit('d2admin/menu/asideSet', res.MU_POWER)//动态菜单
             }).catch(err=>{
-              this.$message.error("菜单初始化失败");
+              // this.$message.error("菜单初始化失败");
             })
             this.$router.replace(this.$route.query.redirect || '/')
           })
           .catch(err=>{
             // console.log(err)
           })
-      })
+          
+        
+       })
+       }else{ this.$message.error("验证码错误");}
     }
-  }
+    }
+  
 }
 </script>
 
 <style lang="scss">
 .page-login {
   @extend %unable-select;
-  $backgroundColor: #F0F2F5;
+  $background-image:linear-gradient(to top,rgba(167, 157, 241, 0.741),rgba(167, 157, 241, 0.441),rgba(243, 217, 247, 0.19));
   // ---
-  background-color: $backgroundColor;
+  background-image: $background-image;
   height: 100%;
   position: relative;
   // 层
@@ -212,9 +236,9 @@ export default {
   }
   // 时间
   .page-login--layer-time {
-    font-size: 24em;
+    font-size: 12em;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.03);
+    color: rgba(249, 249, 250, 0.147);
     overflow: hidden;
   }
   // 登陆页面控件的容器
@@ -242,9 +266,14 @@ export default {
     margin-bottom: 2em;
     margin-top: -2em;
   }
+  .logo{
+    margin-bottom: 30px;
+   margin-right: 50px;
+  }
   // 登录表单
   .page-login--form {
     width: 280px;
+    opacity:1;
     // 卡片
     .el-card {
       margin-bottom: 15px;
@@ -259,6 +288,7 @@ export default {
     }
     .login-code {
       height: 40px - 2px;
+      width: 80px;
       display: block;
       margin: 0px -20px;
       border-top-right-radius: 2px;
@@ -277,6 +307,12 @@ export default {
       width: 100%;
     }
   }
+  .code {
+
+  width: 50px;
+  
+ 
+}
   // 快速选择用户面板
   .page-login--quick-user {
     @extend %flex-center-col;
@@ -339,7 +375,7 @@ export default {
       list-style: none;
       width: 20px;
       height: 20px;
-      background: #FFF;
+      background: rgb(168, 184, 201);
       animation: animate 25s linear infinite;
       bottom: -200px;
       @keyframes animate {
