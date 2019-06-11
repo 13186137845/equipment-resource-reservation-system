@@ -1,191 +1,376 @@
 <template>
-  <d2-container :filename="filename">
-    <template slot="header">设备报修</template>
-    <el-form     
-    :model="form"
-      style="margin-top:20px"
-      :rules="dataRule"
-      ref="form">
-         <el-form-item
-        label="报修设备编号："
-        :label-width="formLabelWidth"
-        prop="ME_ID"
-        :span="2"
-      >
-          <el-col :span="5">
-            <el-select v-model="form.ME_ID" filterable placeholder="请选择设备报修编号">
-            <el-option
-                v-for="item in departmentList"
-                :key="item.ME_ID"
-                :label="item.ME_ID"
-                :value="item.ME_ID"
-            ></el-option>
-            </el-select>
-         
-          </el-col>
-         </el-form-item>
-        <el-form-item
-        label="报修设备地点："
+    <d2-container>
+        <!-- 条件查询搜索 -->
+    <el-form :inline="true" :lable-position="lableposition" size="mini" label-width="130px" :model="dataForm">
+  
+      <el-form-item
+        label="报修编号"
         :label-width="formLabelWidth"
         :span="2"
-        prop="MRE_LOCATION"
-        >
-          <el-col :span="5">
-            <el-input v-model="form.MRE_LOCATION" clearable placeholder="请输入内容"></el-input>
-          </el-col>
+        prop="MD_NAME"
+      > 
+      <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
       </el-form-item>
-       <el-form-item
-        label="报修人员姓名："
-        :label-width="formLabelWidth"
-        :span="2"
-        >
-          <el-col :span="5">
-            <el-input v-model="form.INS_USER"  readonly  :disabled="edit" clearable ></el-input>
-          </el-col>
-   </el-form-item>
+        
+        <el-form-item label="设备编号：" :span="2">
+          <el-input autocomplete="off" v-model="form.ME_ID"></el-input>
+        </el-form-item>
+
+        <el-form-item label="设备名称：" :span="2">
+          <el-select v-model="form.EN_NAME" filterable placeholder="请选择设备名称">
+            <el-option v-for="item in departmentList" :key="item.ME_ID" :label="item.EN_NAME" :value="item.EN_ID"></el-option>
+          </el-select>
+        </el-form-item>
       
-       <el-form-item
-        label="请详细描述产品损坏信息："
-        :label-width="formLabelWidth"
-        :span="2"
-        prop="MRE_EXPLAIN"
+        
+        <el-form-item label="设备状态：" :span="2">
+         
+        </el-form-item>
+        <el-form-item label="报障人：" :span="2">
+          <el-input v-model="form.BUY_NAME" autocomplete="off"></el-input>
+        </el-form-item>
+        <!-- 添加 导入 -->
+        <el-form-item>
+        <el-button type="primary" @click="handle">查询</el-button>
+        <el-button type="danger" @click="lookpensonalRecord()">报修</el-button>
+        </el-form-item>
+
+    
+    </el-form>
+    <!--  
+    表格-->
+    <el-table
+        size="mini"
+        :data="dataList&&dataList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+        border
+        style="width: 100%;"
+    >
+
+        <el-table-column
+        prop="MRE_ID"
+        :label="tableHead.MRE_ID"
+        header-align="center"
+        align="center"
+        ></el-table-column>
+          <el-table-column
+        prop="ME_ID"
+        :label="tableHead.ME_ID"
+        header-align="center"
+        align="center"
+        />
+        <el-table-column
+        prop="EN_NAME"
+        :label="tableHead.EN_NAME"
+        header-align="center"
+        align="center"
+        />
+        <el-table-column
+        prop="MRE_STATE"
+        :label="tableHead.MRE_STATE"
+        header-align="center"
+        align="center"
         >
-       
-          <el-col :span="15">
-            <el-input type="textarea" clearable placeholder="请输入内容" v-model="form.MRE_EXPLAIN"></el-input>
-          </el-col>
-       </el-form-item>
-        </el-form> 
-        <el-row :gutter="20" class="bookings-dhk">
-          <el-button type="primary" plain @click="bookingsopen">报修</el-button>
-          <el-button type="primary" plain @click="bookingsclose">取消</el-button>
-        </el-row>
-       
-           
-  </d2-container>
-</template>
+          <template slot-scope="scope">
+          <el-button v-if="scope.row.MRE_STATE == 0"  size="mini" type="info" >申报中</el-button>
+          <el-button v-if="scope.row.MRE_STATE == 1"  size="mini" type="success">分配任务</el-button>
+           <el-button v-if="scope.row.MRE_STATE == 2"  size="mini" type="warning">维修中</el-button>
+           <el-button v-if="scope.row.MRE_STATE == 3"  size="mini" type="success">维修结束</el-button>
+                 <el-button v-if="scope.row.MRE_STATE == 4"   size="mini" type="primary">已验收</el-button>
+          <el-button v-if="scope.row.MRE_STATE == 5"  size="mini" type="danger">撤销</el-button>
+        </template>
+        </el-table-column>
+        <el-table-column
+        prop="MRE_EXPLAIN"
+          width="200"
+        :label="tableHead.MRE_EXPLAIN"
+        header-align="center"
+        align="center"
+        />
+        <el-table-column
+        prop="INS_USER"
+        :label="tableHead.INS_USER "
+        header-align="center"
+        align="center"
+        />
+      
+        <el-table-column
+        prop="INS_DATE"
+        :label="tableHead.INS_DATE "
+        header-align="center"
+        align="center"
+         width="150"
+        />
+         <el-table-column
+        prop="DISTRIBUTION_USER"
+        :label="tableHead.DISTRIBUTION_USER "
+        header-align="center"
+        align="center"
+        />
+  
+        <el-table-column
+        :label="tableHead.handle"
+      
+        header-align="center"
+        align="center"
+        width="200"
+        >
+        <!-- 编辑悬浮标签 -->
+        <template slot-scope="scope" >
+      
+          <el-button               
+            size="mini"
+            type="primary"
+            slot="reference"
+         
+              v-if="scope.row.MRE_STATE == 0"
+             @click="updatapensonalRecord(scope.$index, scope.row.MRE_STATE,value6='1')"
+            >分配</el-button
+            >
+            <el-button  
+            type="danger"
+            slot="reference" 
+            size="mini"
+             v-if="scope.row.MRE_STATE == 0"
+            @click="updatapensonalRecord(scope.$index,scope.row.MRE_STATE,value6='5')">撤销</el-button>
+            
+            
+            <el-button               
+            size="mini"
+            type="success"
+            slot="reference"
+            
+            v-if="scope.row.MRE_STATE == 1"
+             @click="updatapensonalRecord(scope.$index, scope.row.MRE_STATE,value6='1')"
+            >重新分配</el-button>
+             
+              
+            <el-button               
+            size="mini"
+            type="warning"
+            slot="reference"
+    
+            v-if="scope.row.MRE_STATE == 1"
+             @click="updatapensonalRecord(scope.$index, scope.row.MRE_STATE,value6='2')"
+            >开始维修</el-button>
+             
+             <el-button               
+            size="mini"
+            type="info"
+            slot="reference"
+        
+            v-if="scope.row.MRE_STATE == 2"
+             @click="updatapensonalRecord(scope.$index, scope.row.MRE_STATE,value6='3')"
+            >维修结束</el-button>
+          
+            <el-button               
+            size="mini"
+            type="primary"
+            slot="reference"
+            v-if="scope.row.MRE_STATE == 3"
+             @click="updatapensonalRecord(scope.$index, scope.row.MRE_STATE,value6='4')"
+            >验收</el-button>
+          
+         </template>
+        </el-table-column>
+        
+
+
+    </el-table>
+
+        <!-- 导入弹窗 -->
+    <lookpensonal-record ref="lookpensonalRecord" />
+
+<!-- 分页 -->
+<el-pagination
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage"
+    :page-sizes="[5, 10, 20, 40]" 
+    :page-size="pagesize"         
+    layout="total, sizes, prev, pager, next, jumper"
+    :total=dataList.length>   
+</el-pagination>
+    </d2-container>
+    </template>
 
 
 <script>
-import { mapState, mapActions } from "vuex";
+//导入添加用户模块
+// import { departmentService } from "@/common/api";
+// import { adminUserService } from "@/common/api";
+import lookpensonalRecord from "../equipmentRepaire/lookpensonalRecord";
 import { getRepair } from "@/common/api";
-import { EquipmentService } from "@/common/api";
-import { debounce } from "lodash"; //消抖功能引入
-export default {
-  name: 'page2',
-  data () {
-    return {
-      readonly: true,
-      edit: true,
-      input: "", //注册
-      value1: "", //注册
-      textarea2: "", //注册
-      show3:"",
-      filename: __filename,
-        departmentList: [],
-        form: {
-        ME_ID: "",
-        MRE_LOCATION: "",
-        MRE_EXPLAIN : "",
-        INS_USER:"" 
-        },
-         formLabelWidth: "150px",
-      colWinth: 12
-    }
-  },
-  updated () {
-      this.form.INS_USER = this.$store.state.d2admin.user.info.name
-  },
-  computed: {
-    ...mapState("d2admin/user", ["info"]),
-      dataRule() {
-        return {
 
-        ME_ID: [
-            { required: true, message: "设备编号不能为空", trigger: "blur" }
-        ],
-        MRE_LOCATION: [
-            { required: true, message: "设备地址不能为空", trigger: "blur" }
-        ],
-        MRE_EXPLAIN:[
-            { required: true, message: "设备详情不能为空", trigger: "blur" }
-        ]
-     
-        };
-    }
+
+export default {
+    name: "page2",
+    data() {
+    return {
+        //分页
+      currentPage: 1, //初始页
+        pagesize: 10,
+        //文本规范
+        lableposition: "left",
+      departmentList:[],
+        role: [],
+        formLabelWidth: "120px",
+
+        dataForm: {
+        username: ""
+        },
+        tableHead: {
+        MRE_ID:"维修编号",
+        ME_ID:"设备编号",
+        EN_NAME:"设备名称", 
+        MRE_STATE:"报修状态",
+       MRE_EXPLAIN:"维修说明 ", 
+        INS_USER:"报障人", 
+        INS_DATE:"报障时间", 
+        DISTRIBUTION_USER :"处理人",
+        handle: "操作"
+        },
+        dataList: [],
+        caozuo:"",
+
+        form: {
+        MRE_ID:"", 
+        EN_NAME:"", 
+        ME_ID:"", 
+        MRE_STATE:"",
+        MRE_EXPLAIN:"", 
+        INS_USER:"", 
+        INS_DATE:"", 
+        DISTRIBUTION_USER :"",
+        ACCEPTANCE_USER:""
+
+
+    
+        },
+      // 日期选择器
+
+        value6: ""
+    };
+    },
+     updated () {
+      this.form.ACCEPTANCE_USER = this.$store.state.d2admin.user.info.name
   },
-  mounted () {
-  
-    EquipmentService.getEquipmentNumber()
+    mounted() {
+    this.getDataList();
+   EquipmentService.getEquipment()
+      .then(res => {
+        this.departmentList = res.Equipment;
+        this.role = res.Role;
+      })
+      .catch(err => {
+        // console.log("数据初始化失败：" + err);
+      });
+
+    },
+    methods: {
+    // 初始页currentPage、初始每页数据数pagesize和数据data
+    handleSizeChange: function(size) {
+        this.pagesize = size;
+        // console.log(this.pagesize);
+      //每页下拉显示数据
+    },
+    handleCurrentChange: function(currentPage) {
+        this.currentPage = currentPage;
+        // console.log(this.currentPage);
+      //点击第几页
+    },
+    // //查询按钮
+   handle() {
+        
+    },
+    //获取用户信息
+    getDataList() {
+        getRepair.getRepairInfo()
         .then(res => {
-        this.departmentList = res.ME_IDList;
-     
+            
+            this.dataList = res;
+           console.log(res,"style:red");
+            
         })
         .catch(err => {
-        // console.log("数据初始化失败：" + err);
-        });
-  },
-  methods: {
- bookingsopen: debounce(
-        function() {
-        //提交时消抖
-        this.$refs["form"].validate(valid => {
-          //校检表单
-            if (valid) {
-            //校检通过
-            let params = new URLSearchParams();
-        
-            params.append("ME_ID", this.form.ME_ID);
-            params.append("MRE_LOCATION", this.form.MRE_LOCATION);
-             params.append("MRE_EXPLAIN", this.form.MRE_EXPLAIN);
-             params.append("INS_USER",this.form.INS_USER );
-
-    
-            // console.log();
-            getRepair.getRepair(params)
-                .then(res => {
-                //添加成功 刷新列表
-
-                this.$message({
-                    message: "报修成功",
-                    type: "success"
-                });
-                
-                })
-                .catch(err => {
-                //添加失败 dosomething
-                // console.log(err);
-                });
-            } else {
-            return false;
-            }
+            // console.log("获取用户信息失败：" + err);
         });
         },
-        1000,
-        { leading: true, trailing: false }
-    )
-    ,
-
-    //点击确定end
-    //点击取消start
-    bookingsclose() {
-      this.$message({
-        message: "取消报修",
-        type: "warning"
-      });
+//     },
+   // 增加用户弹框
+    lookpensonalRecord() {
+        this.$refs.lookpensonalRecord.addPersonVisible = true;
+        
+    },
+//      // 删除弹框
+    delEquipment(index, row) {
     
-    }
-  }
+//         this.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+//         confirmButtonText: "确定",
+//         cancelButtonText: "取消",
+//         type: "warning"
+//         })
+//         .then(() => {
+//             let paramst = new URLSearchParams();
+//             paramst.append("ME_ID", this.dataList[index].ME_ID);//获取当前行编号
+//             EquipmentService.delEquipment(paramst)
+//             .then(res => {
+//                 console.log(res);
+//                 this.dataList = res.list;
+//             })
+//             .catch(err => {
+//                 console.log("获取用户信息失败：" + err);
+//             });
+//             this.$message({
+//             type: "success",
+//             message: "删除成功!"
+//             });
+//             this.$router.go(0);
+//         })
+//         .catch(() => {
+//             this.$message({
+//             type: "info",
+//             message: "已取消删除"
+//             });
+//         });
+    },
+// //编辑弹窗
+    updatapensonalRecord(index, row,value6) {
+       
+
+         
+       
+          let params = new URLSearchParams();
+          params.append("MRE_STATE", value6);
+          params.append("ME_ID",this.dataList[index].ME_ID);
+           params.append("MRE_ID",this.dataList[index].MRE_ID);
+           params.append("ACCEPTANCE_USER", this.form.ACCEPTANCE_USER);
+    
+            // console.log();
+      // params.append("file",this.fileList);
+      getRepair.upRepair(params)
+        .then(res => {
+          //添加成功 刷新列表
+          this.$message({
+            message: "修改成功",
+            type: "success"
+          });
+       
+        })
+        .catch(err => {
+          //添加失败 dosomething
+        });
+         
+     
+        // this.$refs.updataDeparment.updataDeparmentVisible = true;
+        // this.$refs.updataDeparment.form = this.dataList[index];
+    },
+//     },
+
+    },
+     components: {
+        //弹窗引入
+    lookpensonalRecord
+   
 }
+};
 </script>
-<style >
-
-.bookings-dhk {
-  padding: 15px;
-  padding-left: 50px;
-}
-.bookings-lab {
-  line-height: 40px;
-}
-</style>
-

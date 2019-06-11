@@ -38,11 +38,11 @@ export default {
   mounted() {
     EquipmentService.getEquipmentInfo()
       .then(res => {
-        console.log(res);
+        //console.log(res);
         this.departmentList = res.list;
       })
       .catch(err => {
-        console.log("获取用户信息失败：" + err);
+        //console.log("获取用户信息失败：" + err);
       });
   },
   methods: {

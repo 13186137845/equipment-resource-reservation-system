@@ -105,7 +105,7 @@ export default {
         });
         this.$emit("contentToggle",this.form.time);
         this.form.time = ""; 
-        this.$router.go(0);
+
     }
   }
 };

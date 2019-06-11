@@ -16,6 +16,19 @@
       <el-form-item>
         <el-button type="info" @click="userExport">导出</el-button>
       </el-form-item>
+      <el-form-item>
+  <el-upload
+  class="upload-demo"
+  ref="upload"
+  action="https://jsonplaceholder.typicode.com/posts/"
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :auto-upload="false">
+  <el-button slot="trigger" size="mini"  type="success">导入</el-button>
+ 
+</el-upload>
+        
+</el-form-item>
     </el-form>
     <el-table size="mini" :data="dataList &&dataList.slice((currentPage - 1) * pagesize,currentPage * pagesize)
             " border @selection-change="dataListSelectionChangeHandle" @sort-change="dataListSortChangeHandle" style="width: 100%;">
@@ -27,10 +40,14 @@
       <el-table-column prop="MR_INFORMATION" :label="tableHead.MR_INFORMATION" header-align="center" align="center" />
       <el-table-column prop="Project" :label="tableHead.project" header-align="center" align="center" />
       <el-table-column prop="projectDuty" :label="tableHead.projectDuty" header-align="center" align="center" />
-      <el-table-column :label="tableHead.handle" fixed="right" width="149">
+      <el-table-column :label="tableHead.handle" 
+        header-align="center"
+        align="center"
+         width="149">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="updateUser(scope.$index, scope.row.id)">编辑</el-button>
-          <el-button type="text" size="mini" @click="deleuser(scope.$index,scope.row.id)">删除</el-button>
+        
+          <el-button type="primary"  size="mini" @click="updateUser(scope.$index, scope.row.id)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="deleuser(scope.$index,scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -63,6 +80,7 @@ export default {
       dataForm: {
         username: ""
       },
+      fileList: [{}, {}],
       tableHead: {
         //表头参数
         MI_NAME: "姓名",
@@ -83,6 +101,15 @@ export default {
     this.getDataList();
   },
   methods: {
+     submitUpload() {
+        this.$refs.upload.submit();
+      },
+      handleRemove(file, fileList) {
+        //console.log(file, fileList);
+      },
+      handlePreview(file) {
+        //console.log(file);
+      },
     getDataList() {
       adminUserService
         .getInfo()
